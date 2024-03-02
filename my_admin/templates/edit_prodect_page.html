@@ -1,0 +1,100 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %} 
+Add prodect
+{% endblock %}
+{% block style %} 
+<link rel="stylesheet" href="{% static "assets/css/add.css" %}">
+{% endblock %}
+{% block page_name %} 
+Add prodect
+{% endblock %}
+{% block content %} 
+
+<div class='row' >
+  <div class="col-md-5 grid-margin add-stretch-card">
+    <form  action="edit_prodect_page{{ prodect.id }}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="add_card" style='width:500px ;'>
+        <div class="card-body" >
+          <label for="prodect_name">Product name: </label>
+          <input class="inputbox" style='width:500px;' type="text" align="center" name="prodect_name" id="prodect_name" value="{{ prodect.prodect_name }}">
+        </div>
+      </div>
+      <div class="add_card" style='width:200px ;'>
+        <div class="card-body">
+          <label for="id_category">Prodect Category:</label>
+          <select class="inputbox" style='width:150px;' name="category" id="category" placeholder="category">
+            {% for category in categories %}
+              <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="add_card" style='width:600px ; '>
+        <div class="card-body">
+          <label for="prodect_name">Product description: </label>
+          <input class="inputbox" style='width:600px ;' type="text" align="center" name="description" id="description" value="{{ prodect.description }}">
+        </div>
+      </div>
+      <div class="add_card" style='width:200px ; '>
+        <div class="card-body">
+          <label for="prodect_name">Product price: </label>
+          <input class="inputbox" style='width:200px ;' type="number" min="0" align="center" name="price" id="price" value="{{ prodect.price }}"><p>per kg</p>
+        </div>
+      </div>
+      
+      <div class="add_card" style='width:200px ; '>
+        <div class="card-body">
+          <label for="prodect_name">Product quantity: </label>
+          <input class="inputbox" style='width:200px ;' type="number" min="0" align="center" name="quantity" id="quantity" value="{{ prodect.quantity }}">
+        </div>
+      </div>
+      <div class="add_card" style='width:200px ; '>
+        <div class="card-body">
+          <label for="id_variant">Prodect Variant:</label>
+          <select class="inputbox" style='width:150px;' name="variant" id="variant" placeholder="variant">
+            {% for variant in variants %}
+              <option value="{{ variant.id }}">{{ variant.variant_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="add_card" style='width:300px ; '>
+        <div class="card-body"><p class="placehold">image1</p>
+          {% if prodect.prodect_image1 %} <img class="square-50" src=" {{prodect.prodect_image1.url}}" alt="">{% endif %}
+          <label for="{{prodect.prodect_image1.url}}">Product image1: </label>
+          <input class="inputbox" style='width:300px ;' type="file" align="center" name="image1" id="image1" value="{{ prodect.prodect_image1.url }}">
+        </div>
+      </div>
+      <div class="add_card" style='width:300px ; '>
+        <div class="card-body"><p class="placehold">image2</p>
+          {% if prodect.prodect_image2 %} <img class="square-50" src=" {{prodect.prodect_image2.url}}" alt="">{% endif %}
+          <label for="{{prodect.prodect_image2.url}}">Product image2: </label>
+          <input class="inputbox" style='width:300px ;' type="file" align="center" name="image2" id="image2" value="{{ prodect.prodect_image2.url }}">
+        </div>
+      </div>
+      <div class="add_card" style='width:300px ; '>
+        {% if prodect.prodect_image3 %} <img class="square-50" src=" {{prodect.prodect_image3.url}}" alt="">{% endif %}
+        <div class="card-body"><p class="placehold">image3</p>
+          <label for="{{prodect.prodect_image3.url}}e">Product image3: </label>
+          <input class="inputbox" style='width:300px ;' type="file"  name="image3" id="image3" value="{{ prodect.prodect_image3.url }}">
+        </div>
+      </div>
+
+      <button class="submit"type="submit"  align="center">Submit</button>
+    </form>
+  </div>
+</div>
+{% if messages %}
+      <ul class="messages">
+        {% for messages in messages %}
+        <h3 style="color: red;margin-left: 50px;">{{messages}}</h3>
+        {% endfor %}
+      </ul>
+      {% endif %}
+{% endblock %}
+
+          
+          

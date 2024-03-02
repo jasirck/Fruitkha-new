@@ -1,0 +1,102 @@
+{% extends "homepage_base.html" %}
+{% load static %}
+{% block title %} 
+SHOP
+{% endblock %}
+{% block style %} 
+
+{% endblock %}
+{% block page_name %} 
+SHOP
+{% endblock %}
+{% block content %} 
+<div class="product-section mt-150 mb-150">
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="product-filters">
+					<ul>
+						<a href="/shop" ><li  {% if  hover is None %}class='active'{% endif %} >All</li></a>
+						{% for x in main_category %}
+						{% comment %} <li data-filter=".strawberry">{{x.name}}</li> {% endcomment %}
+						<a href="/shop_cat{{ x.id }}/"><li {% if x.id == hover %}class='active'{% endif %}>{{ x.name }}</li></a>
+						{% endfor %}
+						<form action="/shop_filter/" method='POST'>
+							{% csrf_token %}
+							<input type="hidden" name="category" value="{{hover}}">
+							<select name="filter" placeholder="Filter" class="product-filters" style="border-color: transparent;outline: none;" id="filter">
+								<option value="prodect_name">Normal</option>
+								<option value="prodect_name">A - Z</option>
+								<option value="prodect_name_decs">Z - A</option>
+								<option value="price_decs">Hight to Low</option>
+								<option value="price">Low to Hight</option>
+								<option value="rating">Rating</option>
+								{% comment %} <option value="p">Popularity</option> {% endcomment %}
+							</select>
+							<button style="
+							border: 2px solid #F28123;
+							background-color: #F28123;
+							color: #fff;
+							font-weight: 700;
+							font-size: 18px;
+							margin: 15px;
+							cursor: pointer;
+							padding: 8px 20px;
+							border-radius: 25px;
+							" type="submit">Apply</button>
+						</form>
+			
+						{% comment %} <select class="inputbox" style='width:150px;' name="category" id="category" placeholder="Category">
+							{% for category in categories %}
+							  <option value="{{ category.id }}">{{ category.name }}</option>
+							{% endfor %}
+						  </select> {% endcomment %}
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="row product-lists">
+			{% for product in main_prodect %}
+            <div class="col-lg-4 col-md-6 text-center">
+                <div class="single-product-item">
+                    <div class="product-image">
+                        <a href="/single_prodect{{product.id}}">
+                            {% if product.prodect_image1 %}
+                                <img style="width:110px ; height:120px;" src="{{ product.prodect_image1.url }}" alt="">
+                            {% endif %}
+                        </a>
+                    </div>
+                    <h3>{{ product.prodect_name}}</h3>
+                    <p class="product-price"> {{ product.price }}  ₹</p>
+                    <form action="/add_cart{{ product.id }}/" method="POST">
+						{% csrf_token %}
+						<input type="number" min='1' placeholder="1" name='quantity'><p class="single-product-pricing"></p>
+						{% if left %}
+                            <p style="color: red; ">{{single_product.quantity}}&nbsp;Kg is Only Left</p>
+                            {% endif %}
+						{% comment %} <a class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a> {% endcomment %}
+						<button style="border: 0ch;background-color: transparent;" type="submit"><a class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a></button>
+					</form>
+                </div>
+            </div>
+		{% endfor %}
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<div class="pagination-wrap">
+					<ul>
+						<li><a href="#">Prev</a></li>
+						<li><a href="#">1</a></li>
+						<li><a class="active" href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">Next</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

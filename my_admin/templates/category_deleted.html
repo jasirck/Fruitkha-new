@@ -1,0 +1,45 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %} 
+Deleted
+{% endblock %}
+{% block style %} 
+<link rel="stylesheet" href="{% static "assets/css/manage_new.css" %}">
+{% endblock %}
+{% block page_name %} 
+Deleted
+{% endblock %}
+{% block content %} 
+<div class='row' >
+  <div class="col-md-5 grid-margin add-stretch-card">
+    <table id="customers" border="1">
+      <thead>
+        <th>Category image</th>
+        <th>Category Name</th>
+        <th>Offer</th>
+        <th>Description</th>
+          <th colspan="2" id="mid">Action</th>
+      </thead>
+      {% for x in unlist %}
+      <tr>
+          <td > {% if x.category_image %} <img class="square-50" src=" {{x.category_image.url}}" alt="">{% endif %}</td> 
+          <td>{{x.name}}</td>
+          <td>{{x.offer}}</td>
+          <td>{{x.category_description}}</td>
+          <td>
+              <a href="readd_category{{x.id}}"><button id="up">Re Add</button></a>
+          </td>
+          <td>
+              <a href="delete{{x.id }}"><button id="del">Delete</button></a>
+          </td>
+      </tr>
+      {% endfor %}
+  </table>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+

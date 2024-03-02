@@ -1,0 +1,48 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %} 
+Edit
+{% endblock %}
+{% block style %} 
+<link rel="stylesheet" href="{% static "assets/css/manage_new.css" %}">
+{% endblock %}
+{% block page_name %} 
+Category
+{% endblock %}
+{% block content %} 
+<div class='row' >
+  <div class="col-md-5 grid-margin add-stretch-card">
+    <a href="add_prodect" ><button class="admin_add">ADD</button></a>
+    <table id="customers" border="1">
+      <thead>
+          {% comment %} <th>Id</th> {% endcomment %}
+          <th>Product image</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>total quantity</th>
+          <th colspan="2" id="mid">Action</th>
+      </thead>
+      {% for x in values %}
+      <tr>
+          {% comment %} <td>{{x.id}}</td> {% endcomment %}
+          <td > {% if x.prodect_image1 %} <img class="square-50" src=" {{x.prodect_image1.url}}" alt="">{% endif %}</td> 
+          <td>{{x.prodect_name}}</td>
+          <td>{{x.price}}₹ /kg</td>
+          <td>{{x.quantity}}kg</td>
+          <td>
+              <a href="edit_prodect_page{{x.id}}"><button id="up">Edit</button></a>
+          </td>
+          <td>
+              <a href="unlist{{x.id }}"><button id="del">Delete</button></a>
+          </td>
+      </tr>
+      {% endfor %}
+  </table>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+

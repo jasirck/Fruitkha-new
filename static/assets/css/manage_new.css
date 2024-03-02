@@ -1,0 +1,102 @@
+.add-stretch-card{
+    width: 80%;
+    height: auto;
+    background-color: white;
+}
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#customers td,
+#customers th {
+    border: 1px solid rgba(17, 4, 4, 0);
+    padding: 6px;
+}
+
+#customers tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#customers tr:hover {
+    background-color: #ddd;
+}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #afafaf00;
+    color: rgb(78, 78, 78);
+}
+
+#customers #mid {
+    text-align: center;
+}
+
+#customers #up {
+    background-color: rgb(0, 255, 0);
+    border-color: white;
+    border-radius: 10px;
+    padding: 8px;
+    color: white;
+}
+
+#customers #del {
+    background-color: red;
+    border-color: white;
+    border-radius: 10px;
+    padding: 8px;
+    color: white;
+}
+#out{
+    background-color: red;
+    border-color: white;
+    border-radius: 5px;
+    padding: 8px;
+    margin-left: 750px;
+    color: white;
+}
+
+#customers button {
+    width: 100%;
+}
+
+.container1 #new {
+    background-color: rgb(0, 89, 255);
+    border-color: red;
+    border-radius: 5px;
+    padding: 8px;
+    color: white;
+}
+
+.container2 #new1 {
+    background-color: blue;
+    border-color: red;
+    border-radius: 5px;
+    padding: 8px;
+    color: white;
+}
+
+h1 {
+    color: green;
+}
+.square-50 {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+}
+.multi_img{
+    width: 60px;
+    height: 60px;
+    display: flex;
+}
+.admin_add{
+    background-color: white; 
+    font-size: larger;
+    border-color: rgb(7, 255, 7); 
+    font-weight: 600; color: rgb(7, 255, 7); 
+    margin-top: 20px;
+    border-radius: 20px;
+  }

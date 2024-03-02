@@ -1,0 +1,97 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %} 
+Add prodect
+{% endblock %}
+{% block style %} 
+<link rel="stylesheet" href="{% static "assets/css/add.css" %}">
+{% endblock %}
+{% block page_name %} 
+Add prodect
+{% endblock %}
+{% block content %} 
+<div class='row' >
+  <div class="col-md-5 grid-margin add-stretch-card">
+    {% if messages %}
+      <ul class="messages">
+        {% for messages in messages %}
+        <h3 style="color: red;margin-left: 50px;">{{messages}}</h3>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    <form action="add_prodect" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="add_card" style='width:500px;'>
+        <div class="card-body">
+          <label for="id_prodect_name"></label>
+          <input class="inputbox" style='width:500px;' type="text" align="center" name="prodect_name" id="prodect_name" placeholder="Product Name">
+        </div>
+      </div>
+      <div class="add_card" style='width:200px;'>
+        <div class="card-body">
+          <label for="id_category"></label>
+          <select class="inputbox" style='width:150px;' name="category" id="category" placeholder="Category">
+            {% for category in categories %}
+              <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="add_card" style='width:600px;'>
+        <div class="card-body">
+          <label for="id_description"></label>
+          <input class="inputbox" style='width:600px;' type="text" align="center" name="description" id="description" placeholder="Description">
+        </div>
+      </div>
+      <div class="add_card" style='width:200px;'>
+        <div class="card-body">
+          <label for="id_price"></label>
+          <input class="inputbox" style='width:200px;' type="number" align="center" min="1" name="price" id="price" placeholder="Price per kg">
+        </div>
+      </div>
+      <div class="add_card" style='width:200px;'>
+        <div class="card-body">
+          <label for="id_quantity"></label>
+          <input class="inputbox" style='width:200px;' type="number" align="center" min="0" name="quantity" id="quantity" placeholder="Total quantity">
+        </div>
+      </div>
+      <div class="add_card" style='width:200px;'>
+        <div class="card-body">
+          <label for="id_variant"></label>
+          <select class="inputbox" style='width:150px;' name="variant" id="variant" placeholder="variant">
+            {% for variant in variants %}
+              <option value="{{ variant.id }}">{{ variant.variant_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="add_card" style='width:300px;'>
+        <div class="card-body">
+          <label for="id_image1"></label>
+          <input class="inputbox" style='width:300px;' type="file" align="center" name="image1" id="image1" placeholder="Image 1">
+        </div>
+      </div>
+      <div class="add_card" style='width:300px;'>
+        <div class="card-body">
+          <label for="id_image2"></label>
+          <input class="inputbox" style='width:300px;' type="file" align="center" name="image2" id="image2" placeholder="Image 2">
+
+        </div>
+      </div>
+      <div class="add_card" style='width:300px;'>
+        <div class="card-body">
+          <label for="id_image3"></label>
+          <input class="inputbox" style='width:300px;' type="file" align="center" name="image3" id="image3" placeholder="Image 3">
+
+        </div>
+      </div>
+      <button class="submit" type="submit" align="center">Submit</button>
+    </form>
+    
+  </div>
+</div>
+
+{% endblock %}
+
+          
+          

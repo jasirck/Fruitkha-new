@@ -1,0 +1,49 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %} 
+Deleted
+{% endblock %}
+{% block style %} 
+<link rel="stylesheet" href="{% static "assets/css/manage_new.css" %}">
+{% endblock %}
+{% block page_name %} 
+Deleted
+{% endblock %}
+{% block content %} 
+<div class='row' >
+  <div class="col-md-5 grid-margin add-stretch-card">
+    <table id="customers" border="1">
+      <thead>
+          <th>DP</th>
+          <th>Order ID</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Payment</th>
+          <th>Order Date</th>
+          <th colspan="2" id="mid">Action</th>
+      </thead>
+      {% for x in order %} 
+      <tr>
+        <td> {% if x.user.user_dp %} <img class="square-50" src=" {{x.user.user_dp}}" alt="">{% endif %}</td> 
+        <td>{{x.order_id}}</td>  
+        <td>{{x.user.username}}</td>
+          <td>{{x.total_price}} ₹</td>
+          <td {% if x.status == 'Pending' %} style="color: orange;" {% elif x.status == 'Deliverd' %} style="color: green;" {% else  %} style="color: red;" {% endif %}>{{x.status}}</td>
+          <td>{{x.payment_method}}</td>
+          <td>{{x.created}}</td>
+          <td><a href="orders_deteils_admin{{x.id}}"><button id="up">Details</button></a> </td>
+          {% if x.status == 'Pending' %}<td><a href="orders_deliverd{{x.id}}"><button id="up">Deliverd</button></a> </td>{% endif %}
+
+          
+      </tr>
+      {% endfor %} 
+  </table>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+

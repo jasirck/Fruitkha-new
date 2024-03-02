@@ -1,0 +1,42 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %} 
+Edit variant
+{% endblock %}
+{% block style %} 
+<link rel="stylesheet" href="{% static "assets/css/manage_new.css" %}">
+{% endblock %}
+{% block page_name %} 
+Edit variant
+{% endblock %}
+{% block content %} 
+<div class='row' >
+    <div class="col-md-5 grid-margin add-stretch-card">
+        <a href="variant" ><button class="admin_add">ADD</button></a>
+      <table id="customers" border="1">
+        <thead>
+            <th>id </th>
+            <th> Name</th>
+           
+            <th colspan="2" id="mid">Action</th>
+        </thead>
+        {% for x in variant %}
+        <tr>
+            <td>{{x.id}}</td>
+            <td>{{x.variant_name}}</td>
+            <td>
+                <a href="edit_variant_page{{x.id}}"><button id="up">Edit</button></a>
+            </td>
+            <td>
+                <a href="delete_variant{{x.id }}"><button id="del">Delete</button></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+  </div>
+  
+{% endblock %}
+
+
+

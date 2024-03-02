@@ -1,0 +1,66 @@
+{% extends "homepage_base.html" %}
+{% load static %}
+{% block title %} 
+SINGLE SHOP
+{% endblock %}
+{% block style %} 
+<link rel="stylesheet" href="{% static "assets/css/manage_new.css" %}">
+{% endblock%}
+{% block page_name %} 
+SINGLE SHOP
+{% endblock %}
+{% block content %} 
+<!-- single product -->
+<div class="single-product mt-150 mb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="single-product-img">
+                    {% if img is None %}<img src="{{single_product.prodect_image1.url}}" alt=""> {% elif img == 1 %} <img src=" {{single_product.prodect_image1.url}}" alt=""> {% elif img == 2%}<img src=" {{single_product.prodect_image2.url}}" alt=""> {% elif img == 3%} <img src="{{single_product.prodect_image3.url}}" alt=""> {% endif %}
+                </div>
+                <div class='multi_img'>
+                    {% if single_product.prodect_image1 %} <a href="/single_prodect{{ single_product.id}}"><img class="multi_image_item" src=" {{single_product.prodect_image1.url}}" alt=""></a> {% endif %}
+                    {% if single_product.prodect_image2 %} <a href="/single_prodect_img/{{ single_product.id}}/{{2}}"><img class="multi_image_item" src=" {{single_product.prodect_image2.url}}" alt=""></a>{% endif %}
+                    {% if single_product.prodect_image3 %} <a href="/single_prodect_img/{{ single_product.id}}/{{3}}"><img class="multi_image_item" src=" {{single_product.prodect_image3.url}}" alt=""></a>{% endif %}
+               </div>
+            </div>
+            <div class="col-md-7">
+                <div class="single-product-content">
+                    <h3>{{single_product.prodect_name| upper}}</h3>
+                    <p class="single-product-pricing"><span>Per Kg</span> {{single_product.price}} ₹</p>
+                    <p>{{single_product.description}}</p>
+                    <div class="single-product-form">
+                        <form action="add_cart{{ single_product.id }}/" method="POST">
+                            {% csrf_token %}
+                            <input type="number" min='1' start placeholder="0" name='quantity'><p class="single-product-pricing"></p>
+                            {% if left %}
+                            <p style="color: red; ">{{single_product.quantity}}&nbsp;Kg is Only Left</p>
+                            {% endif %}
+                            <p>Rating&nbsp;:&nbsp;{{single_product.rating}}</p>
+                            {% comment %} <a class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a> {% endcomment %}
+                            <button style="border: 0ch;background-color: transparent;outline: none;" type="submit"><a class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a></button>
+                        </form>
+                        {% if messages %}
+                    <ul >
+                      {% for messages in messages %}
+                      <h3 style="color: orangered ;  " >{{messages}}</h3>
+                      {% endfor %}
+                     </ul>
+                     {% endif %}
+                        <p><strong>Categories: </strong>{{cate.name}}</p>
+                        <p><strong>variant: </strong>{{var.variant_name}}</p>
+                    </div>
+                    <h4>Share:</h4>
+                    <ul class="product-share">
+                        <li><a href=""><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href=""><i class="fab fa-twitter"></i></a></li>
+                        <li><a href=""><i class="fab fa-google-plus-g"></i></a></li>
+                        <li><a href=""><i class="fab fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+<!-- end single product -->
+{% endblock %}
