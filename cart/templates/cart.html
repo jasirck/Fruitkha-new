@@ -1,0 +1,114 @@
+{% extends "homepage_base.html" %}
+{% load static %}
+{% block title %} 
+CART
+{% endblock %}
+{% block style %} 
+
+{% endblock %}
+{% block page_name %} 
+CART
+{% endblock %}
+{% block content %} 
+	<!-- cart -->
+	<div class="cart-section mt-150 mb-150" id="cart1">
+		<div class="container" id="cart">
+			<div class="row">
+				<div class="col-lg-8 col-md-12">
+					<div class="cart-table-wrap" >
+						<table class="cart-table" >
+							<thead class="cart-table-head">
+								<tr class="table-head-row">
+									<th class="product-remove"></th>
+									<th class="product-image">Product Image</th>
+									<th class="product-name">Name</th>
+									<th class="product-price">Price</th>
+									<th class="product-quantity">Quantity</th>
+									<th class="product-total">Total</th>
+								</tr>
+							</thead>
+							<tbody >
+								{% for product in cart_obj %}
+								<tr class="table-body-row" >
+									<td class="product-remove"><a href="delete_cart{{product.id}}"><i class="far fa-window-close"></i></a></td>
+									<td class="product-image"><img src="{{product.product_id.prodect_image1.url}}" alt=""></td>
+									<td class="product-name">{{product.product_id.prodect_name}}</td>
+									<td class="product-price">{{product.product_id.price}}₹</td>
+									{% comment %} <td class="product-quantity"><a href="minus_cart{{product.id}}/{{product.product_id.price}}"><button style="border-color:transparent; background-color: transparent;outline: none; color: orangered;font-weight: 400;font-size: 2rem;">-</button></a>&nbsp;{{product.book_quantity}}<a href="plus_cart{{product.id}}/{{product.product_id.price}}" ><button style="outline: none;border-color:transparent; background-color: transparent; color: orangered;font-weight: 400;font-size: 1.5rem;">+</button></a></td> {% endcomment %}
+									<td class="product-quantity" >
+										{% csrf_token %}
+										{% if product.book_quantity > 1 %}
+										<button class="chenge_quantity" data-action="minus" data-product-id="{{ product.id }}" data-product-price="{{ product.product_id.price }}" style="border-color:transparent; background-color: transparent;outline: none; color: orangered;font-weight: 400;font-size: 2rem;">-</button>
+                                         {% endif %}
+										&nbsp;{{ product.book_quantity }}
+										{% if product.book_quantity < 10 %}
+                                         <button class="chenge_quantity" data-action="plus" data-product-id="{{ product.id }}" data-product-price="{{ product.product_id.price }}" style="border-color:transparent; background-color: transparent;outline: none; color: orangered;font-weight: 400;font-size: 2rem;">+</button>
+                                         {% endif %}
+
+									
+										
+									</td>
+									
+									<td class="product-total">{{product.cart_total}}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					{% if messages %}
+                    <ul >
+                      {% for messages in messages %}
+                      <h3 style="color: orangered ;  " >{{messages}}</h3>
+                      {% endfor %}
+                     </ul>
+                     {% endif %}
+				</div>
+
+				<div class="col-lg-4">
+					<div class="total-section">
+						<table class="total-table">
+							<thead class="total-table-head">
+								<tr class="table-total-row">
+									<th>Total</th>
+									<th>Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="total-data">
+									<td><strong>Subtotal: </strong></td>
+									<td>{{subtotal}}₹</td>
+								</tr>
+								<tr class="total-data">
+									<td><strong>Shipping: </strong></td>
+									<td>{{ship}}₹</td>
+								</tr>
+								<tr class="total-data">
+									<td><strong>Total: </strong></td>
+									<td>{{total}}₹</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="cart-buttons">
+							<!-- <a href="cart.html" class="boxed-btn">Update Cart</a> -->
+							{% if total >= 1 %}<a href="checkout" class="boxed-btn black">Check Out</a>{% endif %}
+						</div>
+					</div>
+					<!-- coupon -->
+					{% comment %} <div class="coupon-section">
+						<h3>Apply Coupon</h3>
+						<div class="coupon-form-wrap">
+							<form action="index.html">
+								<p><input type="text" placeholder="Coupon"></p>
+								<p><input type="submit" value="Apply"></p>
+							</form>
+						</div>
+					</div> {% endcomment %}
+					<!-- end coupon -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end cart -->
+	
+
+{% endblock %}

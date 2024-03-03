@@ -1,0 +1,23 @@
+
+{% extends "account_base.html" %}
+{% load static %}
+{% block content %} 
+<div class="card-body">
+  <a href="/account"  ><button class="a_button">BACK</button></a><br>
+  <form action="/edit_address{{user.id}}/{{address.id}}" method="POST">
+    {% csrf_token %}
+    <br>
+    <div class="detail_add"><input class="in form-control" value="{{address.name}}" type="text"  name='name'></div>
+    <div class="detail_add"><input class="in form-control" value="{{address.call_number}}" type="text"  name='call_number'></div>
+    <div class="detail_add"><input class="in form-control" value="{{address.house_name}}" type="text"  name='housename'></div>
+    <div class="detail_add"><input class="in form-control" value="{{address.lanmark}}" type="text"  name='lanmark'></div>
+    <div class="detail_add"><input class="in form-control" value="{{address.post}}" type="text"  name='post'></div>
+    <div class="detail_add"><input class="in form-control" value="{{address.city}}" type="text"  name='city'></div>
+    <div class="detail_add"><input class="in form-control" value="{{address.state}}" type="text"  name='state'></div>
+    <div class="detail_add"><input class="in form-control" value="{{address.pincode}}" type="number"  name='pincode'></div><br>
+    <button type="submit" class="a_button"> EDIT</button>
+    
+  </form>
+  
+</div>
+{% endblock %}

@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from my_admin.models import AdminCategory
 
 # Create your views here.
-@login_required
+
 def homepage(request):
     if request.user.is_authenticated:
         # If the user is authenticated, you can access the user instance

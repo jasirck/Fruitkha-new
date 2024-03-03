@@ -4,7 +4,7 @@
 SINGLE SHOP
 {% endblock %}
 {% block style %} 
-<link rel="stylesheet" href="{% static "assets/css/manage_new.css" %}">
+<link rel="stylesheet" href="{% static "assets/css/manage_new1.css" %}">
 {% endblock%}
 {% block page_name %} 
 SINGLE SHOP
@@ -15,10 +15,10 @@ SINGLE SHOP
     <div class="container">
         <div class="row">
             <div class="col-md-5">
-                <div class="single-product-img">
+                <div class="single-product-img" style="border-radius: 30px;">
                     {% if img is None %}<img src="{{single_product.prodect_image1.url}}" alt=""> {% elif img == 1 %} <img src=" {{single_product.prodect_image1.url}}" alt=""> {% elif img == 2%}<img src=" {{single_product.prodect_image2.url}}" alt=""> {% elif img == 3%} <img src="{{single_product.prodect_image3.url}}" alt=""> {% endif %}
                 </div>
-                <div class='multi_img'>
+                <div class='multi_img' >
                     {% if single_product.prodect_image1 %} <a href="/single_prodect{{ single_product.id}}"><img class="multi_image_item" src=" {{single_product.prodect_image1.url}}" alt=""></a> {% endif %}
                     {% if single_product.prodect_image2 %} <a href="/single_prodect_img/{{ single_product.id}}/{{2}}"><img class="multi_image_item" src=" {{single_product.prodect_image2.url}}" alt=""></a>{% endif %}
                     {% if single_product.prodect_image3 %} <a href="/single_prodect_img/{{ single_product.id}}/{{3}}"><img class="multi_image_item" src=" {{single_product.prodect_image3.url}}" alt=""></a>{% endif %}

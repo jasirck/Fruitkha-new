@@ -8,7 +8,7 @@ from login.models import Customer
 from .forms import prodectsForm
 from functools import wraps
 from django.urls import reverse
-# from order.models import order,order_items
+from order.models import order,order_items
 
 # def admin_required(request):
 #     try:
@@ -65,18 +65,18 @@ def admin_login(request):
 def dashbord(request):
     count=Customer.objects.count()
     count_pro=myprodect.objects.count()
-    # order_count=order.objects.count()
-    return render(request,'dashboard.html',{'users':count,'pro':count_pro})#,'ord':order_count
+    order_count=order.objects.count()
+    return render(request,'dashboard.html',{'users':count,'pro':count_pro,'ord':order_count})
     
 
 @admin_required
 def management(request):
     
-        users=Customer.objects.exclude(is_superuser=True).order_by('id')
+        users=Customer.objects.exclude(is_superuser=True).order_by('username')
         count=Customer.objects.count()
         count_pro=myprodect.objects.count()
-        # order_count=order.objects.count()
-        return render(request,'management.html',{'users':count,'user':users,'pro':count_pro})#ord':order_count
+        order_count=order.objects.count()
+        return render(request,'management.html',{'users':count,'user':users,'pro':count_pro,'ord':order_count})
     
 
 @admin_required
@@ -105,7 +105,6 @@ def add_prodect(request):
             category_id=AdminCategory.objects.get(id=category)
             print(variant_id)
             print(category_id)
-        # add=prodects(prodect_name=prodect_name)
             try:
                 add = myprodect(prodect_name =prodect_name ,price=price,description=description,quantity=quantity,category=category_id,variant=variant_id, prodect_image1=prodect_image1,prodect_image2=prodect_image2,prodect_image3=prodect_image3)
                 add.save()  
@@ -122,7 +121,7 @@ def edit_prodect(request):
     
         count=Customer.objects.count()
         count_pro=myprodect.objects.count()
-        prodect=myprodect.objects.filter(status='list')
+        prodect=myprodect.objects.filter(status='list').order_by('prodect_name')
         return render(request,'edit_prodect.html',{'values':prodect,'users':count,'pro':count_pro})
     
 
@@ -131,7 +130,7 @@ def category(request):
     
         count=Customer.objects.count()
         count_pro=myprodect.objects.count()
-        # order_count=order.objects.count()
+        order_count=order.objects.count()
         if request.method == 'POST':
             category_name = request.POST.get('category_name')
             offer = request.POST.get('offer')
@@ -143,7 +142,7 @@ def category(request):
             category_obj.save()
             messages.success(request, 'category aded')
             return redirect('category')  # Redirect to a success page
-        return render(request,'category.html',{'users':count,'pro':count_pro})#,'ord':order_count
+        return render(request,'category.html',{'users':count,'pro':count_pro,'ord':order_count})
     
 
 @admin_required
@@ -151,9 +150,9 @@ def edit_category(request):
     
         count=Customer.objects.count()
         count_pro=myprodect.objects.count()
-        category=AdminCategory.objects.filter(status='list')
-        # order_count=order.objects.count()
-        return render(request,'edit_category.html',{'category':category,'users':count,'pro':count_pro})#,'ord':order_count
+        category=AdminCategory.objects.filter(status='list').order_by('name')
+        order_count=order.objects.count()
+        return render(request,'edit_category.html',{'category':category,'users':count,'pro':count_pro,'ord':order_count})
     
 
 @admin_required
@@ -267,7 +266,7 @@ def edit_prodect_page(request,id):
 
             prodect.save()
             messages.success(request, 'edit prodect')
-            return redirect('add_prodect') 
+            return redirect('edit_prodect') 
         return render(request,'edit_prodect_page.html',{'prodect':prodect,'users':count,'pro':count_pro,'categories': option , 'variants': variant_option})
     
 
@@ -275,12 +274,12 @@ def edit_prodect_page(request,id):
 def action (request,id):
     
         act=Customer.objects.get(id=id)
-        if act.action=='allow':
-            act.action='block'
+        if act.is_active:
+            act.is_active=False
             act.save()
             return redirect('management')
-        if act.action=='block':
-            act.action='allow'
+        else:
+            act.is_active=True
             act.save()
             return redirect('management')
     
@@ -322,40 +321,49 @@ def admin_logout(request):
     messages.info(request, 'your logout')
     return render(request,'login_admin.html')
 
-# @admin_required
-# def orders(request):    
-#     
-#         ord=order.objects.all()
-#         count=Customer.objects.count()
-#         count_pro=myprodect.objects.count()
-#         order_count=order.objects.count()
-#         return render(request,'orders.html',{'order':ord,'users':count,'pro':count_pro,'ord':order_count})
-#     
+@admin_required
+def orders(request):    
+    
+        ord=order.objects.all()
+        count=Customer.objects.count()
+        count_pro=myprodect.objects.count()
+        order_count=order.objects.count()
+        return render(request,'orders.html',{'order':ord,'users':count,'pro':count_pro,'ord':order_count})
+    
 
-# @admin_required
-# def orders_deteils(request,id):    
-#     
-#         ord = order.objects.get(id=id)
-#         products=order_items.objects.filter(order_item=id)
-#         count=Customer.objects.count()
-#         count_pro=myprodect.objects.count()
-#         order_count=order.objects.count()
-#         return render(request,'orders_deteils_admin.html',{'order':ord,'order_item':products, 'users':count,'pro':count_pro,'ord':order_count})
-#     
+@admin_required
+def orders_deteils(request,id):    
+    
+        ord = order.objects.get(id=id)
+        products=order_items.objects.filter(order_item=id)
+        count=Customer.objects.count()
+        count_pro=myprodect.objects.count()
+        order_count=order.objects.count()
+        return render(request,'orders_deteils_admin.html',{'order':ord,'order_item':products, 'users':count,'pro':count_pro,'ord':order_count})
+    
 
 
-# @admin_required
-# def order_back_pending(request,id):    
-#     block=order.objects.get(id=id)
-#     block.status='Pending'
-#     block.msg=''
-#     block.save()
-#     return redirect('orders')
+@admin_required
+def order_back_pending(request,id):    
+    block=order.objects.get(id=id)
+    block.status='Pending'
+    block.msg=''
+    block.save()
+    return redirect('orders')
 
-# @admin_required
-# def orders_deliverd(request,id):    
-#     block=order.objects.get(id=id)
-#     block.status='Deliverd'
-#     block.msg=''
-#     block.save()
-#     return redirect('orders')
+@admin_required
+def orders_deliverd(request,id):    
+    block=order.objects.get(id=id)
+    block.status='Deliverd'
+    block.msg=''
+    block.save()
+    return redirect('orders')
+
+@admin_required
+def orders_cancel(request,id):    
+    block=order.objects.get(id=id)
+    block.action='Cancel'
+    block.msg='admin Cancel'
+    block.save()
+    return redirect('orders_deteils',id)
+

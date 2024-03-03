@@ -35,7 +35,6 @@ class myprodect(models.Model):
     date_added = models.DateTimeField(default=timezone.now)
     offer = models.IntegerField(null=True)
     rating=models.FloatField(default=3.5)
-    date_added = models.DateTimeField(auto_now=False, auto_now_add=True)
     prodect_image1=models.ImageField(upload_to='image/')
     prodect_image2=models.ImageField(upload_to='image/')
     prodect_image3=models.ImageField(upload_to='image/')

@@ -1,0 +1,157 @@
+{% extends "homepage_base.html" %}
+{% load static %}
+{% block title %} 
+CHECKOUT
+{% endblock %}
+{% block style %} 
+
+{% endblock %}
+{% block page_name %} 
+CHECKOUT
+{% endblock %}
+{% block content %} 
+<!-- check out section -->
+<div class="checkout-section mt-150 mb-150">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="checkout-accordion-wrap">
+					<div class="accordion" id="accordionExample">
+					  <div class="card single-accordion">
+						<div class="card-header" id="headingOne">
+						  <h5 class="mb-0">
+							<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+							  Billing Address
+							</button>
+						  </h5>
+						</div>
+
+						<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+						  <div class="card-body">
+							<div class="billing-address-form">
+								<form id="address-form">
+									{% csrf_token %}
+									<p> <span id="name">{{ user.first_name }}</span></p>
+									<p> <span id="name">{{ user.last_name }}</span></p>
+									<p> <span id="name">{{ user.current_address.name }}</span></p>
+									<p> <span id="number">{{ user.current_address.call_number }}</span></p>
+									<p> <span id="email">{{ user.email }}</span></p>
+									<p> <span id="house_name">{{ user.current_address.house_name }}</span></p>
+									<p> <span id="post">{{ user.current_address.post }}</span></p>
+									<p> <span id="city">{{ user.current_address.city }}</span></p>
+									<p> <span id="state">{{ user.current_address.state }}</span></p>
+									<p> <span id="pincode">{{ user.current_address.pincode }}</span></p>
+									{% comment %} <button type="button" id="edit-address">Edit</button> {% endcomment %}
+								</form>
+								
+								
+							</div>
+							<a href="address_check{{user.id}}/{{user.current_address.id}}" ><button style="border-color: orangered;outline: none;">Edit</button></a>
+							<a href="chenge{{user.id}}"><button style="border-color: orangered;outline: none;">CHENGE</button></a>
+						  </div>
+						</div>
+					  </div>
+					  <div class="card single-accordion">
+						{% comment %} <div class="card-header" id="headingTwo">
+						  <h5 class="mb-0">
+							<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+							  Shipping Address
+							</button>
+						  </h5>
+						</div> {% endcomment %}
+						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+						  <div class="card-body">
+							<div class="shipping-address-form">
+								<p>Your shipping address form is here.</p>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					  <div class="card single-accordion">
+						<div class="card-header" id="headingThree">
+						  <h5 class="mb-0">
+							<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+							  peyment Details
+							</button>
+						  </h5>
+						</div>
+						<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+						  <div class="card-body">
+							<div class="card-details">
+								<p>Your card details goes here.</p>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div class="order-details-wrap">
+					<table class="order-details">
+						<thead>
+							<tr>
+								<th>Your order Details</th>
+								<th>Quantity</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+						<tbody class="order-details-body">
+							<tr>
+								<td>Product</td>
+								<td></td>
+								<td>Total</td>
+							</tr>
+							{% for product in cart_obj %}
+							<tr>
+								<td>{{product.product_id.prodect_name}}</td>
+								<td>{{product.book_quantity}}</td>
+								<td>{{product.product_id.price}}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+						<tbody class="checkout-details">
+							<tr>
+								<td>Subtotal</td>
+								<td></td>
+								<td>{{subtotal }}₹</td>
+							</tr>
+							<tr>
+								<td>Shipping</td>
+								<td></td>
+								<td>{{ship}}₹</td>
+							</tr>
+							<tr>
+								<td>Total</td>
+								<td></td>
+								<td>{{total}}₹</td>
+							</tr>
+						</tbody>
+					</table>
+					<button class="online-pay " id="rzp-button1">Online Pay</button>
+					<a href="cod_order" class="boxed-btn" id="place_order">Place Order</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end check out section -->
+{% block script %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+	$(document).ready(function() {
+		$("#place_order").click(function(id) {
+		  alert('order conform')
+		console.log("Clicked on Details button for order ID:");
+			{% comment %} $("#order_table").hide(); {% endcomment %}
+y			
+	  });
+		 
+		
+	});
+</script>
+{% endblock  %}
+{% endblock %}

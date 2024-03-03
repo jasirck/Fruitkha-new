@@ -25,4 +25,7 @@ urlpatterns = [
     path('' , include('login.urls')),
     path('' , include('my_admin.urls')),
     path('' , include('shop.urls')),
+    path('' , include('order.urls')),
+    path('' , include('account.urls')),
+    path('' , include('cart.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -18,6 +18,7 @@ Deleted
           <th>Product Name</th>
           <th>Price</th>
           <th>Quantity</th>
+          <th></th>
           {% comment %} <th colspan="2" id="mid">Action</th> {% endcomment %}
       </thead>
       <tbody>
@@ -26,18 +27,19 @@ Deleted
         <td> {% if x.product.prodect_image1 %} <img class="square-50" src=" {{x.product.prodect_image1.url}}" alt="">{% endif %}</td> 
         <td>{{x.product.prodect_name}}</td>  
         <td>{{x.price_now}}</td>
-          <td>{{x.quantity_now}} ₹</td>
+        <td>{{x.quantity_now}} ₹</td>
+        <td></td>
           
           
       </tr>
       {% endfor %} 
-    </tbody>
-    <tbody>
       <tr style="line-height: 50px; font-weight: 600;">
         <td> </td>
         <td>Total</td>
         <td>{{order.total_price}}</td>
-        <td><a href="order_back_pending{{order.id}}" style="line-height: 20px;"><button id="up">Back to Pending</button></a></td>
+        <td></td>
+        <td ><a href="order_back_pending{{order.id}}" style="line-height: 20px;"><button id="up">Back to Pending</button></a></td>
+        
       </tr>
     </tbody>
   </table>

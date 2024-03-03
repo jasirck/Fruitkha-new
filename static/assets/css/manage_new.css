@@ -91,6 +91,7 @@ h1 {
     width: 60px;
     height: 60px;
     display: flex;
+    background-color: aqua;
 }
 .admin_add{
     background-color: white; 

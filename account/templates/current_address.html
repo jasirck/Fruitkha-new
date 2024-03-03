@@ -1,0 +1,32 @@
+
+{% extends "account_base.html" %}
+{% load static %}
+{% block content %} 
+<div class="card-body">
+  <button style="border-color: skyblue;border-radius: 30px;"><a href="account"  style="color: blue; font-size: 14px;">BACK</a></button><br>
+  <form action="current_address{{user.id}}" method="POST">
+    {% csrf_token %}
+      <tbody>
+        {% for i in address %}
+        <input type="radio" name="address" id="address{{ i.id }}" value="{{ i.id }}">
+        <label for="address{{ i.id }}">
+          <div style="border-bottom: 2px solid #cdcdcd;">
+            <small class="detail">Address{{ i.id }}</small><br>
+            <div class="detail">
+              <span>{{ i.name }}</span><br>
+              <span>{{ i.call_number }}</span><br>
+              <span>{{ i.house_name }}</span><br>
+              <span>{{ i.lanmark }}</span><br>
+              <span>{{ i.post }}</span><br>
+              <span>{{ i.city }}</span><br>
+              <span>{{ i.state }}</span><br>
+              <span>{{ i.picode }}</span><br>
+            </div>
+          </div>
+        </label><br>
+      {% endfor %}
+      
+            </tbody>
+            <button style="border-color: skyblue;border-radius: 30px; color: darkblue; font-weight: 600;" type="submit">Submit</button>
+      
+{% endblock %}

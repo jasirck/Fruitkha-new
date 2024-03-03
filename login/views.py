@@ -14,29 +14,20 @@ def login_view(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         print(f'user:{username}, pass:{password}')
-        
-        # Authenticate user
         user = authenticate(request, username=username, password=password)
-        
-        
         print(user)
-        # if user is not None:
         if user is not None:
-            
-            
-            # User is authenticated, login and redirect to the homepage
             login(request, user)
-            if user.action == 'allow':
-                # Redirect to the homepage if the user is allowed
+            if user.is_active:
+                # user==Customer.objects.get(username==username)
+                user.action='Login'
+                user.save()
                 return redirect('homepage')
             else:
-                # Block user if action is not 'allow'
                 messages.error(request, 'Sorry, your account is blocked.')
-                return redirect('login_views')
+                return redirect('login_view')
         else:
-            # Authentication failed, display error message
             messages.error(request, 'Invalid username or password.')
-    
     return render(request, 'login.html')
 
 otp=0
@@ -187,18 +178,16 @@ def new_password(request):
             chenge.save()
             print(password1)
             print(chenge.password)
-            return redirect ('login')
+            return redirect ('login_view')
         else:
             messages.info(request, 'Password not match')
             return redirect('validation')
     return render(request,'new_password.html')
 
 def logout_user(request):
-    logout(request)
-    if 'username'in request.session:
-        logout(request)
-        print('user logout')
-        messages.info(request, 'your logout')
-        return redirect('login_view')
-    else:
-        return redirect('homepage')
+    username = request.user
+    print(username)
+    user = Customer.objects.get(username=username)
+    user.action= 'Logout'
+    user.save()
+    return redirect('login_view')

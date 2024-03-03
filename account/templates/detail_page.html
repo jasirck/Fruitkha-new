@@ -1,0 +1,116 @@
+
+{% extends "account_base.html" %}
+{% load static %}
+{% block content %} 
+<div class="card-body">
+  <button style="border-color: skyblue;border-radius: 30px;"><a href="account"  style="color: blue; font-size: 14px;">BACK</a></button><br>
+  <table class="cart-table" id="cart">
+    <thead class="cart-table-head">
+      <tr class="table-head-row">
+        <th class="product-image">Image</th>
+        <th class="product-image">Product Name</th>
+        <th class="product-name">Price</th>
+        <th class="product-price">Quantity</th>
+      </tr>
+    </thead>
+    <tbody  class="checkout-details">
+      {% for product in products %}
+      <tr class="table-body-row">
+        <td class="product-image user_order"><img src="{{product.product.prodect_image1.url}}" alt=""></td>
+        <td class="user_order">{{product.product.prodect_name}}</td>
+        <td class="user_order">{{product.price_now}}₹/kg</td>
+        
+        <td class="user_order">{{ product.quantity_now }}&nbsp;kg</td>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tbody class="checkout-details">
+      {% comment %} <tr>
+        <td>Subtotal</td>
+        <td>{{subtotal }}₹</td>
+      </tr>
+      <tr>
+        <td>Shipping</td>
+        <td>{{ship}}₹</td>
+      </tr> {% endcomment %}
+      <tr><td class="user_order" ></td>
+        <td class="user_order" style="line-height: 3.5rem;">Total</td>
+        <td class="user_order">{{ord.total_price}}₹</td>
+      </tr>
+    </tbody>
+  </table>
+  {% comment %} <div class="detail_add">{{ord.total_price}}</div>
+    <div class="detail_add">Payment :{{ord.payment_method}}</div>
+    <div class="detail_add">Order Date :{{ord.created}}</div><br> {% endcomment %}
+    <div class="detail_add"><small >Payment :</small>
+      <span >{{ord.payment_method}}</span></div>
+    <div class="detail_add"><small>Order Date :</small>
+      <span>{{ord.created}}</span></div>
+    <div class="detail_add"><small>Expecting :</small>
+      <span>{{ord.expect}}</span></div>
+    <div class="detail_add"><small>Status :</small>
+      <span>{{ord.status}}</span></div>
+    <div class="detail_add"><small></small>
+      <span>delivary  Address:</span></div>
+      {% for i in address %}
+      <span>{{i}}</span><br>
+      {% endfor %}
+    </div>
+    {% comment %} <span>{{ord.address}}</span></div> {% endcomment %}
+      
+
+    {% if ord.status != 'Cancel' and ord.status != 'Deliverd' and ord.status != 'Returned'  %}<button class="order_cancel" id="order_can">Order Cancel</button>{% endif %}
+    {% if ord.status == 'Deliverd'  %}<button class="order_cancel" id="order_return">Return</button>{% endif %}
+</div>
+<div id="cancel" style="display: none;margin-left: 3%; margin-bottom: 3%;">
+  <form action="detail_page{{ord.id}}" method="POST">
+    {% csrf_token %}
+    <br>
+    <div class="detail_add">Why you Order Cancel</div>
+    <div class="detail_add"><input class="in form-control" type="text" placeholder="Enter your Reason" name='msg'></div><br>
+    <input type="hidden" name="status" value="Cancel">
+    <button type="submit" class="order_cancel" style="margin-top: 0px; ">Order Cancel Conform</button>
+    
+  </form><button class="order_back" id="back" style="margin-top: 0px; ">Cancel</button>
+
+</div>
+<div id="return" style="display: none;">
+  <form action="detail_page{{ord.id}}" method="POST">
+    {% csrf_token %}
+    <br>
+    <div class="detail_add">Why you Return This</div>
+    <div class="detail_add"><input class="in form-control" type="text" placeholder="Enter your Reason" name='msg'></div><br>
+    <input type="hidden" name="status" value="Returned">
+    <button type="submit" class="order_cancel" style="margin-top: 0px; ">Return Conform</button>
+    
+  </form><button class="order_back" id="return" style="margin-top: 0px; ">Cancel</button>
+
+</div>
+
+{% endblock %}
+{% block script %}\
+<script>
+  $(document).ready(function() {
+    $("#order_can").click(function(id) {
+      
+
+        $("#cancel").show();
+        
+  });
+     $("#back").click(function(){
+      {% comment %} $("#order_table").show(); {% endcomment %}
+      $("#cancel").hide();
+  });
+});
+  $(document).ready(function() {
+    $("#order_return").click(function(id) {
+
+        $("#return").show(); 
+  });
+     $("#back_return").click(function(){
+      $("#return").hide();
+  });
+});
+</script>
+{% endblock script %}

@@ -1,0 +1,27 @@
+
+{% extends "account_base.html" %}
+{% load static %}
+{% block content %} 
+<div class="card-body">
+  <a href="chenge_email"  ><button class="a_button">BACK</button></a><br>
+  <form action="chenge_email_validation" method="POST">
+    {% csrf_token %}
+    <br>
+    <div class="detail_add"><h6 class="in form-control">Enter your OTP</h6></div>
+    <div class="detail_add"><h6 class="in form-control">Before 60 Seconds</h6></div>
+    <div class="detail_add"><input class="in form-control" type="OTP" placeholder="OTP" name='OTP'></div><br>
+
+    <button type="submit" class="a_button">SEND OTP</button>
+    
+  </form>
+  <br>
+  {% if messages %}
+  <ul >
+    {% for messages in messages %}
+    <h3 style="color: orangered ;font-size: 20px;  " >{{messages}}</h3>
+    {% endfor %}
+   </ul>
+   {% endif %}
+</div>
+
+{% endblock %}

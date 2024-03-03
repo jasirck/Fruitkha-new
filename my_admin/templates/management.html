@@ -27,12 +27,13 @@ Management
           <td>{{x.username}}</td>
           <td>{{x.email}}</td>
           <td>{{x.customer_number}}</td>
-          <td {% if x.is_active  %} style="color: rgb(2, 221, 2); font-weight: bold;"{% else %} style="color: red;font-weight: bold;"{% endif%} >{% if x.is_active %}Online {% else %}Ofline{% endif %}</td>
+          <td {% if x.action == 'Login' %} style="color: rgb(2, 221, 2); font-weight: bold;"{% else %} style="color: red;font-weight: bold;"{% endif %}>{% if x.action == 'Login' %}Online {% else %}Offline{% endif %}</td>
+
           <td> 
-            {% if x.action == 'block' %}
-            <a href="action{{ x.id }}"><button id="up">allow</button></a>
-            {% elif x.action == 'allow' %}
+            {% if x.is_active  %}
             <a href="action{{ x.id }}"><button id="del">block</button></a>
+            {% else %}
+            <a href="action{{ x.id }}"><button id="up">allow</button></a>
             {% endif %}
           </td>
       </tr>
