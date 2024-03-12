@@ -42,8 +42,8 @@
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo me-5" href="index.html"><img src="{% static "assets/img/favicon.png" %}" class="me-2" alt="logo"/></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{% static "assets/img/favicon.png" %}" alt="logo"/></a>
+        <a class="navbar-brand brand-logo me-5" href="dashboard"><img src="{% static "assets/img/favicon.png" %}" class="me-2" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="dashboard"><img src="{% static "assets/img/favicon.png" %}" alt="logo"/></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -205,40 +205,60 @@
               <span class="menu-title">Add Prodect</span>
             </a>
           </li> {% endcomment %}
-          <li class="nav-item">
+          {% comment %} <li class="nav-item">
             <a class="nav-link" href="edit_prodect">
               <i class="ti-pie-chart menu-icon"></i>
               <span class="menu-title">Prodect</span>
             </a>
-          </li>
-          {% comment %} <li class="nav-item">
-            <a class="nav-link" href="category">
-              <i class="ti-view-list-alt menu-icon"></i>
-              <span class="menu-title">Add category</span>
-            </a>
           </li> {% endcomment %}
           <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#product" aria-expanded="false" aria-controls="product">
+              <i class="ti-user menu-icon"></i>
+              <span class="menu-title">Prodect</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="product">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="edit_prodect"> Prodect </a></li>
+                <li class="nav-item"> <a class="nav-link" href="add_prodect"> Add Product </a></li>
+                <li class="nav-item"> <a class="nav-link" href="deleted"> Deleted Prodect</a></li>
+                <li class="nav-item"> <a class="nav-link" href="product_offer"> Product Offer </a></li>
+                {% comment %} <li class="nav-item"> <a class="nav-link" href="pages/samples/register-2.html"> Register 2 </a></li> {% endcomment %}
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#category" aria-expanded="false" aria-controls="category">
+              <i class="ti-user menu-icon"></i>
+              <span class="menu-title">Category</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="category">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="edit_category"> Category </a></li>
+                <li class="nav-item"> <a class="nav-link" href="category"> Add Category </a></li>
+                <li class="nav-item"> <a class="nav-link" href="category_deleted"> Deleted Category</a></li>
+                <li class="nav-item"> <a class="nav-link" href="category_offer"> Category Offer </a></li>
+                {% comment %} <li class="nav-item"> <a class="nav-link" href="pages/samples/register-2.html"> Register 2 </a></li> {% endcomment %}
+              </ul>
+            </div>
+          </li>
+          {% comment %} <li class="nav-item">
             <a class="nav-link" href="edit_category">
               <i class="ti-star menu-icon"></i>
               <span class="menu-title">Category</span>
             </a>
-          </li>
-          <li class="nav-item">
+          </li> {% endcomment %}
+          {% comment %} <li class="nav-item">
             <a class="nav-link" href="category_deleted">
               <i class="ti-star menu-icon"></i>
               <span class="menu-title">Category Deleted</span>
             </a>
-          </li>
-          <li class="nav-item">
+          </li> {% endcomment %}
+          {% comment %} <li class="nav-item">
             <a class="nav-link" href="deleted">
               <i class="ti-write menu-icon"></i>
               <span class="menu-title">Deleted Prodect</span>
-            </a>
-          </li>
-          {% comment %} <li class="nav-item">
-            <a class="nav-link" href="variant">
-              <i class="ti-write menu-icon"></i>
-              <span class="menu-title">Add Variant</span>
             </a>
           </li> {% endcomment %}
           <li class="nav-item">
@@ -254,6 +274,24 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="coupon">
+              <i class="ti-write menu-icon"></i>
+              <span class="menu-title">Coupon</span>
+            </a>
+          </li>
+          {% comment %} <li class="nav-item">
+            <a class="nav-link" href="product_offer">
+              <i class="ti-write menu-icon"></i>
+              <span class="menu-title">Product Offer</span>
+            </a>
+          </li> {% endcomment %}
+          {% comment %} <li class="nav-item">
+            <a class="nav-link" href="category_offer">
+              <i class="ti-write menu-icon"></i>
+              <span class="menu-title">Category Offer</span>
+            </a>
+          </li> {% endcomment %}
+          {% comment %} <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <i class="ti-user menu-icon"></i>
               <span class="menu-title">User Pages</span>
@@ -268,7 +306,7 @@
                 <li class="nav-item"> <a class="nav-link" href="pages/samples/lock-screen.html"> Lockscreen </a></li>
               </ul>
             </div>
-          </li>
+          </li> {% endcomment %}
           
         </ul>
       </nav>
@@ -279,7 +317,7 @@
             <div class="col-md-12 grid-margin">
               <div class="d-flex justify-content-between align-items-center">
                 <div>
-                  <h4 class="font-weight-bold mb-0">RoyalUI {% block page_name %}{% endblock %}</h4>
+                  <h4 class="font-weight-bold mb-0">{% block page_name %}{% endblock %}{% comment %} </h4>RoyalUI  {% endcomment %}
                 </div>
                 <div>
                     <button type="button" class="btn btn-primary btn-icon-text btn-rounded">
@@ -289,7 +327,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          {% comment %} <div class="row">
             <div class="col-md-3 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
@@ -338,7 +376,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> {% endcomment %}
 
 
           {% block content %}{% endblock %}

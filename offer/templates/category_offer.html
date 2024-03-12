@@ -1,0 +1,48 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %} 
+category Offer
+{% endblock %}
+{% block style %} 
+<link rel="stylesheet" href="{% static "assets/css/manage_new.css" %}">
+<link rel="stylesheet" href="{% static "assets/css/coupon.css" %}">
+{% endblock %}
+{% block page_name %} 
+category Offer
+{% endblock %}
+{% block content %} 
+<div class='row' >
+  <div class="col-md-5 grid-margin add-stretch-card">
+    <a href="add_category_offer" ><button class="admin_add">ADD</button></a>
+    <table  id="customers" border="1">
+      <thead class="table_head">
+        <th width='15%'>category</th>
+        <th width='15%'>discount </th>
+        <th width='20%'> starting</th>
+        <th width='20%'>Expiring</th>
+        {% comment %} <th width='15%'>Create</th> {% endcomment %}
+        <th width='15%'>Status</th>
+        <th width='15%'>Action</th>
+        <th width="15%">Edit</th>
+      </thead>
+      {% for i in offer %}
+      <tr>
+         <td class="table name" > {{i.category_id }}</td>
+        <td class="table code" > {{i.percentage}}%</td>
+        <td class="table minimum_amount" > {{i.start_date}}</td>
+        <td class="table discount" > {{i.end_date}}</td>
+        {% comment %} <td class="table expiration_time" > {{i.created_at}}</td> {% endcomment %}
+        {% if i.is_active %}<td class="table " ><button class="true"> Actived</button></td>{% else %}<td class="table " > <button class="false">Deactived</button></td>{% endif %} 
+        {% if i.is_active %}<td class="table" ><a href="category_offer_action{{i.id}}"><button class=" false">  Deactive</button></a></td>{% else %}<td class="table " > <a href="category_offer_action{{i.id}}"><button class="true"> Active</button></a></td>{% endif %}
+        <td class="table"><a  href="edit_category_offer{{i.id}}"><button class="true">EDit</button></a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+

@@ -119,6 +119,11 @@ CHECKOUT
 								<td>{{subtotal }}₹</td>
 							</tr>
 							<tr>
+								<td>Coupon Discount</td>
+								<td></td>
+								<td>-{{coupon_discount }}₹</td>
+							</tr>
+							<tr>
 								<td>Shipping</td>
 								<td></td>
 								<td>{{ship}}₹</td>
@@ -126,19 +131,43 @@ CHECKOUT
 							<tr>
 								<td>Total</td>
 								<td></td>
+
 								<td>{{total}}₹</td>
 							</tr>
 						</tbody>
 					</table>
-					<button class="online-pay " id="rzp-button1">Online Pay</button>
-					<a href="cod_order" class="boxed-btn" id="place_order">Place Order</a>
+					<!-- coupon -->
+					
+					<div class="coupon-section">
+						<h3>Apply Coupon</h3>
+						<div class="coupon-form-wrap">
+							{% if coupon %}
+							<button class="online-pay" id="coupon-cancel" style="background-color: red;">Cancel Coupon</button>
+
+					        {% else %}
+							<form id="coupon-form">
+								<p><input type="text" id="coupon-code" placeholder="Coupon"></p>
+								<p><input type="submit" value="Apply" id="apply-coupon"></p>
+							</form>
+					        {% endif %}
+							<br><button class="online-pay " style="margin-top: 10px;" id="rzp-button1">Online Pay</button>
+					       <a href="cod_order" class="boxed-btn" id="place_order">Place Order</a>
+					       {% if wallet > total %} <a href="wallet_order" class="boxed-btn" style="margin-top: 10px;" id="wallet_order">Wallet Pay</a>{% endif %}
+
+						</div>
+					</div>
+					<!-- end coupon -->
+					
 				</div>
 			</div>
-		</div>
+					</div>
 	</div>
 </div>
 <!-- end check out section -->
+{% endblock  %}
 {% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -147,11 +176,76 @@ CHECKOUT
 		  alert('order conform')
 		console.log("Clicked on Details button for order ID:");
 			{% comment %} $("#order_table").hide(); {% endcomment %}
-y			
+			
 	  });
 		 
 		
 	});
+	$(document).ready(function() {
+		$("#wallet_order").click(function(id) {
+		  alert('order conform')
+		console.log("Clicked on Details button for order ID:");
+			
+			
+	  });
+		 
+		
+	});
+
+	
+
+	$(document).ready(function(){
+
+		$('#coupon-form').submit(function(e){
+			e.preventDefault();
+			var couponCode = $('#coupon-code').val();
+			console.log(couponCode)
+			$.ajax({
+				url: 'check_coupon_validity',
+				method: 'POST',
+				data: {
+					'coupon_code': couponCode,
+					csrfmiddlewaretoken: '{{ csrf_token }}'
+				},
+				success: function(response){
+					if(response.valid) {
+						alert(response.message);
+						window.location.href = '/checkout';
+					} else {
+						alert(response.message);
+					}
+				},
+				error: function(xhr, errmsg, err){
+					console.log(xhr.status + ": " + xhr.responseText);
+				}
+			});
+		});
+	});
+
+
+	$(document).ready(function(){
+		$('#coupon-cancel').click(function(e){
+			e.preventDefault();
+			$.ajax({
+				url: '/coupon_cancel', // Change this to the correct URL
+				method: 'POST',
+				data: {
+					csrfmiddlewaretoken: '{{ csrf_token }}'
+				},
+				success: function(response){
+					alert(response.message); // Display a success message if needed
+					// Reload the page or perform any other action as required
+					location.reload();
+				},
+				error: function(xhr, errmsg, err){
+					console.log(xhr.status + ": " + xhr.responseText);
+				}
+			});
+		});
+	});
+	
+
+
 </script>
-{% endblock  %}
+
 {% endblock %}

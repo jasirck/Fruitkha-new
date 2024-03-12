@@ -1,5 +1,6 @@
 from django.urls import path
 from account import views
+from offer.views import referral
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -15,5 +16,7 @@ urlpatterns = [
     path('chenge_email',views.chenge_email,name='chenge_email'),
     path('chenge_email_validation',views.chenge_email_validation,name='chenge_email_validation'),
     path('detail_page<int:id>',views.detail_page,name='detail_page'),
+    path('referral<int:id>',referral,name='referral'),
+
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from my_admin.models import AdminCategory
+from django.db.models import Count
+from order.models import order,order_items
 
 # Create your views here.
 
@@ -13,6 +15,7 @@ def homepage(request):
         log=False
     print('homepage here')
     main_category = AdminCategory.objects.filter(status="list")
+    # top_3_products = order_items.objects.values('product__name').annotate(total_orders=Count('product')).order_by('-total_orders')[:3]
     return render(request, 'homepage.html',{'log':log,'main_category':main_category})
 
 def news(request):

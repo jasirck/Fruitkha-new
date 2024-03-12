@@ -1,0 +1,118 @@
+
+{% extends "account_base.html" %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static "assets/css/wishlist.css" %}">
+{% endblock %}
+{% block content %} 
+{% comment %} {% if messages %}
+      <ul class="messages">
+        {% for messages in messages %}
+        <h3 style="color: red;margin-left: 50px;">{{messages}}</h3>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endcomment %}
+      <a href="account"  ><button class="a_button">BACK</button></a><br>
+<div class="card-body" style="background-color:#007bff;width: 100%;height: 150px; border-radius: 30px ; margin-top: 10px;">
+    <h2 style="text-align: center; color: white; margin-top: 5%;">Balance : {{t_amount}}</h2>
+    <a href=""></a>
+
+</div>
+<div>
+  <div class="cart-wrap">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="main-heading mb-10">My Wallet History</div>
+          <div class="table-wishlist">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+              <thead>
+                <tr>
+                  <th width="10%"></th>
+                  <th width="35%">Date & Time</th>
+                  {% comment %} <th width="25%">Credit/Debit</th> {% endcomment %}
+                  <th width="25%">Amount</th>
+                  <th width="30%">Reason</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {% comment %} {% for wish in wishlist %} {% endcomment %}
+                {% for w in history %}
+                <tr>
+                  <td></td>
+                  {% comment %} <td>Fsafsg52354</td> {% endcomment %}
+                  <td >{{w.date}}</td>
+                  {% if w.is_credit %}
+                  <td style="font-weight: 600;color: green; ">+{{w.amount}}</td>
+                  {% else %}
+                  <td style="font-weight: 600;color: red;">-{{w.amount}}</td>
+                  {% endif %}
+                  <td>{{w.msg}}</td>
+                </tr>{% endfor %}
+                  {% comment %} <td width="45%">
+                    <div class="display-flex align-center">
+                      <div class="img-product">
+                        <p>45635</p>                      </div>
+                      <div class="name-product">
+                        {{wish.product_id.prodect_name}}
+                      </div>
+                    </div>
+                  </td>
+                  <td width="15%" class="price">563456{{wish.product_id.price}}</td>
+                  {% if wish.product_id.quantity < 1 %} 
+                  <td width="15%"><span class="in-stock-box">Out of Stock</span></td>
+                  {% elif wish.product_id.quantity < 6 %}
+                  <td width="15%"><span class="in-stock-box">{{wish.product_id.price}} Stock Left</span></td>
+                  {% else %}
+                  <td width="15%"><span class="in-stock-box">In Stock</span></td>
+                  {% endif %}
+                  
+                  <td width="15%"><button class="round-black-btn small-btn">Add to Cart</button></td>
+                  <td width="10%" class="text-center"><a href="wishlist_new{{wish.product_id.id}}" class="trash-icon"><i class="far fa-trash-alt"></i></a></td> {% endcomment %}
+                
+                {% comment %} {% endfor %} {% endcomment %}
+                {% comment %} <tr>
+                  <td width="45%">
+                    <div class="display-flex align-center">
+                      <div class="img-product">
+                        <img src="https://www.91-img.com/pictures/laptops/asus/asus-x552cl-sx019d-core-i3-3rd-gen-4-gb-500-gb-dos-1-gb-61721-large-1.jpg" alt="" class="mCS_img_loaded">
+                      </div>
+                      <div class="name-product">
+                        Apple iPad Mini
+                      </div>
+                    </div>
+                  </td>
+                  <td width="15%" class="price">$110.00</td>
+                  <td width="15%"><span class="in-stock-box">In Stock</span></td>
+                  <td width="15%"><button class="round-black-btn small-btn">Add to Cart</button></td>
+                  <td width="10%" class="text-center"><a href="#" class="trash-icon"><i class="far fa-trash-alt"></i></a></td>
+                </tr>
+                <tr>
+                  <td width="45%">
+                    <div class="display-flex align-center">
+                      <div class="img-product">
+                        <img src="https://www.91-img.com/pictures/laptops/asus/asus-x552cl-sx019d-core-i3-3rd-gen-4-gb-500-gb-dos-1-gb-61721-large-1.jpg" alt="" class="mCS_img_loaded">
+                      </div>
+                      <div class="name-product">
+                        Apple iPad Mini
+                      </div>
+                    </div>
+                  </td>
+                  <td width="15%" class="price">$110.00</td>
+                  <td width="15%"><span class="in-stock-box">In Stock</span></td>
+                  <td width="15%"><button class="round-black-btn small-btn">Add to Cart</button></td>
+                  <td width="10%" class="text-center"><a href="#" class="trash-icon"><i class="far fa-trash-alt"></i></a></td>
+                </tr> {% endcomment %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<!-- end cart -->
+
+</div>
+{% endblock %}

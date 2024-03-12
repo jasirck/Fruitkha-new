@@ -1,13 +1,13 @@
 {% extends "admin_base.html" %}
 {% load static %}
 {% block title %} 
-Deleted
+Orders
 {% endblock %}
 {% block style %} 
 <link rel="stylesheet" href="{% static "assets/css/manage_new.css" %}">
 {% endblock %}
 {% block page_name %} 
-Deleted
+Orders
 {% endblock %}
 {% block content %} 
 <div class='row' >
@@ -29,11 +29,11 @@ Deleted
         <td>{{x.order_id}}</td>  
         <td>{{x.user.username}}</td>
           <td>{{x.total_price}} ₹</td>
-          <td {% if x.status == 'Pending' %} style="color: orange;" {% elif x.status == 'Deliverd' %} style="color: green;" {% else  %} style="color: red;" {% endif %}>{{x.status}}</td>
+          <td {% if x.status == 'Pending' %} style="color: orange;" {% elif x.status == 'Deliverd' %} style="color: green;" {% elif  x.status == 'Cancel' %} style="color: red;" {% else %} style="color :orangered" {% endif %}>{{x.status}}</td><!--x.status == 'Deliverd'-->
           <td>{{x.payment_method}}</td>
           <td>{{x.created}}</td>
           <td><a href="orders_deteils_admin{{x.id}}"><button id="up">Details</button></a> </td>
-          {% if x.status == 'Pending' %}<td><a href="orders_deliverd{{x.id}}"><button id="up">Deliverd</button></a> </td>{% endif %}
+          
 
           
       </tr>

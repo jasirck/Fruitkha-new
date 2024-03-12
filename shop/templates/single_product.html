@@ -5,6 +5,7 @@ SINGLE SHOP
 {% endblock %}
 {% block style %} 
 <link rel="stylesheet" href="{% static "assets/css/manage_new1.css" %}">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet" />
 {% endblock%}
 {% block page_name %} 
 SINGLE SHOP
@@ -24,10 +25,17 @@ SINGLE SHOP
                     {% if single_product.prodect_image3 %} <a href="/single_prodect_img/{{ single_product.id}}/{{3}}"><img class="multi_image_item" src=" {{single_product.prodect_image3.url}}" alt=""></a>{% endif %}
                </div>
             </div>
+            
             <div class="col-md-7">
                 <div class="single-product-content">
                     <h3>{{single_product.prodect_name| upper}}</h3>
+                    {% if offer %}
+                    <p class="single-product-pricing"><span>Per Kg</span> </p>
+                    <del><p class="single-product-pricing">{{single_product.price}} ₹</p></del>
+                    <p class="single-product-pricing" style="color: green;">Now :{{amount}} ₹</p>
+                    {% else %}
                     <p class="single-product-pricing"><span>Per Kg</span> {{single_product.price}} ₹</p>
+                    {% endif %}
                     <p>{{single_product.description}}</p>
                     <div class="single-product-form">
                         <form action="add_cart{{ single_product.id }}/" method="POST">
@@ -40,6 +48,24 @@ SINGLE SHOP
                             {% comment %} <a class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a> {% endcomment %}
                             <button style="border: 0ch;background-color: transparent;outline: none;" type="submit"><a class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a></button>
                         </form>
+                        <div id = 'wishlist_id' >
+                          {% if wish %}
+    <button type="button" id="true" style="border: 0; background-color: transparent; outline: none;" class="wishlist-btn" data-product-id="{{ single_product.id }}">
+        <a href="wishlist_new{{single_product.id}}">
+            <i style="color: red; font-size: 50px;" class="ri-heart-3-line"></i>
+        </a>
+    </button>
+{% else %}
+    <button type="button" id="False" style="border: 0; background-color: transparent; outline: none;" class="wishlist-btn" data-product-id="{{ single_product.id }}">
+        <a href="wishlist_new{{single_product.id}}">
+            <i style="color: red; font-size: 50px;" class="ri-heart-3-fill"></i>
+        </a>
+    </button>
+{% endif %}
+
+                        </div>
+
+                    
                         {% if messages %}
                     <ul >
                       {% for messages in messages %}
@@ -64,3 +90,27 @@ SINGLE SHOP
 </div>
 <!-- end single product -->
 {% endblock %}
+
+{% block script %}
+$(document).ready(function(){
+    $('.wishlist-btn').click(function(e){
+        e.preventDefault();
+        console.log('halloo ')
+        var productId = $(this).data('product-id');
+        $.ajax({
+            url: '/wishlist/' + productId,
+            method: 'GET',
+            success: function(response){
+                location.reload(); 
+                {% comment %} $('#wishlist_id').load(window.location.href + ' #wishlist_id'); {% endcomment %}
+            },
+            error: function(xhr, errmsg, err){
+              location.reload();
+              {% comment %} $('#wishlist_id').load(window.location.href + ' #wishlist_id'); {% endcomment %}
+                console.log('error,failed');
+            }
+        });
+    });
+});
+
+{% endblock  %}

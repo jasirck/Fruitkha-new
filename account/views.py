@@ -8,6 +8,9 @@ from django.utils import timezone
 from my_admin.models import myprodect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password
+from wallet.models import Wallet,Wallet_list
+from coupon.models import Coupon
+from offer.models import Referral
 
 # Create your views here.
 
@@ -18,16 +21,24 @@ def Account(request):
     else:
         log=False
     username = request.user
+    coupon = Coupon.objects.filter(is_expired = True,active = True)
     user_obj =Customer.objects.filter(username=username).prefetch_related('current_address').first()
     address = user_address.objects.filter(user_id=user_obj.id)
-    ord=order.objects.filter(user=user_obj.id)
-    return render(request,'account.html',{'user': user_obj, 'address':address,'order':ord})
+    ord=order.objects.filter(user=user_obj.id).order_by('-created')
+    count=order.objects.filter(user=user_obj.id).count()
+    refer = None
+    if Referral.objects.filter(user_id = user_obj.id).exists():
+        temp = Referral.objects.get(user_id = user_obj.id)
+        refer = temp.code
+        print(refer)
+    return render(request,'account.html',{'user': user_obj, 'address':address,'order':ord,'count':count,"coupon":coupon,"referral":refer})
 
 @login_required
 def add_address(request):
 
     username = request.user
     user_obj=Customer.objects.get(username=username)
+    count=order.objects.filter(user=user_obj.id).count()
         
     if request.method == 'POST':
         name=request.POST.get('name')
@@ -49,7 +60,7 @@ def add_address(request):
         else:
             messages.error(request, "address field id null")
             return redirect('add_address')
-    return render(request,'account_add_address.html',{'user':user_obj})
+    return render(request,'account_add_address.html',{'user':user_obj,'count':count})
     
 @login_required
 def edit_address(request,id,a_id):
@@ -58,6 +69,7 @@ def edit_address(request,id,a_id):
     else:
         log=False
     user_obj=Customer.objects.get(id=id)
+    count=order.objects.filter(user=user_obj.id).count()
     address=user_address.objects.get(id=a_id)
     if request.method == 'POST':
         address.name=request.POST.get('name')
@@ -75,7 +87,7 @@ def edit_address(request,id,a_id):
         print(address.user_id,address.name,address.call_number,type(address.call_number),address.house_name,address.lanmark,address.post,address.city,address.pincode,address.state)
         address.save()
         return redirect('account')
-    return render(request,'account_edit_address.html',{'user':user_obj,'address':address})
+    return render(request,'account_edit_address.html',{'user':user_obj,'address':address,'count':count})
 
 @login_required
 def delete_address(request,id,a_id):
@@ -89,6 +101,7 @@ def current_address(request,id):
 
         user_obj=Customer.objects.get(id=id)
         address = user_address.objects.filter(user_id=user_obj.id)
+        count=order.objects.filter(user=user_obj.id).count()
         if request.method == 'POST':
             address=request.POST.get('address')
             add=user_address.objects.get(id=address)
@@ -96,12 +109,13 @@ def current_address(request,id):
             user_id.current_address=add
             user_id.save()
             return redirect('account')
-        return render(request,'current_address.html',{'user':user_obj, 'address':address})
+        return render(request,'current_address.html',{'user':user_obj, 'address':address,'count':count})
     
 @login_required
 def edit_user(request,id):
 
         user_obj=Customer.objects.get(id=id)
+        count=order.objects.filter(user=user_obj.id).count()
         if request.method == 'POST':
             print('inside')
             username = request.POST.get('username')
@@ -124,12 +138,11 @@ def edit_user(request,id):
         return redirect("account")
 
 @login_required
-
-
 def chenge_password(request):
     if request.method == 'POST':
         username = request.user
         user_obj = Customer.objects.get(username=username)
+        count=order.objects.filter(user=user_obj.id).count()
         old_password = request.POST.get('old_password')
         new_password = request.POST.get('new_password')
         confirm_password = request.POST.get('confirm_password')
@@ -160,6 +173,7 @@ def chenge_email(request):
 
         username = request.user
         user_obj=Customer.objects.get(username=username)
+        count=order.objects.filter(user=user_obj.id).count()
         if request.method == 'POST':
             email = request.POST.get('email')
             email_exists = Customer.objects.filter(email=email).exists()
@@ -181,13 +195,14 @@ def chenge_email(request):
                 print(otp)
                 send_mail(subject, message, email_from, [email], fail_silently=False)
                 return redirect('chenge_email_validation')        
-        return render(request,'chenge_email.html',{'user':user_obj})
+        return render(request,'chenge_email.html',{'user':user_obj,'count':count})
 
 @login_required
 def chenge_email_validation(request):
 
         username = request.user
         user_obj=Customer.objects.get(username=username)
+        count=order.objects.filter(user=user_obj.id).count()
         if request.method == 'POST':
             global otp
             global time
@@ -211,17 +226,17 @@ def chenge_email_validation(request):
             else:
                 messages.info(request, 'time out')
                 return redirect('chenge_email')
-        return render(request,'chenge_email_validation.html',{'user':user_obj})
+        return render(request,'chenge_email_validation.html',{'user':user_obj,'count':count})
 
 @login_required
 def detail_page(request,id):
         ord=order.objects.get(id=id)
+        
         username = request.user
         user_obj =Customer.objects.filter(username=username).prefetch_related('current_address').first()
+        count=order.objects.filter(user=user_obj.id).count()
         products=order_items.objects.filter(order_item=id)
         address = ord.address.split(',')
-        for i in address:
-            print(i)
         if request.method == 'POST':
             msg=request.POST.get('msg')
             status=request.POST.get('status')
@@ -234,6 +249,18 @@ def detail_page(request,id):
                 temp=myprodect.objects.get(id=temp_id)
                 temp.quantity+=i.quantity_now
                 temp.save()
-                
-            return redirect('detail_page',id)
-        return render(request,'detail_page.html',{'user':user_obj,'ord':ord,'products':products,'address':address})
+            if ord.payment_method == 'Online':
+                print('inside the wallet if')
+                if Wallet.objects.filter(user_id=user_obj.id).exists():
+                    wallet_instance = Wallet.objects.get(user_id=user_obj.id)
+                    print(type(ord.total_price))
+                    wallet_instance.amount += ord.total_price
+                    wallet_instance.save()
+                    Wallet_list.objects.create(wallet=wallet_instance, is_credit=True, amount=ord.total_price, msg='Order Canceled')
+                else:
+                    new_wallet = Wallet.objects.create(user_id=user_obj, amount=ord.total_price)
+                    Wallet_list.objects.create(wallet=new_wallet, is_credit=True, amount=ord.total_price, msg='Order Canceled')
+                    return redirect('detail_page', id)
+            return render(request, 'detail_page.html', {'user': user_obj, 'ord': ord, 'products': products, 'address': address, 'count': count})
+        return render(request,'detail_page.html',{'user':user_obj,'ord':ord,'products':products,'address':address,'count':count})
+    

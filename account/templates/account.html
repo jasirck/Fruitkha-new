@@ -21,11 +21,14 @@
           class="nav-link "><i class="icon-user"></i> <span
               class="hidden-xs">orders</span></a>
   </li>
-    <li class="nav-item">
-        <a href="javascript:void();" data-target="#messages" data-toggle="pill"
-            class="nav-link"><i class="icon-envelope-open"></i> <span
-                class="hidden-xs">Messages</span></a>
-    </li>
+  <li class="nav-item">
+    <a href="javascript:void();" data-target="#messages" data-toggle="pill" class="nav-link">
+        <i class="icon-envelope-open"></i> <span class="hidden-xs">Messages</span>
+    </a>
+    {% if coupon %}
+        <span class="badge badge-danger">New</span> <!-- This is the icon for new messages -->
+    {% endif %}
+</li>
     <li class="nav-item">
         <a href="javascript:void();" data-target="#edit" data-toggle="pill" class="nav-link"><i
                 class="icon-note"></i> <span class="hidden-xs">Edit</span></a>
@@ -46,6 +49,14 @@
             <span>{{user.customer_number}}</span></div>
           <div class="detail_add"><small>Email :</small>
             <span>{{user.email}}</span></div>
+            {% comment %}  {% endcomment %}
+          {% if referral %}
+          <div class="detail_add"><small>referral Code :</small>
+            <span>{{referral}}</span></div>
+          {% else %}
+          <div class="detail_add"><a href="referral{{user.id}}"><span>Referral Code</span></a></div>
+          {% endif %}
+          {% comment %}  {% endcomment %}
           <div class="_add"><small class="detail_add">Current Address </small><br>
             {% if user.current_address.name %}
             <span class="span">{{user.current_address.name}}</span><br>
@@ -58,9 +69,9 @@
             <span class="span">{{user.current_address.picode}}</span><br>
             <a href="current_address{{user.id}}"><button class='a_button'> CHENGE</button></a>
               {% else %}
-              <a href="current_address{{user.id}}"><button class='a_button'> +</button>
+              <a href="current_address{{user.id}}"><button class='a_button'> +</button></a>
                 {% endif %}
-            </div>
+          </div>
         
         </div><br>
      
@@ -92,82 +103,29 @@
       </div>
     </div>
     <div class="tab-pane" id="messages">
-      <div class="alert alert-info alert-dismissible" role="alert">
-        {% comment %} <button type="button" class="close" data-dismiss="alert"> &nbsp;+GHK &nbsp; _</button> {% endcomment %}
+      {% comment %} <div class="alert alert-info alert-dismissible" role="alert">
         <div class="alert-icon">
           <i class="icon-info"></i>
         </div>
         <div class="alert-message">
           <span><strong>Info!</strong> Lorem Ipsum is simply dummy text.</span>
         </div>
-      </div>
+      </div> {% endcomment %}
       <table class="table table-hover table-striped">
         <tbody>
+        
+          {% for c in coupon %}
           <tr>
             <td>
-              <span class="float-right font-weight-bold">3 hrs ago</span> Here is your a link to the latest summary report from the..
+              <span class="float-right font-weight-bold">{{c.msg}}</span>{{c.code}}
             </td>
           </tr>
-          <tr>
-            <td>
-              <span class="float-right font-weight-bold">Yesterday</span> There has been a request on your account since that was..
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span class="float-right font-weight-bold">9/10</span> Porttitor vitae ultrices quis, dapibus id dolor. Morbi venenatis lacinia rhoncus.
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span class="float-right font-weight-bold">9/4</span> Vestibulum tincidunt ullamcorper eros eget luctus.
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span class="float-right font-weight-bold">9/4</span> Maxamillion ais the fix for tibulum tincidunt ullamcorper eros.
-            </td>
-          </tr>
+          {% endfor %}
+          
         </tbody>
       </table>
     </div>
     <div class="tab-pane" id="order">
-      {% comment %}<div class="alert alert-info alert-dismissible" role="alert">
-         <button type="button" class="close" data-dismiss="alert"> &nbsp;+GHK &nbsp; _</button> {% endcomment %}
-        {% comment %} <div class="alert-icon">
-          <i class="icon-info"></i>
-          
-        </div>
-         
-      </div>{% endcomment %}
-      {% comment %} <table class="table table-hover table-striped" id="order_table">
-        <table class="cart-table">
-							<thead class="cart-table-head">
-								<tr class="table-head-row">
-									<th class="product-remove">Order ID</th>
-									<th class="product-image">Order date</th>
-									<th class="product-name">Status</th>
-									<th class="product-price">Price</th>
-									<th class="product-quantity">Expeted</th>
-									<th class="product-total">show</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for i in order %}
-								<tr class="table-body-row a_order">
-									<td class="user_order name">{{i.order_id}}</a></td>
-									<td class="user_order">{{i.created}}</td>
-									<td class="user_order status">{{i.status}}</td>
-                  <td class="user_order">{{i.total_price}}₹</td>
-									# <td class="user_order-quantity">{{}}</td> 
-									<td class="user_order">{{i.expect}}</td>
-                  <td class="user_order"><button class="order_details">Details</button></td>
-								</tr>
-								{% endfor %}
-							</tbody>
-             # {% comment %} <button id="order_deteils">Details</button> 
-						</table>
-      </table> {% endcomment %}
       <table class="table table-hover table-striped" id="order_table">
         <thead class="cart-table-head">
             <tr class="table-head-row">
@@ -184,7 +142,7 @@
             <tr class="table-body-row a_order">
                 <td class="user_order name">{{i.order_id}}</td>
                 <td class="user_order">{{i.created}}</td>
-                <td class="user_order status" {% if i.status == 'Pending' %}  style="color: orangered;" {% elif i.status == 'Cancel' %} style='color: red;' {% elif i.status == 'Deliverd' %} style='color: green;' {% endif %}>{{i.status}}</td>
+                <td class="user_order status" {% if i.status == 'Pending' %}  style="color: orangered;" {% elif i.status == 'Cancel' or i.status == 'Returned' %} style='color: red;' {% elif i.status == 'Deliverd' %} style='color: green;' {% endif %}>{{i.status}}</td>
                 <td class="user_order">{{i.total_price}}₹</td>
                 {% comment %} <td class="user_order-quantity">{{}}</td> {% endcomment %}
                 <td class="user_order">{{i.expect}}</td>
@@ -229,40 +187,7 @@
             <input class="form-control" type="text" value="{{user.customer_number}}" placeholder="{{user.customer_number}}" name="number" />
           </div>
         </div>
-        {% comment %} <div class="form-group row">
-          <label class="col-lg-3 col-form-label form-control-label">Email</label>
-          <div class="col-lg-9">
-            <input class="form-control" type="email" value="{{user.email}}" placeholder="{{user.email}}" />
-          </div>
-        </div> {% endcomment %}
-        {% comment %} <div class="form-group row">
-          <label class="col-lg-3 col-form-label form-control-label">Address</label>
-          <div class="col-lg-9">
-            <input class="form-control" type="text" value placeholder="Street" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-lg-3 col-form-label form-control-label"></label>
-          <div class="col-lg-6">
-            <input class="form-control" type="text" value placeholder="City" />
-          </div>
-          <div class="col-lg-3">
-            <input class="form-control" type="text" value placeholder="State" />
-          </div>
-        </div> {% endcomment %}
         
-        {% comment %} <div class="form-group row">
-          <label class="col-lg-3 col-form-label form-control-label">Password</label>
-          <div class="col-lg-9">
-            <input class="form-control" type="password" value="11111122333" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-lg-3 col-form-label form-control-label">Confirm password</label>
-          <div class="col-lg-9">
-            <input class="form-control" type="password" value="11111122333" />
-          </div>
-        </div> {% endcomment %}
         <div class="form-group row">
           <label class="col-lg-3 col-form-label form-control-label"></label>
           <div class="col-lg-9">
@@ -285,24 +210,5 @@
 <script type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<!-- JavaScript code -->
-{% comment %} <script>
-  $(document).ready(function() {
-      $(".order_details").click(function(id) {
-        var orderId = $(this).data('order-id');
-      // Pass the order ID to your function or use it as needed
-      console.log("Clicked on Details button for order ID:", orderId);
-          {% comment %} alert("Hello"); 
-          $("#order_table").hide();
-          $("#deteil_page").show();
-          
-    });
-       $("#back").click(function(){
-        $("#order_table").show();
-        $("#deteil_page").hide();
-    });
-      
-  });
-</script> {% endcomment %}
 
 {% endblock %}

@@ -7,7 +7,7 @@ Edit
 <link rel="stylesheet" href="{% static "assets/css/manage_new.css" %}">
 {% endblock %}
 {% block page_name %} 
-Category
+Product
 {% endblock %}
 {% block content %} 
 <div class='row' >
@@ -31,6 +31,7 @@ Category
           <td>{{x.quantity}}kg</td>
           <td>
               <a href="edit_prodect_page{{x.id}}"><button id="up">Edit</button></a>
+              {% comment %} <a href="edit_prodect_page{{x.id}}"><button class="useredit">Edit</button></a> {% endcomment %}
           </td>
           <td>
               <a href="unlist{{x.id }}"><button id="del">Delete</button></a>

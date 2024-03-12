@@ -7,6 +7,7 @@ urlpatterns = [
     path('chenge<int:id>',views.chenge,name='chenge'),
     path('add_address_order',views.add_address_order,name='add_address_order'),
     path('cod_order',views.cod_order,name='cod_order'),
+    path('wallet_order',views.wallet_order,name='wallet_order'),
     path('succes',views.succes,name='succes'),
     path('proceed_to_pay',views.razorpaychek),
     path('online_order/',views.online_order,name='online_order'),

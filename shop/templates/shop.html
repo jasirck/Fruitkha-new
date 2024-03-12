@@ -34,7 +34,7 @@ SHOP
 								<option value="rating">Rating</option>
 								<option value="date_added_decs">New</option>
 								<option value="date_added">Old</option>
-								{% comment %} <option value="p">Popularity</option> {% endcomment %}
+
 							</select>
 							<button style="
 							border: 2px solid #F28123;
@@ -58,7 +58,37 @@ SHOP
 				</div>
 			</div>
 		</div>
-
+		{% if top_3 %}
+		<div class="border border-warning">
+			<h3 style="text-align: center;margin-top: 30px;">Popular</h3>
+			<div class="row product-lists ">
+		{% for top in top_3 %}
+		<div class="col-lg-4 col-md-6 text-center">
+			<div class="single-product-item">
+				<div class="product-image">
+					<a href="/single_prodect{{top.id}}">
+					
+						{% if top.prodect_image1 %}
+							<img style="width:110px ; height:120px;" src="{{ top.prodect_image1.url }}" alt="{{ top.id}}">
+						{% endif %}
+					</a>
+				</div>
+				<h3>{{ top.prodect_name}}</h3>
+				<p class="product-price"> {{ top.price }}  ₹</p>
+				<form action="/add_cart{{ top.id }}/" method="POST">
+					{% csrf_token %}
+					<input type="number" min='1' placeholder="1" name='quantity'><p class="single-product-pricing"></p>
+					{% if left %}
+						<p style="color: red; ">{{top.quantity}}&nbsp;Kg is Only Left</p>
+						{% endif %}
+					{% comment %} <a class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a> {% endcomment %}
+					<button style="border: 0ch;background-color: transparent;" type="submit"><a class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a></button>
+				</form>
+			</div>
+		</div>
+	{% endfor %}
+	</div></div>
+		{% endif %}
 		<div class="row product-lists">
 			{% for product in main_prodect %}
             <div class="col-lg-4 col-md-6 text-center">
@@ -76,7 +106,7 @@ SHOP
 						{% csrf_token %}
 						<input type="number" min='1' placeholder="1" name='quantity'><p class="single-product-pricing"></p>
 						{% if left %}
-                            <p style="color: red; ">{{single_product.quantity}}&nbsp;Kg is Only Left</p>
+                            <p style="color: red; ">{{product.quantity}}&nbsp;Kg is Only Left</p>
                             {% endif %}
 						{% comment %} <a class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a> {% endcomment %}
 						<button style="border: 0ch;background-color: transparent;" type="submit"><a class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a></button>

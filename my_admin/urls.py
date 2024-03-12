@@ -31,5 +31,7 @@ urlpatterns = [
     path('order_back_pending<int:id>' ,views.order_back_pending,name='order_back_pending'),
     path('orders_deliverd<int:id>' ,views.orders_deliverd,name='orders_deliverd'),
     path('orders_cancel<int:id>' ,views.orders_cancel,name='orders_cancel'),
+    path('return_accept<int:id>' ,views.return_accept,name='return_accept'),
+    path('coupon' ,views.coupon,name='coupon'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

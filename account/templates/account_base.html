@@ -27,9 +27,7 @@
 	<link rel="stylesheet" href="{% static "assets/css/responsive.css" %}">
   <!-- acoount stylesheet -->
   <link rel="stylesheet" href="{% static "assets/css/account.css" %}">
-    {% comment %} <style type="text/css">
-      
-    </style> {% endcomment %}
+  {% block style %}{% endblock %}
   </head>
   <body>
     <div class="container">
@@ -82,34 +80,26 @@
                       <i class="fa fa-envelope"></i>
                     </div>
                     <div class="list-details">
-                      <span>{% comment %}<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1d74737b725d78657c706d7178337e7270">[email&#160;protected]</a>{% endcomment %}{{user.email}}</span> 
+                      <span>{{user.email}}</span> 
                       <small>Email Address</small>
                     </div>
                   </li>
-                  {% comment %} <li class="list-group-item">
-                    <div class="list-icon">
-                      <i class="fa fa-globe"></i>
-                    </div>
-                    <div class="list-details">
-                      <span>www.example.com</span>
-                      <small>Website Address</small>
-                    </div>
-                  </li> {% endcomment %}
+                  
                 </ul>
                 <div class="row text-center mt-4">
                   <div class="col p-2">
-                    <h4 class="mb-1 line-height-5">154</h4>
+                    <h4 class="mb-1 line-height-5">{{count}}</h4>
                     <small class="mb-0 font-weight-bold">Order</small><br><br>
                     {% if not check   %}<a href="homepage" ><button class="a_button">BACK</button></a>{% endif %}
                   </div>
                   <div class="col p-2">
-                    <h4 class="mb-1 line-height-5">2.2k</h4>
-                    <small class="mb-0 font-weight-bold">Followers</small>
-                  </div>
-                  <div class="col p-2">
                     <h4 class="mb-1 line-height-5">9.1k</h4>
                     <small class="mb-0 font-weight-bold">Views</small><br><br>
-                    <a href="/logout_user"  ><button class="a_logout">LOGOUT</button></a>
+                  </div>
+                  <div class="col p-2">
+                    <a href="/wallet" class="mb-1 line-height-5" ><img style="margin-top: -5px; width: 30px; height: 30px;" src="media/media/wallet.png" alt=""></a><br>
+                    <small class="mb-0 font-weight-bold">Wallet</small>
+                    <a  href="/logout_user"  ><button style="margin-top: 25px;" class="a_logout">LOGOUT</button></a>
                   </div>
                 </div>
                 

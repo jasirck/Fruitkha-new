@@ -68,6 +68,7 @@ Add prodect
           <input class="inputbox" style='width:300px ;' type="file" align="center" name="image1" id="image1" value="{{ prodect.prodect_image1.url }}">
         </div>
       </div>
+      {% if prodect.prodect_image2 %}
       <div class="add_card" style='width:300px ; '>
         <div class="card-body"><p class="placehold">image2</p>
           {% if prodect.prodect_image2 %} <img class="square-50" src=" {{prodect.prodect_image2.url}}" alt="">{% endif %}
@@ -75,6 +76,8 @@ Add prodect
           <input class="inputbox" style='width:300px ;' type="file" align="center" name="image2" id="image2" value="{{ prodect.prodect_image2.url }}">
         </div>
       </div>
+      {% endif %}
+      {% if prodect.prodect_image3 %}
       <div class="add_card" style='width:300px ; '>
         {% if prodect.prodect_image3 %} <img class="square-50" src=" {{prodect.prodect_image3.url}}" alt="">{% endif %}
         <div class="card-body"><p class="placehold">image3</p>
@@ -82,6 +85,8 @@ Add prodect
           <input class="inputbox" style='width:300px ;' type="file"  name="image3" id="image3" value="{{ prodect.prodect_image3.url }}">
         </div>
       </div>
+      {% endif %}
+      
 
       <button class="submit"type="submit"  align="center">Submit</button>
     </form>

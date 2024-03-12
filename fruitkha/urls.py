@@ -28,4 +28,8 @@ urlpatterns = [
     path('' , include('order.urls')),
     path('' , include('account.urls')),
     path('' , include('cart.urls')),
+    path('' , include('wallet.urls')),
+    path('' , include('coupon.urls')),
+    path('' , include('offer.urls')),
+    path('' , include('sales.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

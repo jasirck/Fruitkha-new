@@ -1,0 +1,42 @@
+.table_head{
+    border-bottom: 2px solid #cdcdcd;
+}
+.table{
+    font-weight: 700;
+    font-style: initial;
+}
+.name{
+    width: 20%;
+}
+.code{
+    width: 20%;
+}
+.minimum_amount{
+    width: 15%;
+
+}
+.discount{
+    width: 15%;
+}
+.expiration_time{
+    width: 25%;
+}
+
+.true{
+    background-color: green;
+    border-radius: 30px;
+    width: 20%;
+    outline: none;
+    border: none;
+    color: white;
+    font-weight: 700;
+}
+.false{
+    background-color: red;
+    border-radius: 30px;
+    width: 20%;
+    outline: none;
+    border: none;
+    color: white;
+    font-weight: 700;
+}

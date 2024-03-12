@@ -8,6 +8,8 @@ from django.core.mail import send_mail
 from django.utils import timezone
 # from my_admin.models import myprodect,AdminCategory
 from django.contrib.auth.hashers import check_password
+from offer.models import Referral
+from wallet.models import Wallet,Wallet_list
 
 def login_view(request):
     if request.method == 'POST':
@@ -66,24 +68,26 @@ def forgot_otp(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         email_exists = Customer.objects.filter(email=email).exists()
-        
-        if email_exists:
-            global fotp
-            global for_email
-            global ftime
-            for_email = email
-            fotp = random.randrange(100000, 999999)
-            ftime= timezone.now()
-            email_from = 'muhammedjck1@gmail.com'
-            subject = 'OTP for Login Verification'
-            message = 'Your One Time Password: ' + str(fotp)
-            print(fotp)
-            send_mail(subject, message, email_from, [email], fail_silently=False)
-            return redirect('forgot_validation')
-        else:
-            messages.info(request, 'Email does not exist')
-            return redirect('forgot_otp')
-    
+        try:
+            if email_exists:
+                global fotp
+                global for_email
+                global ftime
+                for_email = email
+                fotp = random.randrange(100000, 999999)
+                ftime= timezone.now()
+                email_from = 'muhammedjck1@gmail.com'
+                subject = 'OTP for Login Verification'
+                message = 'Your One Time Password: ' + str(fotp)
+                print(fotp)
+                send_mail(subject, message, email_from, [email], fail_silently=False)
+                return redirect('forgot_validation')
+            else:
+                messages.info(request, 'Email does not exist')
+                return redirect('forgot_otp')
+        except:
+              messages.info(request, 'time out')
+              return redirect('forgot_otp')
     return render(request, 'forgot_otp.html')
 
 def forgot_validation(request):
@@ -114,8 +118,10 @@ def register(request):
         print(check_num)
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
+        referral = request.POST.get('referral')
         global user_email
         print(user_email)
+        wal=False
         if password1 == password2 and len(check_num)==10 and check_num[0]!='0':
             
             if Customer.objects.filter(username=username).exists():
@@ -128,11 +134,27 @@ def register(request):
                 return redirect('register')
             else:
                  try:
+                     if referral:
+                         if Referral.objects.filter(code = referral).exists():
+                             wal = True
+                             old_user = Referral.objects.get(code = referral)
+                             wallet = Wallet.objects.get(user_id = old_user.id)
+                             wallet.amount +=200 
+                             wallet.save()
+                             Wallet_list.objects.create(wallet = wallet,is_credit = True,amount = 200,msg = f"{username} joined with your referal")
+                         else:
+                            messages.info(request, "Refferal is Not Valid !")
+                            return redirect('register')
                      print(username,'eleseEeEeEeee')
                      user_obj = Customer(first_name=first_name,email=user_email,last_name=last_name,username=username,customer_number=number)
                      print(type(number))
                      user_obj.set_password(password1)
                      user_obj.save()
+                     if wal:
+                        new_wallet = Wallet.objects.create(user_id=user_obj, amount=500)
+                        new_wallet.save()
+                        Wallet_list.objects.create(wallet=new_wallet, is_credit=True, amount=500 , msg=f'Your used {old_user.user_id.username} Referral')
+                     
                      messages.success(request, 'User registered')
                      return redirect('login_view')  # Redirect to a success page\
                  except Exception as e:
@@ -174,10 +196,11 @@ def new_password(request):
             print('success')
             chenge=Customer.objects.get(email=for_email)
             print(chenge.password)
-            chenge.password=int(password1)
+            chenge.set_password(password1)
             chenge.save()
             print(password1)
             print(chenge.password)
+            messages.info(request, 'Password change succesfully')
             return redirect ('login_view')
         else:
             messages.info(request, 'Password not match')

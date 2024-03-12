@@ -33,16 +33,16 @@ CART
 									<td class="product-remove"><a href="delete_cart{{product.id}}"><i class="far fa-window-close"></i></a></td>
 									<td class="product-image"><img src="{{product.product_id.prodect_image1.url}}" alt=""></td>
 									<td class="product-name">{{product.product_id.prodect_name}}</td>
-									<td class="product-price">{{product.product_id.price}}₹</td>
-									{% comment %} <td class="product-quantity"><a href="minus_cart{{product.id}}/{{product.product_id.price}}"><button style="border-color:transparent; background-color: transparent;outline: none; color: orangered;font-weight: 400;font-size: 2rem;">-</button></a>&nbsp;{{product.book_quantity}}<a href="plus_cart{{product.id}}/{{product.product_id.price}}" ><button style="outline: none;border-color:transparent; background-color: transparent; color: orangered;font-weight: 400;font-size: 1.5rem;">+</button></a></td> {% endcomment %}
+									<td class="product-price">{{product.current_price}}₹</td>
+									{% comment %} <td class="product-quantity"><a href="minus_cart{{product.id}}/{{product.current_price}}"><button style="border-color:transparent; background-color: transparent;outline: none; color: orangered;font-weight: 400;font-size: 2rem;">-</button></a>&nbsp;{{product.book_quantity}}<a href="plus_cart{{product.id}}/{{product.current_price}}" ><button style="outline: none;border-color:transparent; background-color: transparent; color: orangered;font-weight: 400;font-size: 1.5rem;">+</button></a></td> {% endcomment %}
 									<td class="product-quantity" >
 										{% csrf_token %}
 										{% if product.book_quantity > 1 %}
-										<button class="chenge_quantity" data-action="minus" data-product-id="{{ product.id }}" data-product-price="{{ product.product_id.price }}" style="border-color:transparent; background-color: transparent;outline: none; color: orangered;font-weight: 400;font-size: 2rem;">-</button>
+										<button class="chenge_quantity" data-action="minus" data-product-id="{{ product.id }}" data-product-price="{{ product.current_price }}" style="border-color:transparent; background-color: transparent;outline: none; color: orangered;font-weight: 400;font-size: 2rem;">-</button>
                                          {% endif %}
 										&nbsp;{{ product.book_quantity }}
 										{% if product.book_quantity < 10 %}
-                                         <button class="chenge_quantity" data-action="plus" data-product-id="{{ product.id }}" data-product-price="{{ product.product_id.price }}" style="border-color:transparent; background-color: transparent;outline: none; color: orangered;font-weight: 400;font-size: 2rem;">+</button>
+                                         <button class="chenge_quantity" data-action="plus" data-product-id="{{ product.id }}" data-product-price="{{ product.current_price }}" style="border-color:transparent; background-color: transparent;outline: none; color: orangered;font-weight: 400;font-size: 2rem;">+</button>
                                          {% endif %}
 
 									
@@ -93,8 +93,8 @@ CART
 							{% if total >= 1 %}<a href="checkout" class="boxed-btn black">Check Out</a>{% endif %}
 						</div>
 					</div>
-					<!-- coupon -->
-					{% comment %} <div class="coupon-section">
+					{% comment %} <!-- coupon -->
+					<div class="coupon-section">
 						<h3>Apply Coupon</h3>
 						<div class="coupon-form-wrap">
 							<form action="index.html">
@@ -102,8 +102,8 @@ CART
 								<p><input type="submit" value="Apply"></p>
 							</form>
 						</div>
-					</div> {% endcomment %}
-					<!-- end coupon -->
+					</div>
+					<!-- end coupon --> {% endcomment %}
 				</div>
 			</div>
 		</div>

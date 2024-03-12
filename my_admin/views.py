@@ -9,16 +9,11 @@ from .forms import prodectsForm
 from functools import wraps
 from django.urls import reverse
 from order.models import order,order_items
+from wallet.models import Wallet,Wallet_list
+from coupon.models import Coupon
+from django.db.models import Q, Sum
 
-# def admin_required(request):
-#     try:
-#         user = request.user
-#         if user.is_authenticated and user.is_superuser:
-#             all functions
-#         else:
-#             return redirect('admin_login')
-#     except:
-#         return redirect('admin_login')
+
 
 def admin_required(view_func):
     @wraps(view_func)
@@ -64,9 +59,16 @@ def admin_login(request):
 @admin_required
 def dashbord(request):
     count=Customer.objects.count()
-    count_pro=myprodect.objects.count()
-    order_count=order.objects.count()
-    return render(request,'dashboard.html',{'users':count,'pro':count_pro,'ord':order_count})
+    order_count = order.objects.filter(Q(status='Deliverd') | Q(status='Return Requested')).count()
+    total_amount = order.objects.filter(Q(status='Delivered') | Q(status='Return Requested')).aggregate(total_amount=Sum('total_price'))
+    amount = total_amount['total_amount']
+    off =  order_items.objects.filter(Q(order_item__status='Deliverd') | Q(order_item__status='Return Requested'))
+    offers = 0
+    for i in off:
+        if i.product.price > i.price_now:
+            offers += i.product.price - i.price_now
+        
+    return render(request,'dashboard.html',{'users':count,'ord':order_count,'amount':amount,'offers':offers})
     
 
 @admin_required
@@ -324,7 +326,7 @@ def admin_logout(request):
 @admin_required
 def orders(request):    
     
-        ord=order.objects.all()
+        ord = order.objects.all().order_by('-created')
         count=Customer.objects.count()
         count_pro=myprodect.objects.count()
         order_count=order.objects.count()
@@ -362,8 +364,46 @@ def orders_deliverd(request,id):
 @admin_required
 def orders_cancel(request,id):    
     block=order.objects.get(id=id)
-    block.action='Cancel'
+    block.status='Cancel'
     block.msg='admin Cancel'
     block.save()
+    readd=order_items.objects.filter(order_item=block.id)
+    for i in readd:
+        temp_id=i.product.id
+        temp=myprodect.objects.get(id=temp_id)
+        temp.quantity+=i.quantity_now
+        temp.save()
     return redirect('orders_deteils',id)
 
+@admin_required
+def return_accept(request,id):
+    ord = order.objects.get(id = id)
+    ord.status = 'Returned'
+    ord.save()
+    readd=order_items.objects.filter(order_item=ord.id)
+    for i in readd:
+        temp_id=i.product.id
+        temp=myprodect.objects.get(id=temp_id)
+        temp.quantity+=i.quantity_now
+        temp.save()
+    print('inside the return')
+    if Wallet.objects.filter(user_id=ord.user).exists():
+        wallet_instance = Wallet.objects.get(user_id=ord.user)
+        wallet_instance.amount += ord.total_price
+        wallet_instance.save()
+        Wallet_list.objects.create(wallet=wallet_instance, is_credit=True, amount=ord.total_price, msg='Order Returned')
+        return redirect('orders_deteils', id)
+    else:
+        new_wallet = Wallet.objects.create(user_id=ord.user, amount=ord.total_price)
+        new_wallet.save()
+        Wallet_list.objects.create(wallet=new_wallet, is_credit=True, amount=ord.total_price, msg='Order Canceled')
+        return redirect('orders_deteils', id)
+
+@admin_required
+def coupon(request):
+    count=Customer.objects.count()
+    count_pro=myprodect.objects.count()
+    order_count=order.objects.count()
+    coupon = Coupon.objects.all()
+    print(coupon)
+    return render(request,'coupon.html',{'coupon':coupon,'users':count,'pro':count_pro,'ord':order_count})

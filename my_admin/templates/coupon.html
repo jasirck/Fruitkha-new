@@ -1,0 +1,46 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %} 
+Coupon
+{% endblock %}
+{% block style %} 
+<link rel="stylesheet" href="{% static "assets/css/manage_new.css" %}">
+<link rel="stylesheet" href="{% static "assets/css/coupon.css" %}">
+{% endblock %}
+{% block page_name %} 
+Coupon
+{% endblock %}
+{% block content %} 
+<div class='row' >
+  <div class="col-md-5 grid-margin add-stretch-card">
+    <a href="add_coupon" ><button class="admin_add">ADD</button></a>
+    <table  id="customers" border="1">
+      <thead class="table_head">
+        <th width='20%'>Name</th>
+        <th width='25%'>Coupon Code</th>
+        <th width='20%'>Min Amound</th>
+        <th width='15%'>Discount</th>
+        <th width='23%'>Expire Date</th>
+        <th width='15%'>Status</th>
+        <th width='20%'>Action</th>
+      </thead>
+      {% for i in coupon %}
+      <tr>
+        <td class="table name" > {{i.coupon_name}}</td>
+        <td class="table code" > {{i.code}}</td>
+        <td class="table minimum_amount" > {{i.minimum_amount}}</td>
+        <td class="table discount" > {{i.discount}}</td>
+        <td class="table expiration_time" > {{i.expiration_time}}</td>
+        {% if i.is_expired %}<td class="table " ><button class="true"> Actived</button></td>{% else %}<td class="table " > <button class="false">Deactived</button></td>{% endif %}
+        {% if i.active %}<td class="table" ><a href="coupon_action{{i.id}}"><button class=" false">  Deactive</button></a></td>{% else %}<td class="table " > <a href="coupon_action{{i.id}}"><button class="true"> Active</button></a></td>{% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+
+{% endblock %}
+
+
+

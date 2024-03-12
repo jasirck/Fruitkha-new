@@ -1,0 +1,104 @@
+{% extends "homepage_base.html" %}
+{% load static %}
+{% block title %} 
+Wishlist
+{% endblock %}
+{% block style %} 
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<link rel="stylesheet" href="{% static "assets/css/wishlist.css" %}">
+{% endblock %}
+{% block page_name %} 
+Wishlist
+{% endblock %}
+{% block content %} 
+	<!-- Wishlist -->
+
+	
+	
+		<div class="cart-wrap">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="main-heading mb-10">My wishlist</div>
+						<div class="table-wishlist">
+							<table cellpadding="0" cellspacing="0" border="0" width="100%">
+								<thead>
+									<tr>
+										<th width="45%">Product Name</th>
+										<th width="15%">Unit Price</th>
+										<th width="15%">Stock Status</th>
+										<th width="15%"></th>
+										<th width="10%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for wish in wishlist %}
+									<tr>
+										<td width="45%">
+											<div class="display-flex align-center">
+												<div class="img-product">
+													<a href="single_prodect{{wish.product_id.id}}"><img src="{{wish.product_id.prodect_image1.url}}" alt="" class="mCS_img_loaded"></a>
+												</div>
+												<div class="name-product">
+													{{wish.product_id.prodect_name}}
+												</div>
+											</div>
+										</td>
+										<td width="15%" class="price">₹{{wish.product_id.price}}</td>
+										{% if wish.product_id.quantity < 1 %} 
+										<td width="15%"><span class="out-stock-box">Out of Stock</span></td>
+										{% elif wish.product_id.quantity < 6 %}
+										<td width="15%"><span class="in-stock-box">{{wish.product_id.quantity}} Stock Left</span></td>
+										{% else %}
+										<td width="15%"><span class="in-stock-box">In Stock</span></td>
+										{% endif %}
+										
+										<td width="15%">
+											<button class="round-black-btn small-btn add-to-cart-btn" id="add" data-product-id="{{ wish.product_id.id }}">Add to Cart</button>
+										</td>
+										
+										<td width="10%" class="text-center"><a href="wishlist_new{{wish.product_id.id}}" class="trash-icon"><i class="far fa-trash-alt"></i></a></td>
+									</tr>
+									{% endfor %}
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	<!-- end cart -->
+	
+
+{% endblock %}
+{% block script %}
+$(document).ready(function(){
+    $('#add').click(function(e){
+        e.preventDefault();
+        var product_id = $(this).data('product-id');
+		console.log(product_id)
+        $.ajax({
+            url: 'wishlist_to_cart',
+            method: 'POST',
+            data: {
+                'product_id': product_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response){
+                alert(response.message);
+                // You can perform additional actions here if needed
+            },
+            error: function(xhr, errmsg, err){
+                console.log("hytukhelll");
+            }
+        });
+    });
+});
+
+
+{% endblock script %}

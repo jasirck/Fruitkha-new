@@ -37,22 +37,23 @@ $(document).ready(function () {
                     "image": "assets/img/favicon.png",
                     "order_id": response.temp,
                     "handler": function (responseb){
-                        console.log('2',response);
-                        alert(responseb.razorpay_payment_id);
+                        console.log('2',response.total_price);
+                        // alert(response.total_price);
                         console.log(options)
                         data = {
-                            "payment_id" : responseb.razorpay_payment_id,
+                            "payment_id" : response.razorpay_payment_id,
                             "order_id" : response.order_id,
                             "total" :response.total_price,
                             csrfmiddlewaretoken:csrfmiddlewaretoken
                         }
+                        console.log(data)
                         $.ajax({
                             type: "POST",
                             url: "/online_order/",
                             data: data,
                             success: function (responsec) {
                                 alert(responsec.status)
-                                window.location.href = "/succes";
+                                window.location.href = "succes";
                                 
                             }
                         });console.log(name,email,number);
@@ -80,3 +81,6 @@ $(document).ready(function () {
         
     });
 });
+
+
+

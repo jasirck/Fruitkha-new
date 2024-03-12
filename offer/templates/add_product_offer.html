@@ -1,0 +1,65 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %} 
+Add  Offer
+{% endblock %}
+{% block style %} 
+<link rel="stylesheet" href="{% static "assets/css/add.css" %}">
+<script src="{% static 'assets/js/coupon.js' %}"></script>
+{% endblock %}
+{% block page_name %} 
+Add  Offer
+{% endblock %}
+{% block content %} 
+<div class='row' >
+  <div class="col-md-5 grid-margin add-stretch-card">
+    {% if messages %}
+      <ul class="messages">
+        {% for messages in messages %}
+        <h3 style="color: red;margin-left: 50px;">{{messages}}</h3>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    <form action="add_product_offer" method="POST">
+      {% csrf_token %}
+       <div class="add_card" style='width:200px;'>
+        <div class="card-body">
+          <label for="id_category">Product</label>
+          <select class="inputbox" style='width:150px;' name="product" id="product" placeholder="Product">
+            {% for p in product %}
+              <option value="{{ p.id }}">{{ p.prodect_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="add_card" style='width:200px;'>
+        <div class="card-body">
+          <label for="id_quantity"></label>
+          <input class="inputbox" style='width:200px;' type="number" align="center" min="1" name="discount" id="discount" placeholder=" Discount  %">
+        </div>
+      </div>
+      <div class="add_card" style='width:200px;'>
+        <div class="card-body">
+            <label for="staring">Start Date</label>
+            <input class="inputbox" style="width:200px;" type="date" align="center" name="staring" id="staring" placeholder="Start Date" onchange="validateStartDate()">
+            <span id="dateError" style="color: red;"></span>
+        </div>
+    </div>
+    <div class="add_card" style='width:200px;'>
+        <div class="card-body">
+            <label for="ending">Ending Date</label>
+            <input class="inputbox" style="width:200px;" type="date" align="center" name="ending" id="ending" placeholder="Ending Date" onchange="validateEndDate()">
+            <span id="endDateError" style="color: red;"></span>
+        </div>
+    </div>
+     
+      <button class="submit" type="submit" align="center">Submit</button>
+    </form>
+    
+  </div>
+</div>
+
+{% endblock %}
+
+          
+          

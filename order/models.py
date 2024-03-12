@@ -2,6 +2,7 @@ from django.db import models
 from login.models import user_address,Customer
 from my_admin.models import myprodect
 from django.utils import timezone
+from coupon.models import Coupon
 # Create your models here.
 
 def default_expect_date():
@@ -11,15 +12,16 @@ class order(models.Model):
     id=models.BigAutoField(primary_key=True)
     user=models.ForeignKey(Customer, on_delete=models.CASCADE)
     address=models.TextField()
-    total_price=models.FloatField(null=False)
+    total_price=models.DecimalField(max_digits=10, decimal_places=2,null=False)
     payment_method=models.CharField(max_length=150,null=False)
     payment_id=models.CharField(max_length=250,null=True)
     status=models.CharField(max_length=150,null=False,default='Pending')
     msg=models.TextField(null=True)
     order_id=models.CharField(max_length=150,null=True)
-    created=models.DateField(auto_now_add=True)
+    created=models.DateTimeField( auto_now=True, auto_now_add=False)
     expect = models.DateField(default=default_expect_date)
     updated=models.DateField(auto_now=True)
+    coupon_id = models.ForeignKey(Coupon, on_delete=models.SET_NULL, null = True)
 
 
 
