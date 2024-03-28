@@ -126,10 +126,10 @@ def dashbord(request):
 
     # 3d chart
     online = order.objects.filter(
-        payment_method="COD", status__in=["Deliverd", "Return Requested"]
+        payment_method="Online", status__in=["Deliverd", "Return Requested"]
     ).count()
     offline = order.objects.filter(
-        payment_method="Online", status__in=["Deliverd", "Return Requested"]
+        payment_method="COD", status__in=["Deliverd", "Return Requested"]
     ).count()
     wallet = order.objects.filter(
         payment_method="Wallet", status__in=["Deliverd", "Return Requested"]
