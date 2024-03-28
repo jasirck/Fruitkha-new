@@ -353,7 +353,7 @@ def variant(request):
         variant_obj = myvariant(variant_name=name)
         variant_obj.save()
         messages.success(request, "variant aded")
-        return redirect("variant")
+        return redirect("edit_variant")
     return render(request, "variant.html", {"users": count})
 
 
