@@ -38,7 +38,7 @@ Order Deteils
         <td>Total</td>
         <td>{{order.total_price}}</td>
         <td></td>
-        {% if order.status == 'Pending' %}<td style="line-height: 20px;"><a href="orders_deliverd{{order.id}}"><button id="up">Deliverd</button></a> <a href="orders_cancel{{order.id}}" style="line-height: 20px;"><button id="del">Cancel</button></a></td>{% endif %}
+        {% if order.status == 'Ordered' or  order.status == 'Pending' %}<td style="line-height: 20px;"><a href="orders_deliverd{{order.id}}"><button id="up">Deliverd</button></a> <a href="orders_cancel{{order.id}}" style="line-height: 20px;"><button id="del">Cancel</button></a></td>{% endif %}
         {% if order.status == 'Return Requested' %} <td style="line-height: 20px;"><a href="return_accept{{order.id}}"><button id="up">Return Accept</button></a>  {% endif %}
         
       </tr>

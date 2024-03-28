@@ -6,41 +6,58 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('my_admin', '0002_alter_myprodect_date_added'),
-        ('offer', '0001_initial'),
+        ("my_admin", "0002_alter_myprodect_date_added"),
+        ("offer", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='category_offer',
-            name='category_id',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='my_admin.admincategory'),
+            model_name="category_offer",
+            name="category_id",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="my_admin.admincategory",
+            ),
         ),
         migrations.AddField(
-            model_name='product_offer',
-            name='produc_id',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='my_admin.myprodect'),
+            model_name="product_offer",
+            name="produc_id",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="my_admin.myprodect",
+            ),
         ),
         migrations.AlterField(
-            model_name='category_offer',
-            name='end_date',
-            field=models.DateField(blank=True, default=django.utils.timezone.now, null=True),
+            model_name="category_offer",
+            name="end_date",
+            field=models.DateField(
+                blank=True, default=django.utils.timezone.now, null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='category_offer',
-            name='start_date',
-            field=models.DateField(blank=True, default=django.utils.timezone.now, null=True),
+            model_name="category_offer",
+            name="start_date",
+            field=models.DateField(
+                blank=True, default=django.utils.timezone.now, null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='product_offer',
-            name='end_date',
-            field=models.DateField(blank=True, default=django.utils.timezone.now, null=True),
+            model_name="product_offer",
+            name="end_date",
+            field=models.DateField(
+                blank=True, default=django.utils.timezone.now, null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='product_offer',
-            name='start_date',
-            field=models.DateField(blank=True, default=django.utils.timezone.now, null=True),
+            model_name="product_offer",
+            name="start_date",
+            field=models.DateField(
+                blank=True, default=django.utils.timezone.now, null=True
+            ),
         ),
     ]

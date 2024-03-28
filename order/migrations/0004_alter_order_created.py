@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('order', '0003_alter_order_expect'),
+        ("order", "0003_alter_order_expect"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='order',
-            name='created',
+            model_name="order",
+            name="created",
             field=models.DateTimeField(auto_now=True),
         ),
     ]

@@ -6,39 +6,50 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('wallet', '0001_initial'),
+        ("wallet", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='wallet',
-            name='date',
+            model_name="wallet",
+            name="date",
         ),
         migrations.RemoveField(
-            model_name='wallet',
-            name='reason',
+            model_name="wallet",
+            name="reason",
         ),
         migrations.RemoveField(
-            model_name='wallet',
-            name='total_ammount',
+            model_name="wallet",
+            name="total_ammount",
         ),
         migrations.AddField(
-            model_name='wallet',
-            name='user_id',
-            field=models.ForeignKey(default=2, on_delete=django.db.models.deletion.CASCADE, related_name='Wallet_user', to='login.customer'),
+            model_name="wallet",
+            name="user_id",
+            field=models.ForeignKey(
+                default=2,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="Wallet_user",
+                to="login.customer",
+            ),
             preserve_default=False,
         ),
         migrations.CreateModel(
-            name='Wallet_list',
+            name="Wallet_list",
             fields=[
-                ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('date', models.DateTimeField(auto_now=True)),
-                ('is_credit', models.BooleanField()),
-                ('ammount', models.DecimalField(decimal_places=2, max_digits=5)),
-                ('wallet', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='Wallet', to='wallet.wallet')),
+                ("id", models.BigAutoField(primary_key=True, serialize=False)),
+                ("date", models.DateTimeField(auto_now=True)),
+                ("is_credit", models.BooleanField()),
+                ("ammount", models.DecimalField(decimal_places=2, max_digits=5)),
+                (
+                    "wallet",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="Wallet",
+                        to="wallet.wallet",
+                    ),
+                ),
             ],
         ),
     ]

@@ -117,7 +117,7 @@
           {% for c in coupon %}
           <tr>
             <td>
-              <span class="float-right font-weight-bold">{{c.msg}}</span>{{c.code}}
+              <span class="float-right font-weight-bold"><span style="font-weight: 400;">min:{{c.minimum_amount}}</span>&nbsp;<span  style="font-weight: 400;"> dis:{{c.discount}}%</span>&nbsp; {{c.msg}}</span>{{c.code}}
             </td>
           </tr>
           {% endfor %}
@@ -142,7 +142,7 @@
             <tr class="table-body-row a_order">
                 <td class="user_order name">{{i.order_id}}</td>
                 <td class="user_order">{{i.created}}</td>
-                <td class="user_order status" {% if i.status == 'Pending' %}  style="color: orangered;" {% elif i.status == 'Cancel' or i.status == 'Returned' %} style='color: red;' {% elif i.status == 'Deliverd' %} style='color: green;' {% endif %}>{{i.status}}</td>
+                <td class="user_order status" {% if i.status == 'Pending' %}  style="color: orangered;" {% elif i.status == 'Cancel' or i.status == 'Returned' %} style='color: red;' {% elif i.status == 'Deliverd' or i.status == 'Ordered' %} style='color: green;' {% endif %}>{{i.status}}</td>
                 <td class="user_order">{{i.total_price}}₹</td>
                 {% comment %} <td class="user_order-quantity">{{}}</td> {% endcomment %}
                 <td class="user_order">{{i.expect}}</td>

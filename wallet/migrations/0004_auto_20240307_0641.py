@@ -4,24 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('wallet', '0003_wallet_list_msg'),
+        ("wallet", "0003_wallet_list_msg"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='wallet_list',
-            old_name='ammount',
-            new_name='amount',
+            model_name="wallet_list",
+            old_name="ammount",
+            new_name="amount",
         ),
         migrations.RemoveField(
-            model_name='wallet',
-            name='ammount',
+            model_name="wallet",
+            name="ammount",
         ),
         migrations.AddField(
-            model_name='wallet',
-            name='amount',
+            model_name="wallet",
+            name="amount",
             field=models.DecimalField(decimal_places=2, default=0, max_digits=10),
         ),
     ]

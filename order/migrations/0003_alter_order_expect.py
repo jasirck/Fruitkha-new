@@ -5,15 +5,14 @@ import order.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('order', '0002_alter_order_expect'),
+        ("order", "0002_alter_order_expect"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='order',
-            name='expect',
+            model_name="order",
+            name="expect",
             field=models.DateField(default=order.models.default_expect_date),
         ),
     ]

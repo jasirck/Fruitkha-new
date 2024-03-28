@@ -4,24 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('coupon', '0001_initial'),
+        ("coupon", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='coupon',
-            name='user',
+            model_name="coupon",
+            name="user",
         ),
         migrations.AddField(
-            model_name='coupon',
-            name='msg',
+            model_name="coupon",
+            name="msg",
             field=models.TextField(null=True),
         ),
         migrations.AlterField(
-            model_name='coupon',
-            name='id',
+            model_name="coupon",
+            name="id",
             field=models.BigAutoField(primary_key=True, serialize=False),
         ),
     ]

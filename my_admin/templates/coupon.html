@@ -23,6 +23,7 @@ Coupon
         <th width='23%'>Expire Date</th>
         <th width='15%'>Status</th>
         <th width='20%'>Action</th>
+        <th width='10%'> Edit</th>
       </thead>
       {% for i in coupon %}
       <tr>
@@ -33,6 +34,7 @@ Coupon
         <td class="table expiration_time" > {{i.expiration_time}}</td>
         {% if i.is_expired %}<td class="table " ><button class="true"> Actived</button></td>{% else %}<td class="table " > <button class="false">Deactived</button></td>{% endif %}
         {% if i.active %}<td class="table" ><a href="coupon_action{{i.id}}"><button class=" false">  Deactive</button></a></td>{% else %}<td class="table " > <a href="coupon_action{{i.id}}"><button class="true"> Active</button></a></td>{% endif %}
+        <td class="table"><a  href="coupon_edit/{{i.id}}"><button class="true">EDit</button></a></td>
       </tr>
       {% endfor %}
     </table>

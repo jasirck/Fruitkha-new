@@ -1,0 +1,90 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{% block title %} 
+Add prodect
+{% endblock %}
+{% block style %} 
+<link rel="stylesheet" href="{% static "assets/css/add.css" %}">
+<script src="{% static 'assets/js/coupon.js' %}"></script>
+{% endblock %}
+{% block page_name %} 
+Add prodect
+{% endblock %}
+{% block content %} 
+<div class='row' >
+  <div class="col-md-5 grid-margin add-stretch-card">
+    {% if messages %}
+      <ul class="messages">
+        {% for messages in messages %}
+        <h3 style="color: red;margin-left: 50px;">{{messages}}</h3>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    <form action="/coupon_edit/{{coupon.id}}" method="POST">
+      {% csrf_token %}
+      <div class="add_card" style='width:500px;'>
+        <div class="card-body">
+          <label for="id_coupon_name"></label>
+          <input class="inputbox" style='width:500px;' type="text" align="center" name="coupon_name" value="{{coupon.coupon_name}}" id="coupon_name" placeholder="Coupon Name">
+        </div>
+      </div>
+      <div class="add_card" style='width:600px;'>
+        <div class="card-body">
+          <label for="id_description"></label>
+          <input class="inputbox" style='width:600px;' type="text" align="center" name="code" value="{{coupon.code}}" id="code" placeholder="Code">
+        </div>
+      </div>
+      
+      <div class="add_card" style='width:200px;'>
+        <div class="card-body">
+          <label for="id_quantity"></label>
+          <input class="inputbox" style='width:200px;' type="number" align="center" min="10" value="{{coupon.minimum_amount}}" name="minimum" id="minimum" placeholder=" Minimum Amount">
+        </div>
+      </div>
+      <div class="add_card" style='width:200px;'>
+        <div class="card-body">
+          <label for="id_quantity"></label>
+          <input class="inputbox" style='width:200px;' type="number" align="center" min="1" value="{{coupon.discount}}" name="discount" id="discount" placeholder=" Discount Amount">
+        </div>
+      </div>
+      <div class="add_card" style='width:200px;'>
+        <div class="card-body">
+            <label for="staring">Start Date</label>
+            <input class="inputbox" style="width:200px;" type="date" align="center" value="{{coupon.start_time}}" name="staring" id="staring" placeholder="Start Date" onchange="validateStartDate()">
+            <span id="dateError" style="color: red;"></span>
+        </div>
+    </div>
+    <div class="add_card" style='width:200px;'>
+        <div class="card-body">
+            <label for="ending">Ending Date</label>
+            <input class="inputbox" style="width:200px;" type="date" align="center" value="{{coupon.expiration_time}}" name="ending" id="ending" placeholder="Ending Date" onchange="validateEndDate()">
+            <span id="endDateError" style="color: red;"></span>
+        </div>
+    </div>
+    <div class="add_card" style='width:200px;'>
+      <div class="card-body">
+        <label for="id_quantity"></label>
+        <input class="inputbox" style='width:200px;' type="text" align="center"name="msg" value="{{coupon.msg}}" id="msg" placeholder=" Discription">
+      </div>
+    </div>
+      {% comment %} <div class="add_card" style='width:200px;'>
+        <div class="card-body">
+          <label for="id_variant"></label>
+          <select class="inputbox" style='width:150px;' name="ending " id="ending " placeholder="Ending Date">
+            {% for variant in variants %}
+              <option value="{{ variant.id }}">{{ variant.variant_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div> {% endcomment %}
+     
+      <button class="submit" type="submit" align="center">Submit</button>
+    </form>
+    
+  </div>
+</div>
+
+{% endblock %}
+
+          
+          

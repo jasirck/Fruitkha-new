@@ -6,23 +6,34 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('my_admin', '0001_initial'),
+        ("my_admin", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='cart',
+            name="cart",
             fields=[
-                ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('book_quantity', models.IntegerField(null=True)),
-                ('cart_total', models.IntegerField()),
-                ('product_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='my_admin.myprodect')),
-                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ("id", models.BigAutoField(primary_key=True, serialize=False)),
+                ("book_quantity", models.IntegerField(null=True)),
+                ("cart_total", models.IntegerField()),
+                (
+                    "product_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="my_admin.myprodect",
+                    ),
+                ),
+                (
+                    "user_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

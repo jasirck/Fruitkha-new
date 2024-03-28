@@ -6,19 +6,24 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('offer', '0005_auto_20240310_1439'),
+        ("offer", "0005_auto_20240310_1439"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Referral',
+            name="Referral",
             fields=[
-                ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('code', models.CharField(max_length=250, unique=True)),
-                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ("id", models.BigAutoField(primary_key=True, serialize=False)),
+                ("code", models.CharField(max_length=250, unique=True)),
+                (
+                    "user_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

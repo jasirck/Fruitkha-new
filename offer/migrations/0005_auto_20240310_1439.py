@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('offer', '0004_auto_20240310_1437'),
+        ("offer", "0004_auto_20240310_1437"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='category_offer',
-            name='end_date',
+            model_name="category_offer",
+            name="end_date",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='product_offer',
-            name='end_date',
+            model_name="product_offer",
+            name="end_date",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

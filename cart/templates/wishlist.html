@@ -59,8 +59,8 @@ Wishlist
 										<td width="15%">
 											<button class="round-black-btn small-btn add-to-cart-btn" id="add" data-product-id="{{ wish.product_id.id }}">Add to Cart</button>
 										</td>
-										
-										<td width="10%" class="text-center"><a href="wishlist_new{{wish.product_id.id}}" class="trash-icon"><i class="far fa-trash-alt"></i></a></td>
+										<td width="10%" class="text-center"><button class=" small-btn add-to-cart-btn" style="border-color: transparent; font-size: x-large;" id="remove" data-product-id="{{ wish.product_id.id }}"><i class="far fa-trash-alt"></i></button></td>
+										{% comment %} <td width="10%" class="text-center"><a href="wishlist_new{{wish.product_id.id}}" class="trash-icon"><i class="far fa-trash-alt"></i></a></td> {% endcomment %}
 									</tr>
 									{% endfor %}
 									
@@ -77,20 +77,30 @@ Wishlist
 
 {% endblock %}
 {% block script %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+
 $(document).ready(function(){
     $('#add').click(function(e){
         e.preventDefault();
         var product_id = $(this).data('product-id');
 		console.log(product_id)
         $.ajax({
-            url: 'wishlist_to_cart',
+            url: '/wishlist_to_cart',
             method: 'POST',
             data: {
                 'product_id': product_id,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(response){
-                alert(response.message);
+                Swal.fire({
+					title: "Success",
+					text: response.message,
+					icon: "success",
+					showCancelButton: false, // Optional: Show cancel button
+					confirmButtonText: "OK" // Optional: Customize confirm button text
+				});
                 // You can perform additional actions here if needed
             },
             error: function(xhr, errmsg, err){
@@ -100,5 +110,28 @@ $(document).ready(function(){
     });
 });
 
+$(document).ready(function(){
+    $('#remove').click(function(e){
+        e.preventDefault();
+        var product_id = $(this).data('product-id');
+		console.log(product_id)
+        $.ajax({
+            url: '/wishlist_remove',
+            method: 'POST',
+            data: {
+                'product_id': product_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response){
+				window.location.reload();
+                // You can perform additional actions here if needed
+            },
+            error: function(xhr, errmsg, err){
+                console.log("hytukhelll");
+            }
+        });
+    });
+});
+</script>
 
 {% endblock script %}

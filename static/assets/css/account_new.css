@@ -75,9 +75,9 @@ body {
     outline: none;
   }
   .a_logout{
-    border: 2px solid #0091a4;
+    border: 2px solid #b50808;
     border-radius: 80px;
-    color: rgb(0, 180, 196);
+    color: rgb(196, 20, 20);
     outline: none;
   }
   .a_logout:hover{
@@ -115,6 +115,21 @@ body {
   #deteil_page{
     display: none;
   }
+  .retry{
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border-color: #ff8000;
+    color: #ff8400;
+    border-radius: 30px;
+    font-weight: 600;
+    outline: none; 
+    transition: 700ms;
+  }
+  .retry:hover{
+    color: white;
+    background-color: #fd5e02
+    ;
+  }
   .order_cancel{
     margin-top: 30px;
     margin-bottom: 10px;
@@ -137,6 +152,8 @@ body {
     font-weight: 600;
     outline: none; 
     transition: 700ms;
+    border-color: #15ca20;
+    
     
   }
   .order_back:hover{

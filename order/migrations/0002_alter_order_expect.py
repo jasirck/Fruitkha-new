@@ -6,15 +6,16 @@ from django.utils.timezone import utc
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('order', '0001_initial'),
+        ("order", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='order',
-            name='expect',
-            field=models.DateField(default=datetime.datetime(2024, 3, 8, 13, 29, 48, 439957, tzinfo=utc)),
+            model_name="order",
+            name="expect",
+            field=models.DateField(
+                default=datetime.datetime(2024, 3, 8, 13, 29, 48, 439957, tzinfo=utc)
+            ),
         ),
     ]

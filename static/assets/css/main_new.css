@@ -52,7 +52,50 @@ a {
   -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
+/* daashboud */
 
+.card-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.form-container {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.form-container select,
+.form-container input[type="date"],
+.form-container button {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.form-container button {
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #45a049;
+}
+
+.text-muted {
+  color: #777;
+}
+
+.font-weight-light {
+  font-weight: lighter;
+}
+/* 
+
+/* end dash */
 a:hover {
   color: #F28123;
   text-decoration: none;

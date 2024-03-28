@@ -23,6 +23,7 @@ Edit Category
         </thead>
         {% for x in category %}
         <tr>
+            {% comment %} <h1>{{x.category_image}}</h1> {% endcomment %}
             <td > {% if x.category_image %} <img class="square-50" src=" {{x.category_image.url}}" alt="">{% endif %}</td> 
             <td>{{x.name}}</td>
             <td>{{x.offer}}</td>

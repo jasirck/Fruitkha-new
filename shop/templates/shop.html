@@ -17,12 +17,18 @@ SHOP
 			<div class="col-md-12">
 				<div class="product-filters">
 					<ul>
-						<a href="/shop" ><li  {% if  hover is None %}class='active'{% endif %} >All</li></a>
+						<a href="/shop/" ><li  {% if  hover is None %}class='active'{% endif %} >All</li></a>
 						{% for x in main_category %}
-						{% comment %} <li data-filter=".strawberry">{{x.name}}</li> {% endcomment %}
-						<a href="/shop_cat{{ x.id }}/"><li {% if x.id == hover %}class='active'{% endif %}>{{ x.name }}</li></a>
+                        <li  {% if x.id == hover %}class='active'{% endif %}>
+                            <form action="/shop/" method="POST">
+								{% csrf_token %}
+                               <input type="hidden" value="{{ x.id }}" name="category_id">
+                               <button  style="border: transparent; background-color: transparent; outline: none;" type="submit" >{{ x.name }}</button>
+                            </form>
+                        </li>
+						{% comment %} <a href="/shop_cat{{ x.id }}/"><li {% if x.id == hover %}class='active'{% endif %}>{{ x.name }}</li></a> {% endcomment %}
 						{% endfor %}
-						<form action="/shop_filter/" method='POST'>
+						<form action="/shop/" method='POST'>
 							{% csrf_token %}
 							<input type="hidden" name="category" value="{{hover}}">
 							<select name="filter" placeholder="Filter" class="product-filters" style="border-color: transparent;outline: none;" id="filter">
@@ -121,8 +127,8 @@ SHOP
 				<div class="pagination-wrap">
 					<ul>
 						<li><a href="#">Prev</a></li>
-						<li><a href="#">1</a></li>
-						<li><a class="active" href="#">2</a></li>
+						<li><a  class="active" href="#">1</a></li>
+						<li><a href="#">2</a></li>
 						<li><a href="#">3</a></li>
 						<li><a href="#">Next</a></li>
 					</ul>

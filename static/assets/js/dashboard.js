@@ -3,10 +3,10 @@
   $(function() {
     if ($("#order-chart").length) {
       var areaData = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug","Sep","Oct","Nov","Dic"],
         datasets: [
           {
-            data: [175, 200, 130, 210, 40, 60, 25],
+            data: [order_counts],
             backgroundColor: [
               'rgba(255, 193, 2, .8)'
             ],
@@ -15,10 +15,10 @@
             ],
             borderWidth:3,
             fill: 'origin',
-            label: "services"
+            label: "Delivered"
           },
           {
-            data: [175, 145, 190, 130, 240, 160, 200],
+            data: [175, 145, 190, 130, 240, 160, 200, 200, 130, 210, 40, 60, 125],
             backgroundColor: [
               'rgba(245, 166, 35, 1)'
             ],
@@ -27,7 +27,7 @@
             ],
             borderWidth:3,
             fill: 'origin',
-            label: "purchases"
+            label: "Returned"
           }
         ]
       };
@@ -95,7 +95,7 @@
       var SalesChart = new Chart(SalesChartCanvas, {
         type: 'bar',
         data: {
-          labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+          labels:["n", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug","Sep","Oct","Nov","Dic"],
           datasets: [{
               label: 'Offline Sales',
               data: [480, 230, 470, 210, 330],
@@ -160,9 +160,9 @@
 
     if ($("#north-america-chart").length) {
       var areaData = {
-        labels: ["Jan", "Feb", "Mar"],
+        labels: ["Online", "Offline", "Wallet"],
         datasets: [{
-            data: [100, 50, 50],
+            data: [onlineData, offlineData, walletData],
             backgroundColor: [
               "#71c016", "#8caaff", "#248afd",
             ],

@@ -29,7 +29,7 @@ Orders
         <td>{{x.order_id}}</td>  
         <td>{{x.user.username}}</td>
           <td>{{x.total_price}} ₹</td>
-          <td {% if x.status == 'Pending' %} style="color: orange;" {% elif x.status == 'Deliverd' %} style="color: green;" {% elif  x.status == 'Cancel' %} style="color: red;" {% else %} style="color :orangered" {% endif %}>{{x.status}}</td><!--x.status == 'Deliverd'-->
+          <td {% if x.status == 'Pending' %} style="color: orange;" {% elif x.status == 'Deliverd' %} style="color: green;" {% elif x.status == 'Ordered' %} style="color: yellow;" {% elif  x.status == 'Cancel' %} style="color: red;" {% else %} style="color :orangered" {% endif %}>{{x.status}}</td><!--x.status == 'Deliverd'-->
           <td>{{x.payment_method}}</td>
           <td>{{x.created}}</td>
           <td><a href="orders_deteils_admin{{x.id}}"><button id="up">Details</button></a> </td>

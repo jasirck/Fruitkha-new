@@ -6,19 +6,32 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('cart', '0001_initial'),
+        ("cart", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Wishlist',
+            name="Wishlist",
             fields=[
-                ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('product_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='wishlist_products', to=settings.AUTH_USER_MODEL)),
-                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='wishlist_users', to=settings.AUTH_USER_MODEL)),
+                ("id", models.BigAutoField(primary_key=True, serialize=False)),
+                (
+                    "product_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="wishlist_products",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "user_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="wishlist_users",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

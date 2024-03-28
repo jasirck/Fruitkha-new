@@ -5,26 +5,35 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Coupon',
+            name="Coupon",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user', models.IntegerField()),
-                ('offer_name', models.CharField(blank=True, max_length=100, null=True)),
-                ('code', models.CharField(max_length=50, unique=True)),
-                ('is_expired', models.BooleanField(default=True)),
-                ('discount_price', models.IntegerField(default=100)),
-                ('minimum_amount', models.IntegerField(default=500)),
-                ('start_time', models.DateTimeField(default=django.utils.timezone.now)),
-                ('expiration_time', models.DateTimeField(default=django.utils.timezone.now)),
-                ('active', models.BooleanField(default=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("user", models.IntegerField()),
+                ("offer_name", models.CharField(blank=True, max_length=100, null=True)),
+                ("code", models.CharField(max_length=50, unique=True)),
+                ("is_expired", models.BooleanField(default=True)),
+                ("discount_price", models.IntegerField(default=100)),
+                ("minimum_amount", models.IntegerField(default=500)),
+                ("start_time", models.DateTimeField(default=django.utils.timezone.now)),
+                (
+                    "expiration_time",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                ("active", models.BooleanField(default=True)),
             ],
         ),
     ]

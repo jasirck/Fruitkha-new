@@ -32,14 +32,18 @@
       </tr>
     </tbody>
   </table>
+  <div class="detail_add"><small >Order Id :</small>
+    <span >{{ord.order_id}}</span></div>
+    <input value="{{ord.order_id}}" id="order_id" type="hidden">
+    {% comment %} <input value="jasir" id="id" type="hidden"> {% endcomment %}
     <div class="detail_add"><small >Payment :</small>
-      <span >{{ord.payment_method}}</span></div>
+      <span {% if ord.payment_method == 'Failed' %} style="color: red;" {% endif %} style="font-weight: 600;" >{{ord.payment_method}}</span></div>
     <div class="detail_add"><small>Order Date :</small>
       <span>{{ord.created}}</span></div>
     <div class="detail_add"><small>Expecting :</small>
       <span>{{ord.expect}}</span></div>
     <div class="detail_add"><small>Status :</small>
-      <span {% if ord.status == 'Deliverd' %}style = 'color:green;font-weight: 700;' {% elif  ord.status == 'Pending' or ord.status == 'Return Requested' %}style = 'color:orangered;font-weight: 700;' {% else %}style = 'color:red;font-weight: 700;' {% endif %}>{{ord.status}}</span></div>
+      <span {% if ord.status == 'Deliverd' or ord.status == 'Ordered' %}style = 'color:green;font-weight: 700;' {% elif  ord.status == 'Pending' or ord.status == 'Return Requested' %}style = 'color:orangered;font-weight: 700;' {% else %}style = 'color:red;font-weight: 700;' {% endif %}>{{ord.status}}</span></div>
     <div class="detail_add"><small></small>
       <span>delivary  Address:</span></div>
       {% for i in address %}
@@ -48,8 +52,8 @@
     </div>
     {% comment %} <span>{{ord.address}}</span></div> {% endcomment %}
       
-
-    {% if ord.status == 'Pending'  %}<button class="order_cancel" id="order_can">Order Cancel</button>{% endif %}
+    {% if ord.status == 'Pending'  %}<button class="retry"  id="retry_pay">Retry</button>{% endif %}
+    {% if ord.status == 'Ordered'  %}<button class="order_cancel" id="order_can">Order Cancel</button>{% endif %}
     {% if ord.status == 'Deliverd'  %}<button class="order_cancel" id="order_return">Return</button>{% endif %}
 </div>
 <div id="cancel" style="display: none;margin-left: 3%; margin-bottom: 3%;">
@@ -74,11 +78,15 @@
     <button type="submit" class="order_cancel" style="margin-top: 0px; ">Return Conform</button>
     
   </form><button class="order_back" id="order_back" style="margin-top: 0px; ">Cancel</button>
+  
 
 </div>
+<a href="invoice{{ord.id}}"><button class="order_back" style="margin-left: 10px ; width: 15%; margin-bottom: 30px;">Invoice</button></a>
 
 {% endblock %}
 {% block script %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   $(document).ready(function() {
     $("#order_can").click(function(id) {
@@ -101,5 +109,119 @@
       $("#return").hide();
   });
 });
+
+{% comment %} razo payment {% endcomment %}
+
+
+$(document).ready(function () {
+  $('#retry_pay').click(function (e) { 
+      e.preventDefault();
+
+      // Updating the HTML content to input fields
+     var order_id =document.getElementById('order_id')
+      var csrfmiddlewaretoken = '{{ csrf_token }}'
+      // Retrieving the updated values
+      // console.log(name,number,email)
+
+
+var data = {
+
+  "order_id": order_id.value,
+  "csrfmiddlewaretoken": csrfmiddlewaretoken,
+};
+{% comment %} console.log(data); {% endcomment %}
+$.ajax({
+method: "POST",
+url: "/retry_razo",
+data: data,
+success: function(response) {
+  console.log(response);
+  const orderId = response.order_id
+  const totalAmount = response.total_price
+  const csrf_token = csrfmiddlewaretoken
+  console.log('1', response);
+  var options = {
+      "key": "rzp_test_PCJ9PYp4rFSfTh",
+      "amount": response.total_price * 100,
+      "currency": "INR",
+      "name": "Fruitkha",
+      "description": "Thank You For Buying From Us",
+      "image": "assets/img/favicon.png",
+      "order_id": response.temp,
+      "handler": function(responseb) {
+          console.log('2', responseb.total_price);
+          // alert(response.total_price);
+          console.log('5',options);
+           data = {
+              "payment_id": responseb.razorpay_payment_id,
+              "order_id": response.order_id,
+              "total": response.total_price,
+              "csrfmiddlewaretoken": '{{ csrf_token }}'
+          };
+          console.log(data, 'here that change');
+          $.ajax({
+              type: "POST",
+              url: "/retry_succes",
+              data: data,
+              success: function(responsec) {
+                swal(responsec.status);
+                  window.location.href = "/succes";
+              }
+          });
+      },
+
+      "prefill": {
+          "name": 'Jasir', // assuming name, email, and number are correctly populated
+          "email": 'jasir@gmail.com',
+          "contact": '9898989898' // assuming number is correctly populated
+      },
+      "theme": {
+          "color": "#3399cc"
+      }
+
+  };
+  var rzp1 = new Razorpay(options);
+  rzp1.open();
+
+  rzp1.on('payment.failed', function(response) {
+      alert("Payment Failed. Please try again.");
+      data={
+          "order_id":orderId,
+          "total":totalAmount,
+          "csrfmiddlewaretoken":csrf_token
+      }
+      console.log("data:", data);
+      fetch("/failed_order", {
+          method: "POST",
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': csrf_token 
+          },
+          
+          body: JSON.stringify(data)
+      })
+      .then(response=>response.json)
+      .then(data=>{
+          // Swal.fire({
+          //     icon: 'error',
+          //     title: 'Payment Failed',
+          //     text: 'Oops! Something went wrong with your payment. Please try again.',
+          //     confirmButtonText: 'OK',
+          // })
+          alert("Payment Failed")
+          window.location.reload()
+          
+      })
+  });
+}
+});
+
+      
+  });
+});
+
+
+
+
 </script>
 {% endblock script %}

@@ -4,24 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('coupon', '0002_auto_20240307_1451'),
+        ("coupon", "0002_auto_20240307_1451"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='coupon',
-            old_name='offer_name',
-            new_name='coupon_name',
+            model_name="coupon",
+            old_name="offer_name",
+            new_name="coupon_name",
         ),
         migrations.RemoveField(
-            model_name='coupon',
-            name='discount_price',
+            model_name="coupon",
+            name="discount_price",
         ),
         migrations.AddField(
-            model_name='coupon',
-            name='discount',
+            model_name="coupon",
+            name="discount",
             field=models.IntegerField(default=10),
         ),
     ]
