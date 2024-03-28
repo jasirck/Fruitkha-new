@@ -33,7 +33,6 @@ body {
   }
   .detail:hover{
     border-bottom: 2px solid #cdcdcd;
-    background-color: rgb(100, 199, 238);
     border-radius: 20px;
   }
   .detail_add{
