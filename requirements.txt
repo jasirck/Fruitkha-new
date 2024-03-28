@@ -70,7 +70,7 @@ pypdf==4.1.0
 pypng==0.20220715.0
 PyQRCode==1.2.1
 pyRFC3339==1.1
-python-apt==2.4.0+ubuntu2
+# python-apt==2.4.0+ubuntu2
 python-bidi==0.4.2
 python-dateutil==2.9.0.post0
 python-debian==0.1.43+ubuntu1.1
