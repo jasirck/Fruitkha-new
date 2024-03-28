@@ -7,7 +7,6 @@ class AdminCategory(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=255)
     category_description = models.TextField()
-    offer = models.IntegerField()
     category_image = models.ImageField(
         upload_to="category_image/",
     )

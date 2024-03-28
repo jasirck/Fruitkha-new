@@ -267,12 +267,10 @@ def category(request):
     order_count = order.objects.count()
     if request.method == "POST":
         category_name = request.POST.get("category_name")
-        offer = request.POST.get("offer")
         category_description = request.POST.get("category_description")
         category_image = request.FILES.get("category_image", None)
         category_obj = AdminCategory(
             name=category_name,
-            offer=offer,
             category_description=category_description,
             category_image=category_image,
         )
