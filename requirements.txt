@@ -93,7 +93,7 @@ typing_extensions==4.10.0
 tzdata==2024.1
 tzlocal==5.2
 # ubuntu-advantage-tools==8001
-ubuntu-drivers-common==0.0.0
+# ubuntu-drivers-common==0.0.0
 ufw==0.36.1
 unattended-upgrades==0.1
 uritools==4.0.2
