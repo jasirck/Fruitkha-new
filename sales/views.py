@@ -10,45 +10,17 @@ from django.db.models import Sum
 from django.http import JsonResponse
 
 
-# Create your views here.
-
-# @admin_required
-# def sales_report(request):
-# sales = order_items.objects.filter(
-#     order_item__status__in=['Deliverd', 'Return Requested']
-# )
-# if request.method == 'get':
-#     filter = request.POST.get('filter')
-#     if filter = "fixed":
-#          interval = request.POST.get('interval')
-
-# template_path = 'report.html'
-# for sale in sales:
-#     print(sale.product)
-#     dis = sale.product.price - sale.price_now
-#     setattr(sale, 'dis', dis)
-# print(sales)
-# context = {'sales': sales}
-# html_content = render(request, template_path, context).content.decode('utf-8')
-# return render(request, 'report.html', {'html_content': html_content,'sales':sales,"pdf":True})
-
 
 @admin_required
 def sales_report(request):
-    print("hello sales report")
     if request.method == "POST":
-        print("hello sales report inside")
-        # Get the selected time interval from the request
         filter = request.POST.get("filter")
         if filter == "fixed":
             interval = request.POST.get("interval")
-            print(interval, filter)
 
-            # Define the date range based on the selected interval
             if interval == "day":
                 start_date = datetime.now().date() - timedelta(days=1)
                 end_date = datetime.now().date()
-                print(start_date, end_date)
             elif interval == "week":
                 start_date = datetime.now().date() - timedelta(weeks=1)
                 end_date = datetime.now().date()
@@ -138,28 +110,3 @@ def generate_excel(request):
 
     return response
 
-
-# def sales_chart_data(request, timeframe):
-#     today = datetime.now()
-#     if timeframe == 'yearly':
-#         sales_data = order.objects.filter(created__year=today.year).values('created__month').annotate(total_sales=Sum('total_price'))
-#         labels = [datetime(2000, i, 1).strftime('%b') for i in range(1, 13)]  # Month abbreviations
-#         title = f"Yearly Sales Data for {today.year}"
-#     elif timeframe == 'monthly':
-#         sales_data = order.objects.filter(created__year=today.year, created__month=today.month).values('created__day').annotate(total_sales=Sum('total_price'))
-#         labels = [str(i) for i in range(1, 32)]  # Days of the month
-#         title = f"Monthly Sales Data for {today.strftime('%B %Y')}"
-#     elif timeframe == 'daily':
-#         last_month = today - timedelta(days=30)
-#         sales_data = order.objects.filter(created__gte=last_month).values('created__day').annotate(total_sales=Sum('total_price'))
-#         labels = [str(i) for i in range(1, 31)]  # Last 30 days
-#         title = "Daily Sales Data for Last Month"
-#     else:
-#         return JsonResponse({'error': 'Invalid timeframe'}, status=400)
-
-#     chart_data = {
-#         'title': title,
-#         'labels': labels,
-#         'data': [item['total_sales'] if 'total_sales' in item else 0 for item in sales_data]
-#     }
-#     return JsonResponse(chart_data)

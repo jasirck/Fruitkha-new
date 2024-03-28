@@ -18,10 +18,8 @@ def add_product_offer(request):
     count_pro = myprodect.objects.count()
     order_count = order.objects.count()
     product_all = myprodect.objects.all()
-    print("Offer outside")
     try:
         if request.method == "POST":
-            print("product offer inside")
             product = request.POST.get("product")
             discount = request.POST.get("discount")
             start_time = request.POST.get("staring")
@@ -58,7 +56,6 @@ def add_product_offer(request):
             )  #
     except Exception as e:
         messages.info(request, "somthig error!")
-        print(e)
         return render(
             request,
             "add_product_offer.html",
@@ -81,7 +78,6 @@ def product_offer(request):
     count = Customer.objects.count()
     count_pro = myprodect.objects.count()
     order_count = order.objects.count()
-    # product_all = myprodect.objects.all()
     offer = Product_Offer.objects.all().order_by("id")
 
     return render(
@@ -103,7 +99,6 @@ def product_offer_action(request, id):
         return redirect("product_offer")
     except Exception as e:
         messages.info(request, "somthing Error")
-        print(e)
         return redirect("product_offer")
 
 
@@ -112,7 +107,6 @@ def edit_product_offer(request, id):
     all = Product_Offer.objects.get(id=id)
     try:
         if request.method == "POST":
-            print("product offer inside")
             discount = request.POST.get("discount")
             start_time = request.POST.get("staring")
             expiration_time = request.POST.get("ending")
@@ -128,21 +122,18 @@ def edit_product_offer(request, id):
             return redirect("product_offer")  #
     except Exception as e:
         messages.info(request, "somthig error!")
-        print(e)
         return render(request, "edit_product_offer.html", {"all": all})
     return render(request, "edit_product_offer.html", {"all": all})
 
 
-# @admin_required
+@admin_required
 def add_category_offer(request):
     count = Customer.objects.count()
     count_pro = myprodect.objects.count()
     order_count = order.objects.count()
     category_all = AdminCategory.objects.all()
-    print("Offer outside")
     try:
         if request.method == "POST":
-            print("Category offer inside")
             category = request.POST.get("category")
             discount = request.POST.get("discount")
             start_time = request.POST.get("staring")
@@ -170,7 +161,6 @@ def add_category_offer(request):
             return redirect("category_offer")  #
     except Exception as e:
         messages.info(request, "somthig error!")
-        print(e)
         return render(
             request,
             "add_category_offer.html",
@@ -198,7 +188,6 @@ def category_offer(request):
     count = Customer.objects.count()
     count_pro = myprodect.objects.count()
     order_count = order.objects.count()
-    # product_all = myprodect.objects.all()
     offer = Category_Offer.objects.all().order_by("id")
 
     return render(
@@ -220,15 +209,13 @@ def category_offer_action(request, id):
         return redirect("category_offer")
     except Exception as e:
         messages.info(request, "somthing Error")
-        print(e)
         return redirect("category_offer")
 
-
+@admin_required
 def edit_category_offer(request, id):
     all = Category_Offer.objects.get(id=id)
     try:
         if request.method == "POST":
-            print("product offer inside")
             discount = request.POST.get("discount")
             start_time = request.POST.get("staring")
             expiration_time = request.POST.get("ending")
@@ -244,7 +231,6 @@ def edit_category_offer(request, id):
             return redirect("category_offer")  #
     except Exception as e:
         messages.info(request, "somthig error!")
-        print(e)
         return render(request, "edit_category_offer.html", {"all": all})
     return render(request, "edit_category_offer.html", {"all": all})
 

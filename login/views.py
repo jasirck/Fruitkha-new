@@ -17,9 +17,7 @@ def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
-        print(f"user:{username}, pass:{password}")
         user = authenticate(request, username=username, password=password)
-        print(user)
         if user is not None:
             login(request, user)
             if user.is_active:
@@ -45,7 +43,6 @@ def otp(request):
             return redirect("otp")
         else:
             user_email = email
-            print(email)
             otp = random.randrange(100000, 999999)
             time = str(timezone.now())
             email_from = "muhammedjck1@gmail.com"
@@ -60,7 +57,6 @@ def otp(request):
             request.session["otp"] = otp
             request.session["time"] = time
             request.session["user_email"] = user_email
-            print(otp)
             send_mail(subject, message, email_from, [email], fail_silently=False)
             return redirect("validation")
     return render(request, "otp.html")
@@ -78,7 +74,6 @@ def forgot_otp(request):
                 email_from = "muhammedjck1@gmail.com"
                 subject = "OTP for Login Verification"
                 message = "Your One Time Password: " + str(fotp)
-                print(fotp)
                 if "fotp" in request.session:
                     del request.session["fotp"]
                 if "ftime" in request.session:
@@ -107,9 +102,7 @@ def forgot_validation(request):
 
         time_difference = timezone.now() - ftime
         user_otp = request.POST.get("otp")
-        print(fotp, "utfydydrykdytdktyd", int(user_otp))
         if fotp == int(user_otp) and time_difference.total_seconds() <= 60:
-            print("success")
             del request.session["fotp"]
             del request.session["ftime"]
             return redirect("new_password")
@@ -127,22 +120,18 @@ def register(request):
         number = request.POST.get("number")
         check_num = number
         number = int(number)
-        print(check_num)
         password1 = request.POST.get("password1")
         password2 = request.POST.get("password2")
         referral = request.POST.get("referral")
         #  global user_email
         user_email = request.session.get("user_email")
-        print(user_email)
         wal = False
         if password1 == password2 and len(check_num) == 10 and check_num[0] != "0":
             if Customer.objects.filter(username=username).exists():
                 messages.info(request, "Username is already taken!")
-                print("username take!!!!")
                 return redirect("register")
             if username.strip() == "":
                 messages.info(request, "Username is emty!")
-                print("username emty!!!!")
                 return redirect("register")
             else:
                 try:
@@ -162,7 +151,6 @@ def register(request):
                         else:
                             messages.info(request, "Refferal is Not Valid !")
                             return redirect("register")
-                    print(username, "eleseEeEeEeee")
                     user_obj = Customer(
                         first_name=first_name,
                         email=user_email,
@@ -170,7 +158,6 @@ def register(request):
                         username=username,
                         customer_number=number,
                     )
-                    print(type(number))
                     user_obj.set_password(password1)
                     user_obj.save()
                     if wal:
@@ -187,7 +174,6 @@ def register(request):
                     return redirect("login_view")  # Redirect to a success page\
                 except Exception as e:
                     messages.info(request, "somthig error!")
-                    print(e)
                     return redirect("register")
         else:
             messages.info(request, "Passwords do not match or number not exixt")
@@ -203,11 +189,8 @@ def validation(request):
         # global time
         time_difference = timezone.now() - time
         user_otp = request.POST.get("otp")
-        print(otp, "||", user_otp)
         try:
             if otp == int(user_otp) and time_difference.total_seconds() <= 60:
-                print("success")
-                # user_obj.save()
                 del request.session["otp"]
                 return redirect("register")
             else:
@@ -227,15 +210,10 @@ def new_password(request):
         for_email = request.session.get("for_email")
         password1 = request.POST.get("password1")
         password2 = request.POST.get("password2")
-        print(otp, "utfydydrykdytdktyd", for_email)
         if password1 == password2:
-            print("success")
             chenge = Customer.objects.get(email=for_email)
-            print(chenge.password)
             chenge.set_password(password1)
             chenge.save()
-            print(password1)
-            print(chenge.password)
             del request.session["for_email"]
             messages.info(request, "Password change succesfully")
             return redirect("login_view")
@@ -247,7 +225,6 @@ def new_password(request):
 
 def logout_user(request):
     username = request.user
-    print(username)
     user = Customer.objects.get(username=username)
     user.action = "Logout"
     user.save()

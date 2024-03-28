@@ -17,10 +17,8 @@ def add_coupon(request):
     count = Customer.objects.count()
     count_pro = myprodect.objects.count()
     order_count = order.objects.count()
-    print("coupon outside")
     try:
         if request.method == "POST":
-            print("coupon inside")
             Coupon_name = request.POST.get("coupon_name")
             code = request.POST.get("code")
             discount = request.POST.get("discount")
@@ -49,7 +47,6 @@ def add_coupon(request):
             return redirect("coupon")
     except Exception as e:
         messages.info(request, "somthig error!")
-        print(e)
         return render(
             request,
             "add_coupon.html",
@@ -74,7 +71,6 @@ def coupon_action(request, id):
         return redirect("coupon")
     except Exception as e:
         messages.info(request, "somthing Error")
-        print(e)
         return redirect("coupon")
 
 
@@ -129,11 +125,8 @@ def coupon_cancel(request):
 
 def coupon_edit(request, id):
     coupon = Coupon.objects.get(id=id)
-    print("coupon edit")
     try:
-        print("coupon edit")
         if request.method == "POST":
-            print("coupon edit")
             Coupon_name = request.POST.get("coupon_name")
             code = request.POST.get("code")
             discount = request.POST.get("discount")
@@ -141,9 +134,7 @@ def coupon_edit(request, id):
             start_time = request.POST.get("staring")
             expiration_time = request.POST.get("ending")
             msg = request.POST.get("msg")
-            print(
-                Coupon_name, code, discount, minimum_amount, start_time, expiration_time
-            )
+
             if Coupon_name:
                 coupon.coupon_name = Coupon_name
             if code:
@@ -163,5 +154,4 @@ def coupon_edit(request, id):
             return redirect("coupon")
 
     except Exception as e:
-        print(e)
-    return render(request, "coupon_edit.html", {"coupon": coupon})
+      return render(request, "coupon_edit.html", {"coupon": coupon})

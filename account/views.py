@@ -39,7 +39,6 @@ def Account(request):
     if Referral.objects.filter(user_id=user_obj.id).exists():
         temp = Referral.objects.get(user_id=user_obj.id)
         refer = temp.code
-        print(refer)
     return render(
         request,
         "account.html",
@@ -69,7 +68,6 @@ def add_address(request):
         city = request.POST.get("city")
         state = request.POST.get("state")
         pincode = request.POST.get("pincode")
-        print("before")
         if (
             "" != name.strip()
             and "" != call_number.strip()
@@ -91,19 +89,7 @@ def add_address(request):
                 state=state,
                 pincode=pincode,
             )
-            print("after")
-            print(
-                address.user_id,
-                address.name,
-                address.call_number,
-                type(address.call_number),
-                address.house_name,
-                address.lanmark,
-                address.post,
-                address.city,
-                address.pincode,
-                address.state,
-            )
+            
             address.save()
             return redirect("account")
 
@@ -134,21 +120,7 @@ def edit_address(request, id, a_id):
         address.state = request.POST.get("state")
         address.pincode = request.POST.get("pincode")
         address.user_id = Customer.objects.get(id=id)
-        print("before")
-        # address=user_address(user_id=user_id,name=name,call_number=call_number,house_name=house_name,lanmark=lanmark,post=post,city=city,state=state,pincode=pincode)
-        print("after")
-        print(
-            address.user_id,
-            address.name,
-            address.call_number,
-            type(address.call_number),
-            address.house_name,
-            address.lanmark,
-            address.post,
-            address.city,
-            address.pincode,
-            address.state,
-        )
+        
         address.save()
         return redirect("account")
     return render(
@@ -189,7 +161,6 @@ def edit_user(request, id):
     user_obj = Customer.objects.get(id=id)
     count = order.objects.filter(user=user_obj.id).count()
     if request.method == "POST":
-        print("inside")
         username = request.POST.get("username")
         first_name = request.POST.get("first_name")
         last_name = request.POST.get("last_name")
@@ -206,7 +177,6 @@ def edit_user(request, id):
         user_obj.customer_number
         user_obj.save()
         return redirect("account")
-    print("outside")
     return redirect("account")
 
 
@@ -251,14 +221,11 @@ def chenge_email(request):
             messages.info(request, "Email is taken!")
             return redirect("chenge_email")
         else:
-            print(email)
             otp = random.randrange(100000, 999999)
             time = timezone.now().isoformat()  # Convert to string representation
-            print(time)
             email_from = "muhammedjck1@gmail.com"
             subject = "OTP for Login Verification"
             message = "Your One Time Password: " + str(otp)
-            print(otp)
             if "otp" in request.session:
                 del request.session["otp"]
             if "time" in request.session:
@@ -284,14 +251,10 @@ def chenge_email_validation(request):
         time = datetime.fromisoformat(time)
         email = request.session.get("email")
         now = timezone.now()
-        print(timezone.now(), time, "|||", type(timezone.now()), type(time), type(now))
         time_difference = timezone.now() - time
         user_otp = request.POST.get("OTP")
-        print(otp, type(otp), "||", user_otp, type(user_otp))
         if int(time_difference.total_seconds()) <= 60:
             if otp == int(user_otp):
-                print("success")
-                print(email)
                 user_obj.email = email
                 user_obj.save()
                 messages.info(request, "Email chenged")
@@ -336,7 +299,6 @@ def detail_page(request, id):
             print("inside the wallet if")
             if Wallet.objects.filter(user_id=user_obj.id).exists():
                 wallet_instance = Wallet.objects.get(user_id=user_obj.id)
-                print(type(ord.total_price))
                 wallet_instance.amount += ord.total_price
                 wallet_instance.save()
                 Wallet_list.objects.create(
@@ -400,8 +362,7 @@ def invoice(request, id):
         "count": count,
     }
     html_content = render(request, "invoice.html", context).content.decode("utf-8")
-    # html_content = render_to_string("invoice.html", context)  # Render the HTML content
-    # return HttpResponse(html_content)
+    
     return render(
         request,
         "invoice.html",
@@ -434,7 +395,6 @@ def retry_razo(request):
     if request.user.is_authenticated:
         order_id = request.POST.get("order_id")
         ord = order.objects.get(order_id=order_id)
-        print("order fail deteil", order_id)
         return JsonResponse({"order_id": order_id, "total_price": ord.total_price})
     return render("login")
 
@@ -444,7 +404,6 @@ def retry_succes(request):
     if request.user.is_authenticated:
         payment_id = request.POST.get("payment_id")
         order_id = request.POST.get("order_id")
-        total = request.POST.get("total")
         ord = order.objects.get(order_id=order_id)
         ord.payment_id = payment_id
         ord.payment_method = "Online"

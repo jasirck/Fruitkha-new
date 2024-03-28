@@ -16,10 +16,4 @@ class Coupon(models.Model):
     expiration_time = models.DateTimeField(default=timezone.now)
     active = models.BooleanField(default=True)
     msg = models.TextField(null=True)
-    # is_one_time_use = models.BooleanField(default=False)
-
-    # def save(self, *args, **kwargs):
-    #     # Check if expiration time has passed
-    #     if self.expiration_time < timezone.now():
-    #         self.is_expired = False
-    #     super().save(*args, **kwargs)
+   

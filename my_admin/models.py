@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 
 
-# from image_cropping import ImageRatioField
 # Create your models here.
 class AdminCategory(models.Model):
     id = models.BigAutoField(primary_key=True)

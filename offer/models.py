@@ -20,12 +20,6 @@ class Product_Offer(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateField(auto_now_add=True)
 
-    # def save(self, *args, **kwargs):
-    #     # Check if expiration time has passed
-    #     if self.end_date < timezone.now():
-    #         self.is_active = False
-    #     super().save(*args, **kwargs)
-
 
 class Category_Offer(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -41,12 +35,6 @@ class Category_Offer(models.Model):
     )
     is_active = models.BooleanField(default=True)
     created_at = models.DateField(auto_now_add=True)
-
-    # def save(self, *args, **kwargs):
-    #     # Check if expiration time has passed
-    #     if self.end_date < timezone.now():
-    #         self.is_active = False
-    #     super().save(*args, **kwargs)
 
 
 class Referral(models.Model):

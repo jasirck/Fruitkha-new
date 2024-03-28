@@ -58,7 +58,6 @@ def shop(request):
                 or filter == "rating"
                 or filter == "date_added"
             ):
-                print("inside filter", filter)
                 main_prodect = myprodect.objects.filter(
                     category=category,
                     category__status="list",
@@ -85,7 +84,6 @@ def shop(request):
                 or filter == "date_added_decs"
             ):
                 filter = filter[:-5]
-                print("inside filter", filter)
                 main_prodect = myprodect.objects.filter(
                     category=category,
                     category__status="list",
@@ -111,7 +109,6 @@ def shop(request):
             or filter == "rating"
             or filter == "date_added"
         ):
-            print("inside filter", filter)
             main_prodect = myprodect.objects.filter(
                 category__status="list", status="list", quantity__gt=0
             ).order_by(filter)
@@ -132,7 +129,6 @@ def shop(request):
             or filter == "date_added_decs"
         ):
             filter = filter[:-5]
-            print("inside filter", filter)
             main_prodect = myprodect.objects.filter(
                 category__status="list", status="list", quantity__gt=0
             ).order_by("-" + filter)
@@ -148,8 +144,6 @@ def shop(request):
                 },
             )
 
-    # filter
-
     return render(
         request,
         "shop.html",
@@ -161,26 +155,6 @@ def shop(request):
         },
     )
 
-    # def shop_cat(request, id):
-    if request.user.is_authenticated:
-        log = True
-    else:
-        log = False
-    prodects = myprodect.objects.filter(
-        category=id, quantity__gt=0, status="list", category__status="list"
-    )
-    main_category = AdminCategory.objects.filter(status="list").order_by("name")
-    hover = id
-    return render(
-        request,
-        "shop.html",
-        {
-            "main_prodect": prodects,
-            "main_category": main_category,
-            "hover": hover,
-            "log": log,
-        },
-    )
 
 
 def shop_search(request):
@@ -191,7 +165,6 @@ def shop_search(request):
         log = False
     if request.method == "POST":
         category = request.POST.get("category")
-        print(category)
         search = request.POST.get("search")
         main_prodect = myprodect.objects.filter(
             category__status="list",
@@ -215,124 +188,6 @@ def shop_search(request):
         {"main_prodect": main_prodect, "main_category": main_category, "log": log},
     )
 
-    # def shop_filter(request):
-    # if 'username'in request.session:
-    if request.user.is_authenticated:
-        log = True
-    else:
-        log = False
-    if request.method == "POST":
-        filter = request.POST.get("filter")  # filter(Q(name__icontains='John')
-        category = request.POST.get("category")
-        print(category)
-        if category:
-            if (
-                filter == "prodect_name"
-                or filter == "price"
-                or filter == "rating"
-                or filter == "date_added"
-            ):
-                print("inside filter", filter)
-                main_prodect = myprodect.objects.filter(
-                    category=category,
-                    category__status="list",
-                    status="list",
-                    quantity__gt=0,
-                ).order_by(filter)
-                main_category = AdminCategory.objects.filter(status="list").order_by(
-                    "name"
-                )
-                return render(
-                    request,
-                    "shop.html",
-                    {
-                        "hover": category,
-                        "main_prodect": main_prodect,
-                        "main_category": main_category,
-                        "log": log,
-                    },
-                )
-            if (
-                filter == "prodect_name_decs"
-                or filter == "price_decs"
-                or filter == "rating_decs"
-                or filter == "date_added_decs"
-            ):
-                filter = filter[:-5]
-                print("inside filter", filter)
-                main_prodect = myprodect.objects.filter(
-                    category=category,
-                    category__status="list",
-                    status="list",
-                    quantity__gt=0,
-                ).order_by("-" + filter)
-                main_category = AdminCategory.objects.filter(status="list").order_by(
-                    "name"
-                )
-                return render(
-                    request,
-                    "shop.html",
-                    {
-                        "hover": category,
-                        "main_prodect": main_prodect,
-                        "main_category": main_category,
-                        "log": log,
-                    },
-                )
-        if (
-            filter == "prodect_name"
-            or filter == "price"
-            or filter == "rating"
-            or filter == "date_added"
-        ):
-            print("inside filter", filter)
-            main_prodect = myprodect.objects.filter(
-                category__status="list", status="list", quantity__gt=0
-            ).order_by(filter)
-            main_category = AdminCategory.objects.filter(status="list").order_by("name")
-            return render(
-                request,
-                "shop.html",
-                {
-                    "main_prodect": main_prodect,
-                    "main_category": main_category,
-                    "log": log,
-                },
-            )
-        if (
-            filter == "prodect_name_decs"
-            or filter == "price_decs"
-            or filter == "rating_decs"
-            or filter == "date_added_decs"
-        ):
-            filter = filter[:-5]
-            print("inside filter", filter)
-            main_prodect = myprodect.objects.filter(
-                category__status="list", status="list", quantity__gt=0
-            ).order_by("-" + filter)
-
-            main_category = AdminCategory.objects.filter(status="list").order_by("name")
-            return render(
-                request,
-                "shop.html",
-                {
-                    "main_prodect": main_prodect,
-                    "main_category": main_category,
-                    "log": log,
-                },
-            )
-    main_prodect = myprodect.objects.filter(
-        category__status="list", quantity__gt=0
-    ).order_by("prodect_name")
-    main_category = AdminCategory.objects.filter(status="list").order_by("name")
-    return render(
-        request,
-        "shop.html",
-        {"main_prodect": main_prodect, "main_category": main_category, "log": log},
-    )
-
-
-# return render(request,'login.html')
 
 
 def single_prodect(request, id):
@@ -350,7 +205,6 @@ def single_prodect(request, id):
             product = Product_Offer.objects.get(produc_id=single, is_active=True)
             percentage = product.percentage
             category = single.category
-            print(category)
             if Category_Offer.objects.filter(
                 category_id=category, is_active=True
             ).exists():
@@ -363,14 +217,11 @@ def single_prodect(request, id):
         elif Category_Offer.objects.filter(
             category_id=category, is_active=True
         ).exists():
-            print(category)
             offer = True
             category_instence = Category_Offer.objects.get(
                 category_id=category, is_active=True
             )
             percentage = category_instence.percentage
-
-        # offer
 
         left = True
         if single.quantity > 6:

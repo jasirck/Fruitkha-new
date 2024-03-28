@@ -24,17 +24,14 @@ def admin_required(view_func):
     def _wrapped_view(request, *args, **kwargs):
         try:
             user = request.user
-            print(user.is_superuser, "helooo")
             if user.is_authenticated and user.is_superuser:
                 return view_func(request, *args, **kwargs)
             else:
                 logout(request)
-                print("user logout")
                 messages.info(request, "your logout")
                 return redirect(reverse("admin_login"))
         except:
             logout(request)
-            print("user logout")
             messages.info(request, "your logout")
             return redirect(reverse("admin_login"))
 
@@ -45,24 +42,20 @@ def admin_login(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
-        print(username, "utfydydrykdytdktyd")
         if request.user.is_authenticated:
-            print("I think your is login")
             return redirect("dashboard")
         user = authenticate(request, username=username, password=password)
         if user is not None and user.is_superuser:
             login(request, user)
-            print("User authenticated:", user)
             return redirect("dashboard")
         else:
             # Authentication failed
-            print("Authentication failed")
             messages.success(request, "Username or Password is Wrong !")
             return redirect("admin_login")
     return render(request, "login_admin.html")
 
 
-# @admin_required
+@admin_required
 def dashbord(request):
     count = Customer.objects.count()
     order_count = order.objects.filter(
@@ -206,7 +199,6 @@ def management(request):
 
 @admin_required
 def add_prodect(request):
-    print("add prodect here")
     option = AdminCategory.objects.all()
     variant_option = myvariant.objects.all()
     count = Customer.objects.count()
@@ -220,14 +212,11 @@ def add_prodect(request):
         price = request.POST.get("price")
         description = request.POST.get("description")
         quantity = request.POST.get("quantity")
-        print(variant)
         prodect_image1 = request.FILES.get("image1", None)
         prodect_image2 = request.FILES.get("image2", None)
         prodect_image3 = request.FILES.get("image3", None)
         variant_id = myvariant.objects.get(id=variant)
         category_id = AdminCategory.objects.get(id=category)
-        print(variant_id)
-        print(category_id)
         try:
             add = myprodect(
                 prodect_name=prodect_name,
@@ -281,8 +270,6 @@ def category(request):
         offer = request.POST.get("offer")
         category_description = request.POST.get("category_description")
         category_image = request.FILES.get("category_image", None)
-        print(category_name)
-        print(category_name, "eleseEeEeEeee")
         category_obj = AdminCategory(
             name=category_name,
             offer=offer,
@@ -366,8 +353,6 @@ def variant(request):
     count_pro = myprodect.objects.count()
     if request.method == "POST":
         name = request.POST.get("variant_name")
-        print(name)
-        print(name, "eleseEeEeEeee")
         variant_obj = myvariant(variant_name=name)
         variant_obj.save()
         messages.success(request, "variant aded")
@@ -488,7 +473,6 @@ def readd(request, id):
 @admin_required
 def admin_logout(request):
     logout(request)
-    print("user logout")
     messages.info(request, "your logout")
     return render(request, "login_admin.html")
 
@@ -570,7 +554,6 @@ def return_accept(request, id):
         temp = myprodect.objects.get(id=temp_id)
         temp.quantity += i.quantity_now
         temp.save()
-    print("inside the return")
     if Wallet.objects.filter(user_id=ord.user).exists():
         wallet_instance = Wallet.objects.get(user_id=ord.user)
         wallet_instance.amount += ord.total_price
@@ -600,7 +583,6 @@ def coupon(request):
     count_pro = myprodect.objects.count()
     order_count = order.objects.count()
     coupon = Coupon.objects.all().order_by("id")
-    print(coupon)
     return render(
         request,
         "coupon.html",
