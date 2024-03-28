@@ -312,6 +312,7 @@ def add_to_cart(request):
         print("hello wish else")
         return JsonResponse({"success": False, "message": "Invalid request"})
 
+
 def wishlist_remove(request):
     if request.method == "POST" and request.is_ajax():
         user = request.user
@@ -320,7 +321,7 @@ def wishlist_remove(request):
         product = myprodect.objects.get(id=product_id)
         print(product_id)
         remove = Wishlist.objects.filter(user_id=username, product_id=product)
-        remove.delete(  )
+        remove.delete()
         return JsonResponse({"success": True, "message": "Product Removed."})
     else:
         print("hello wish else")

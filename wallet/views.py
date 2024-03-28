@@ -19,13 +19,15 @@ def wallet(request):
         history = Wallet_list.objects.filter(wallet=wallet).order_by("-date")
         print(f"{username} wallet", wallet.amount, history)
         return render(
-            request, "wallet.html", {"t_amount": wallet.amount, "history": history,"count": count}
+            request,
+            "wallet.html",
+            {"t_amount": wallet.amount, "history": history, "count": count},
         )
     else:
         t_amout = 0.00
         print(f"{username}{t_amout} wallet")
         print("hellowweee")
-    return render(request, "wallet.html", {"t_amount": t_amout,"count": count})
+    return render(request, "wallet.html", {"t_amount": t_amout, "count": count})
 
 
 @login_required

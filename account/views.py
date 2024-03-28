@@ -16,8 +16,7 @@ from coupon.models import Coupon
 from offer.models import Referral
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-from xhtml2pdf import pisa  
-
+from xhtml2pdf import pisa
 
 
 @login_required
