@@ -311,7 +311,6 @@ def edit_category_page(request, id):
     category = AdminCategory.objects.get(id=id)
     if request.method == "POST":
         category.name = request.POST["category_name"]
-        category.offer = request.POST["offer"]
         category.category_description = request.POST["category_description"]
         if "image1" in request.FILES:
             category.category_image = request.FILES["image1"]
