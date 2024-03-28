@@ -28,6 +28,15 @@ DEBUG = config("DEBUG", cast=bool)
 
 ALLOWED_HOSTS = ['16.170.215.41','0.0.0.0']
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
+
+
+CSRF_TRUSTED_ORIGINS=['http://16.170.215.41',
+'https://16.170.215.41',
+'http://0.0.0.0',
+'https://0.0.0.0',
+'http://0.0.0.0:9090']
+
 
 # Application definition
 
@@ -88,10 +97,10 @@ WSGI_APPLICATION = "fruitkha.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "website",
+        "NAME": "jasir",
         "HOST": "localhost",
         "PORT": "5432",
-        "USER": "postgres",
+        "USER": "fruitkha",
         "PASSWORD": config("PASSWORD"),
     }
 }
@@ -119,6 +128,29 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
+
+CORS_ALLOWED_ORIGINS = [
+"http://16.170.215.41",
+"https://16.170.215.41",
+"http://0.0.0.0",
+"https://0.0.0.0",
+"http://0.0.0.0:9090"]
+
+CORS_ALLOW_HEADERS = [
+                 'access-control-allow-headers',
+                   'access-control-allow-methods',
+                  'access-control-allow-origin',
+                    'content-type',
+                     'x-csrftoken']
+
+CORS_ALLOW_METHODS = [
+               'DELETE',
+               'GET',
+               'OPTIONS',
+               'PATCH',
+               'POST',
+               'PUT']
+
 
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
