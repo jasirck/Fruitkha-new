@@ -97,10 +97,10 @@ WSGI_APPLICATION = "fruitkha.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "jasir",
+        "NAME": "fruitkha",
         "HOST": "localhost",
         "PORT": "5432",
-        "USER": "fruitkha",
+        "USER": "jasir",
         "PASSWORD": config("PASSWORD"),
     }
 }
