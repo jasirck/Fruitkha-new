@@ -16,10 +16,8 @@ from coupon.models import Coupon
 from offer.models import Referral
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-from xhtml2pdf import pisa  # Import the library for PDF generation
+from xhtml2pdf import pisa  
 
-
-# Create your views here.
 
 
 @login_required
