@@ -169,7 +169,6 @@ def edit_user(request, id):
             image = request.FILES["image"]
             user_obj.user_dp = image
         if 10 != len(number) or number[1] == "0":
-            print("failed")
             return redirect("account")
         user_obj.username = username
         user_obj.first_name = first_name
@@ -296,7 +295,6 @@ def detail_page(request, id):
             temp.quantity += i.quantity_now
             temp.save()
         if ord.payment_method == "Online":
-            print("inside the wallet if")
             if Wallet.objects.filter(user_id=user_obj.id).exists():
                 wallet_instance = Wallet.objects.get(user_id=user_obj.id)
                 wallet_instance.amount += ord.total_price
@@ -380,7 +378,6 @@ def invoice(request, id):
 
 @csrf_exempt
 def generate_pdf(request):
-    print("genoreter pdf")
     html_content = request.POST.get("html_content")
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'attachment; filename="invoice.pdf"'
