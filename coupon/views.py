@@ -122,37 +122,34 @@ def coupon_cancel(request):
     else:
         return JsonResponse({"error": "Invalid request"})
 
-
 def coupon_edit(request, id):
     coupon = Coupon.objects.get(id=id)
-    try:
-        if request.method == "POST":
-            Coupon_name = request.POST.get("coupon_name")
-            code = request.POST.get("code")
-            discount = request.POST.get("discount")
-            minimum_amount = request.POST.get("minimum")
-            start_time = request.POST.get("staring")
-            expiration_time = request.POST.get("ending")
-            msg = request.POST.get("msg")
+    
+    if request.method == "POST":
+        Coupon_name = request.POST.get("coupon_name")
+        code = request.POST.get("code")
+        discount = request.POST.get("discount")
+        minimum_amount = request.POST.get("minimum")
+        start_time = request.POST.get("staring")
+        expiration_time = request.POST.get("ending")
+        msg = request.POST.get("msg")
 
-            if Coupon_name:
-                coupon.coupon_name = Coupon_name
-            if code:
-                coupon.code = code
-            if discount:
-                coupon.discount = discount
-            if minimum_amount:
-                coupon.minimum_amount = minimum_amount
-            if start_time:
-                coupon.start_time = start_time
-            if expiration_time:
-                coupon.expiration_time = expiration_time
-            if msg:
-                coupon.msg = msg
-            coupon.save()
-            messages.info(request, "Coupon Edited")
-            return redirect("coupon")
-
-    except Exception as e:
-      return render(request, "coupon_edit.html", {"coupon": coupon})
+        if Coupon_name:
+            coupon.coupon_name = Coupon_name
+        if code:
+            coupon.code = code
+        if discount:
+            coupon.discount = discount
+        if minimum_amount:
+            coupon.minimum_amount = minimum_amount
+        if start_time:
+            coupon.start_time = start_time
+        if expiration_time:
+            coupon.expiration_time = expiration_time
+        if msg:
+            coupon.msg = msg
+        coupon.save()
+        messages.info(request, "Coupon Edited")
+        return redirect("coupon")
+    
     return render(request, "coupon_edit.html", {"coupon": coupon})
