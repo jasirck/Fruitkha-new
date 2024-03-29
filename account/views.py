@@ -89,7 +89,7 @@ def add_address(request):
                 state=state,
                 pincode=pincode,
             )
-            
+
             address.save()
             return redirect("account")
 
@@ -120,7 +120,7 @@ def edit_address(request, id, a_id):
         address.state = request.POST.get("state")
         address.pincode = request.POST.get("pincode")
         address.user_id = Customer.objects.get(id=id)
-        
+
         address.save()
         return redirect("account")
     return render(
@@ -360,7 +360,7 @@ def invoice(request, id):
         "count": count,
     }
     html_content = render(request, "invoice.html", context).content.decode("utf-8")
-    
+
     return render(
         request,
         "invoice.html",

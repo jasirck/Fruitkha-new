@@ -67,11 +67,11 @@ def checkout(request):
                 new_subtotal -= coupon_discount
                 total = new_subtotal + shipping
                 # del request.session['coupon_code']
-            
+
             return render(
                 request,
-                    "checkout.html",
-                    {
+                "checkout.html",
+                {
                     "coupon": coupon,
                     "coupon_discount": coupon_discount,
                     "log": log,
@@ -85,8 +85,8 @@ def checkout(request):
                 },
             )
         except:
-            return redirect('checkout')
-    
+            return redirect("checkout")
+
     return render(request, "login.html")
 
 
@@ -148,7 +148,7 @@ def add_address_order(request):
                 state=state,
                 pincode=pincode,
             )
-           
+
             address.save()
             return redirect("checkout")
 
@@ -195,16 +195,16 @@ def cod_order(request):
                 new_subtotal = subtotal
                 new_subtotal -= coupon_discount
                 total = new_subtotal + shipping
-               
+
             if coupon:
                 ord = order(
-                user=user_obj,
-                total_price=total,
-                payment_method="COD",
-                order_id=temp,
-                address=address_text,
-                coupon_id=coupon_id,
-            )
+                    user=user_obj,
+                    total_price=total,
+                    payment_method="COD",
+                    order_id=temp,
+                    address=address_text,
+                    coupon_id=coupon_id,
+                )
             else:
                 ord = order(
                     user=user_obj,
@@ -228,7 +228,9 @@ def cod_order(request):
                 cart_obj.delete()
                 log = True
             return render(
-            request, "order_succes.html", {"log": log, "order_id": temp, "total": total}
+                request,
+                "order_succes.html",
+                {"log": log, "order_id": temp, "total": total},
             )
         except:
             return redirect("checkout")
@@ -270,10 +272,10 @@ def razorpaychek(request):
                 new_subtotal = subtotal
                 new_subtotal -= coupon_discount
                 total = new_subtotal + shipping
-                
+
             return JsonResponse({"total_price": total, "order_id": temp})
         except:
-            return redirect('checkout')
+            return redirect("checkout")
     return render("login")
 
 
@@ -326,10 +328,10 @@ def online_order(request):
             if coupon_code:
                 coupon = True
                 coupon_id = Coupon.objects.get(code=coupon_code.strip())
-            
+
             return JsonResponse({"status": "Your Order Placed Succesfully"})
         except:
-            return redirect('checkout')
+            return redirect("checkout")
     return redirect("login")
 
 
@@ -358,7 +360,7 @@ def failed_order(request):
                 cart_obj = cart.objects.filter(user_id=user_obj.id).prefetch_related(
                     "product_id"
                 )
-                
+
                 address_text = f"{user_obj.current_address.name},{user_obj.current_address.call_number},{user_obj.current_address.house_name},{user_obj.current_address.lanmark},{user_obj.current_address.post},{user_obj.current_address.city},{user_obj.current_address.state},{user_obj.current_address.pincode}"
                 ord = order(
                     user=user_obj,
@@ -375,7 +377,7 @@ def failed_order(request):
                     ord.coupon_id = coupon_id
                 if "coupon_code" in request.session:
                     del request.session["coupon_code"]
-                    
+
                 ord.save()
 
                 for i in cart_obj:
@@ -394,7 +396,7 @@ def failed_order(request):
                 if coupon_code:
                     coupon = True
                     coupon_id = Coupon.objects.get(code=coupon_code.strip())
-                    
+
                 return JsonResponse({"status": "Order Failed"})
         except json.JSONDecodeError as e:
             # Handle JSON decoding error
@@ -440,7 +442,7 @@ def wallet_order(request):
                 new_subtotal = subtotal
                 new_subtotal -= coupon_discount
                 total = new_subtotal + shipping
-                
+
             ord = order(
                 user=user_obj,
                 total_price=total,
@@ -470,10 +472,12 @@ def wallet_order(request):
             cart_obj.delete()
             log = True
             return render(
-                request, "order_succes.html", {"log": log, "order_id": temp, "total": total}
+                request,
+                "order_succes.html",
+                {"log": log, "order_id": temp, "total": total},
             )
         except:
-            return redirect('checkout')
+            return redirect("checkout")
     return render("shop.html")
 
 
@@ -497,7 +501,7 @@ def address_check(request, id, a_id):
             address.state = request.POST.get("state")
             address.pincode = request.POST.get("pincode")
             address.user_id = Customer.objects.get(id=id)
-            
+
             address.save()
             return redirect("checkout")
         return render(

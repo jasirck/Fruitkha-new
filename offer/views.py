@@ -211,6 +211,7 @@ def category_offer_action(request, id):
         messages.info(request, "somthing Error")
         return redirect("category_offer")
 
+
 @admin_required
 def edit_category_offer(request, id):
     all = Category_Offer.objects.get(id=id)

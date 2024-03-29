@@ -10,7 +10,6 @@ from django.db.models import Sum
 from django.http import JsonResponse
 
 
-
 @admin_required
 def sales_report(request):
     if request.method == "POST":
@@ -109,4 +108,3 @@ def generate_excel(request):
     response.write(output.getvalue())
 
     return response
-

@@ -212,7 +212,7 @@ def wishlist_page(request):
     user = Customer.objects.get(username=username)
     log = True
     wish = Wishlist.objects.filter(user_id=user)
-    
+
     return render(request, "wishlist.html", {"log": log, "wishlist": wish})
 
 
@@ -286,7 +286,7 @@ def add_to_cart(request):
                 current_price=amount,
             )
             cart_obj.save()
-        
+
         return JsonResponse({"success": True, "message": "Product added to cart."})
     else:
         return JsonResponse({"success": False, "message": "Invalid request"})

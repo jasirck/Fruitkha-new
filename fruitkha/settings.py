@@ -26,16 +26,18 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = ['16.170.215.41','0.0.0.0']
+ALLOWED_HOSTS = ["16.170.215.41", "0.0.0.0"]
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
-CSRF_TRUSTED_ORIGINS=['http://16.170.215.41',
-'https://16.170.215.41',
-'http://0.0.0.0',
-'https://0.0.0.0',
-'http://0.0.0.0:9090']
+CSRF_TRUSTED_ORIGINS = [
+    "http://16.170.215.41",
+    "https://16.170.215.41",
+    "http://0.0.0.0",
+    "https://0.0.0.0",
+    "http://0.0.0.0:9090",
+]
 
 
 # Application definition
@@ -130,27 +132,22 @@ USE_I18N = True
 USE_TZ = True
 
 CORS_ALLOWED_ORIGINS = [
-"http://16.170.215.41",
-"https://16.170.215.41",
-"http://0.0.0.0",
-"https://0.0.0.0",
-"http://0.0.0.0:9090"]
+    "http://16.170.215.41",
+    "https://16.170.215.41",
+    "http://0.0.0.0",
+    "https://0.0.0.0",
+    "http://0.0.0.0:9090",
+]
 
 CORS_ALLOW_HEADERS = [
-                 'access-control-allow-headers',
-                   'access-control-allow-methods',
-                  'access-control-allow-origin',
-                    'content-type',
-                     'x-csrftoken']
+    "access-control-allow-headers",
+    "access-control-allow-methods",
+    "access-control-allow-origin",
+    "content-type",
+    "x-csrftoken",
+]
 
-CORS_ALLOW_METHODS = [
-               'DELETE',
-               'GET',
-               'OPTIONS',
-               'PATCH',
-               'POST',
-               'PUT']
-
+CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
 
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -164,12 +161,11 @@ EMAIL_USE_TLS = True
 
 STATIC_URL = "static/"
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
-
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

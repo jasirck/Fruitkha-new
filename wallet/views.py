@@ -36,5 +36,5 @@ def return_order(request, id):
         ord.msg = msg
         ord.status = status
         ord.save()
-        
+
         return redirect("detail_page", id)

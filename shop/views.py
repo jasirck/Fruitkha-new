@@ -156,7 +156,6 @@ def shop(request):
     )
 
 
-
 def shop_search(request):
     # if 'username'in request.session:
     if request.user.is_authenticated:
@@ -187,7 +186,6 @@ def shop_search(request):
         "shop.html",
         {"main_prodect": main_prodect, "main_category": main_category, "log": log},
     )
-
 
 
 def single_prodect(request, id):

@@ -122,9 +122,10 @@ def coupon_cancel(request):
     else:
         return JsonResponse({"error": "Invalid request"})
 
+
 def coupon_edit(request, id):
     coupon = Coupon.objects.get(id=id)
-    
+
     if request.method == "POST":
         Coupon_name = request.POST.get("coupon_name")
         code = request.POST.get("code")
@@ -151,5 +152,5 @@ def coupon_edit(request, id):
         coupon.save()
         messages.info(request, "Coupon Edited")
         return redirect("coupon")
-    
+
     return render(request, "coupon_edit.html", {"coupon": coupon})

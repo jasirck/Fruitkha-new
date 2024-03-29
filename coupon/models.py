@@ -16,4 +16,3 @@ class Coupon(models.Model):
     expiration_time = models.DateTimeField(default=timezone.now)
     active = models.BooleanField(default=True)
     msg = models.TextField(null=True)
-   
