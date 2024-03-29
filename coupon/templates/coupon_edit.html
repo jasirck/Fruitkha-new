@@ -50,14 +50,14 @@ Add prodect
       <div class="add_card" style='width:200px;'>
         <div class="card-body">
             <label for="staring">Start Date</label>
-            <input class="inputbox" style="width:200px;" type="date" align="center" value="{{coupon.start_time}}" name="staring" id="staring" placeholder="Start Date" onchange="validateStartDate()">
+            <input class="inputbox" style="width:200px;" type="date" align="center" value="{{coupon.start_time|date:'Y-m-d'}}" name="staring" id="staring" placeholder="Start Date" onchange="validateStartDate()">
             <span id="dateError" style="color: red;"></span>
         </div>
     </div>
     <div class="add_card" style='width:200px;'>
         <div class="card-body">
             <label for="ending">Ending Date</label>
-            <input class="inputbox" style="width:200px;" type="date" align="center" value="{{coupon.expiration_time}}" name="ending" id="ending" placeholder="Ending Date" onchange="validateEndDate()">
+            <input class="inputbox" style="width:200px;" type="date" align="center" value="{{coupon.expiration_time|date:'Y-m-d'}}" name="ending" id="ending" placeholder="Ending Date" onchange="validateEndDate()">
             <span id="endDateError" style="color: red;"></span>
         </div>
     </div>

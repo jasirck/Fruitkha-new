@@ -21,9 +21,6 @@
             var state = $("input[name='state']").val();
             var pincode = $("input[name='pincode']").val();
             var csrfmiddlewaretoken = $("input[name='csrfmiddlewaretoken']").val();
-console.log(csrfmiddlewaretoken);
-            // console.log(name,number,email)
-     // console.log(name, number, email)
 
 
      var data
@@ -45,16 +42,12 @@ $.ajax({
             "image": "assets/img/favicon.png",
             "order_id": response.temp,
             "handler": function(response) {
-                console.log('2', response.total_price);
-                // alert(response.total_price);
-                console.log(options);
                  data = {
                     "payment_id": response.razorpay_payment_id,
                     "order_id":orderId,
                     "total": totalAmount,
                     "csrfmiddlewaretoken": csrf_token
                 };
-                console.log(data, 'here that change');
                 $.ajax({
                     type: "POST",
                     url: "/online_order",
@@ -64,7 +57,6 @@ $.ajax({
                         window.location.href = "/succes";
                     }
                 });
-                console.log(name, email, number);
             },
 
             "prefill": {

@@ -161,42 +161,43 @@ def add_address_order(request):
 @login_required
 def cod_order(request):
     if request.user.is_authenticated:
-        username = request.user
-        user_obj = (
-            Customer.objects.filter(username=username)
-            .prefetch_related("current_address")
-            .first()
-        )
-        cart_obj = cart.objects.filter(user_id=user_obj.id).prefetch_related(
-            "product_id"
-        )
-        subtotal = cart.objects.filter(user_id=user_obj.id).aggregate(
-            subtotal=Sum("cart_total")
-        )
-        subtotal = (
-            subtotal["subtotal"]
-            if subtotal["subtotal"] is not None
-            else subtotal["subtotal"]
-        )
-        shipping = 0 if subtotal > 1000 else 40
-        total = subtotal + shipping
-        # coupun here
-        coupon = False
-        temp = "fruitkha" + str(random.randint(111111, 999999))
-        while order.objects.filter(order_id=temp) is None:
+        try:
+            username = request.user
+            user_obj = (
+                Customer.objects.filter(username=username)
+                .prefetch_related("current_address")
+                .first()
+            )
+            cart_obj = cart.objects.filter(user_id=user_obj.id).prefetch_related(
+                "product_id"
+            )
+            subtotal = cart.objects.filter(user_id=user_obj.id).aggregate(
+                subtotal=Sum("cart_total")
+            )
+            subtotal = (
+                subtotal["subtotal"]
+                if subtotal["subtotal"] is not None
+                else subtotal["subtotal"]
+            )
+            shipping = 0 if subtotal > 1000 else 40
+            total = subtotal + shipping
+            # coupun here
+            coupon = False
             temp = "fruitkha" + str(random.randint(111111, 999999))
-        address_text = f"{user_obj.current_address.name},{user_obj.current_address.call_number},{user_obj.current_address.house_name},{user_obj.current_address.lanmark},{user_obj.current_address.post},{user_obj.current_address.city},{user_obj.current_address.state},{user_obj.current_address.pincode}"
-        coupon_code = request.session.get("coupon_code")
-        if coupon_code:
-            coupon = True
-            coupon_id = Coupon.objects.get(code=coupon_code.strip())
-            coupon_discount = subtotal * (coupon_id.discount / 100)
-            new_subtotal = subtotal
-            new_subtotal -= coupon_discount
-            total = new_subtotal + shipping
-           
-        if coupon:
-            ord = order(
+            while order.objects.filter(order_id=temp) is None:
+                temp = "fruitkha" + str(random.randint(111111, 999999))
+            address_text = f"{user_obj.current_address.name},{user_obj.current_address.call_number},{user_obj.current_address.house_name},{user_obj.current_address.lanmark},{user_obj.current_address.post},{user_obj.current_address.city},{user_obj.current_address.state},{user_obj.current_address.pincode}"
+            coupon_code = request.session.get("coupon_code")
+            if coupon_code:
+                coupon = True
+                coupon_id = Coupon.objects.get(code=coupon_code.strip())
+                coupon_discount = subtotal * (coupon_id.discount / 100)
+                new_subtotal = subtotal
+                new_subtotal -= coupon_discount
+                total = new_subtotal + shipping
+               
+            if coupon:
+                ord = order(
                 user=user_obj,
                 total_price=total,
                 payment_method="COD",
@@ -204,125 +205,131 @@ def cod_order(request):
                 address=address_text,
                 coupon_id=coupon_id,
             )
-        else:
-            ord = order(
-                user=user_obj,
-                total_price=total,
-                payment_method="COD",
-                order_id=temp,
-                address=address_text,
-            )
-        ord.save()
-        for i in cart_obj:
-            ord_it = order_items(
-                order_item=ord,
-                product=i.product_id,
-                price_now=i.product_id.price,
-                quantity_now=i.book_quantity,
-            )
-            prod = myprodect.objects.get(id=i.product_id.id)
-            prod.quantity -= i.book_quantity
-            prod.save()
-            ord_it.save()
-        cart_obj.delete()
-        log = True
-        return render(
+            else:
+                ord = order(
+                    user=user_obj,
+                    total_price=total,
+                    payment_method="COD",
+                    order_id=temp,
+                    address=address_text,
+                )
+            ord.save()
+            for i in cart_obj:
+                ord_it = order_items(
+                    order_item=ord,
+                    product=i.product_id,
+                    price_now=i.product_id.price,
+                    quantity_now=i.book_quantity,
+                )
+                prod = myprodect.objects.get(id=i.product_id.id)
+                prod.quantity -= i.book_quantity
+                prod.save()
+                ord_it.save()
+                cart_obj.delete()
+                log = True
+            return render(
             request, "order_succes.html", {"log": log, "order_id": temp, "total": total}
-        )
+            )
+        except:
+            return redirect("checkout")
     return render("shop.html")
 
 
 @login_required
 def razorpaychek(request):
     if request.user.is_authenticated:
-        username = request.user
-        user_obj = (
-            Customer.objects.filter(username=username)
-            .prefetch_related("current_address")
-            .first()
-        )
-        cart_obj = cart.objects.filter(user_id=user_obj.id).prefetch_related(
-            "product_id"
-        )
-        subtotal = cart.objects.filter(user_id=user_obj.id).aggregate(
-            subtotal=Sum("cart_total")
-        )
-        subtotal = (
-            subtotal["subtotal"]
-            if subtotal["subtotal"] is not None
-            else subtotal["subtotal"]
-        )
-        shipping = 0 if subtotal > 1000 else 40
-        total = subtotal + shipping
-        # coupon  here
-        temp = "fruitkha" + str(random.randint(111111, 999999))
-        while order.objects.filter(order_id=temp) is None:
+        try:
+            username = request.user
+            user_obj = (
+                Customer.objects.filter(username=username)
+                .prefetch_related("current_address")
+                .first()
+            )
+            cart_obj = cart.objects.filter(user_id=user_obj.id).prefetch_related(
+                "product_id"
+            )
+            subtotal = cart.objects.filter(user_id=user_obj.id).aggregate(
+                subtotal=Sum("cart_total")
+            )
+            subtotal = (
+                subtotal["subtotal"]
+                if subtotal["subtotal"] is not None
+                else subtotal["subtotal"]
+            )
+            shipping = 0 if subtotal > 1000 else 40
+            total = subtotal + shipping
+            # coupon  here
             temp = "fruitkha" + str(random.randint(111111, 999999))
-        coupon_code = request.session.get("coupon_code")
-        if coupon_code:
-            coupon = True
-            coupon_id = Coupon.objects.get(code=coupon_code.strip())
-            coupon_discount = subtotal * (coupon_id.discount / 100)
-            new_subtotal = subtotal
-            new_subtotal -= coupon_discount
-            total = new_subtotal + shipping
-            
-        return JsonResponse({"total_price": total, "order_id": temp})
+            while order.objects.filter(order_id=temp) is None:
+                temp = "fruitkha" + str(random.randint(111111, 999999))
+            coupon_code = request.session.get("coupon_code")
+            if coupon_code:
+                coupon = True
+                coupon_id = Coupon.objects.get(code=coupon_code.strip())
+                coupon_discount = subtotal * (coupon_id.discount / 100)
+                new_subtotal = subtotal
+                new_subtotal -= coupon_discount
+                total = new_subtotal + shipping
+                
+            return JsonResponse({"total_price": total, "order_id": temp})
+        except:
+            return redirect('checkout')
     return render("login")
 
 
 @login_required
 def online_order(request):
     if request.user.is_authenticated:
-        username = request.user
-        user_obj = (
-            Customer.objects.filter(username=username)
-            .prefetch_related("current_address")
-            .first()
-        )
-        cart_obj = cart.objects.filter(user_id=user_obj.id).prefetch_related(
-            "product_id"
-        )
-        payment_id = request.POST.get("payment_id")
-        order_id = request.POST.get("order_id")
-        total = request.POST.get("total")
-        address_text = f"{user_obj.current_address.name},{user_obj.current_address.call_number},{user_obj.current_address.house_name},{user_obj.current_address.lanmark},{user_obj.current_address.post},{user_obj.current_address.city},{user_obj.current_address.state},{user_obj.current_address.pincode}"
-        ord = order(
-            user=user_obj,
-            total_price=total,
-            payment_method="Online",
-            order_id=order_id,
-            payment_id=payment_id,
-            address=address_text,
-        )
-        coupon_code = request.session.get("coupon_code")
-        if coupon_code:
-            coupon = True
-            coupon_id = Coupon.objects.get(code=coupon_code.strip())
-            ord.coupon_id = coupon_id
-            if "coupon_code" in request.session:
-                del request.session["coupon_code"]
-            
-        ord.save()
-
-        for i in cart_obj:
-            ord_it = order_items(
-                order_item=ord,
-                product=i.product_id,
-                price_now=i.current_price,
-                quantity_now=i.book_quantity,
+        try:
+            username = request.user
+            user_obj = (
+                Customer.objects.filter(username=username)
+                .prefetch_related("current_address")
+                .first()
             )
-            prod = myprodect.objects.get(id=i.product_id.id)
-            prod.quantity -= i.book_quantity
-            prod.save()
-            ord_it.save()
-            cart_obj.delete()
-        coupon_code = request.session.get("coupon_code")
-        if coupon_code:
-            coupon = True
-            coupon_id = Coupon.objects.get(code=coupon_code.strip())
+            cart_obj = cart.objects.filter(user_id=user_obj.id).prefetch_related(
+                "product_id"
+            )
+            payment_id = request.POST.get("payment_id")
+            order_id = request.POST.get("order_id")
+            total = request.POST.get("total")
+            address_text = f"{user_obj.current_address.name},{user_obj.current_address.call_number},{user_obj.current_address.house_name},{user_obj.current_address.lanmark},{user_obj.current_address.post},{user_obj.current_address.city},{user_obj.current_address.state},{user_obj.current_address.pincode}"
+            ord = order(
+                user=user_obj,
+                total_price=total,
+                payment_method="Online",
+                order_id=order_id,
+                payment_id=payment_id,
+                address=address_text,
+            )
+            coupon_code = request.session.get("coupon_code")
+            if coupon_code:
+                coupon = True
+                coupon_id = Coupon.objects.get(code=coupon_code.strip())
+                ord.coupon_id = coupon_id
+                if "coupon_code" in request.session:
+                    del request.session["coupon_code"]
+            ord.save()
+            for i in cart_obj:
+                ord_it = order_items(
+                    order_item=ord,
+                    product=i.product_id,
+                    price_now=i.current_price,
+                    quantity_now=i.book_quantity,
+                )
+                prod = myprodect.objects.get(id=i.product_id.id)
+                prod.quantity -= i.book_quantity
+                prod.save()
+                ord_it.save()
+                cart_obj.delete()
+            coupon_code = request.session.get("coupon_code")
+            if coupon_code:
+                coupon = True
+                coupon_id = Coupon.objects.get(code=coupon_code.strip())
             
-        return JsonResponse({"status": "Your Order Placed Succesfully"})
+            return JsonResponse({"status": "Your Order Placed Succesfully"})
+        except:
+            return redirect('checkout')
     return redirect("login")
 
 
@@ -400,70 +407,73 @@ def failed_order(request):
 @login_required
 def wallet_order(request):
     if request.user.is_authenticated:
-        username = request.user
-        user_obj = (
-            Customer.objects.filter(username=username)
-            .prefetch_related("current_address")
-            .first()
-        )
-        cart_obj = cart.objects.filter(user_id=user_obj.id).prefetch_related(
-            "product_id"
-        )
-        subtotal = cart.objects.filter(user_id=user_obj.id).aggregate(
-            subtotal=Sum("cart_total")
-        )
-        subtotal = (
-            subtotal["subtotal"]
-            if subtotal["subtotal"] is not None
-            else subtotal["subtotal"]
-        )
-        shipping = 0 if subtotal > 1000 else 40
-        total = subtotal + shipping
-        # add coupon here
-        temp = "fruitkha" + str(random.randint(111111, 999999))
-        while order.objects.filter(order_id=temp) is None:
-            temp = "fruitkha" + str(random.randint(111111, 999999))
-        address_text = f"{user_obj.current_address.name},{user_obj.current_address.call_number},{user_obj.current_address.house_name},{user_obj.current_address.lanmark},{user_obj.current_address.post},{user_obj.current_address.city},{user_obj.current_address.state},{user_obj.current_address.pincode}"
-        coupon_code = request.session.get("coupon_code")
-        if coupon_code:
-            coupon = True
-            coupon_id = Coupon.objects.get(code=coupon_code.strip())
-            coupon_discount = subtotal * (coupon_id.discount / 100)
-            new_subtotal = subtotal
-            new_subtotal -= coupon_discount
-            total = new_subtotal + shipping
-            
-        ord = order(
-            user=user_obj,
-            total_price=total,
-            payment_method="Wallet",
-            order_id=temp,
-            address=address_text,
-            coupon_id=coupon_id,
-        )
-        ord.save()
-        wallet = Wallet.objects.get(user_id=user_obj)
-        wallet.amount -= total
-        wallet.save()
-        Wallet_list.objects.create(
-            wallet=wallet, is_credit=False, amount=total, msg="Purcherce"
-        )
-        for i in cart_obj:
-            ord_it = order_items(
-                order_item=ord,
-                product=i.product_id,
-                price_now=i.product_id.price,
-                quantity_now=i.book_quantity,
+        try:
+            username = request.user
+            user_obj = (
+                Customer.objects.filter(username=username)
+                .prefetch_related("current_address")
+                .first()
             )
-            prod = myprodect.objects.get(id=i.product_id.id)
-            prod.quantity -= i.book_quantity
-            prod.save()
-            ord_it.save()
-        cart_obj.delete()
-        log = True
-        return render(
-            request, "order_succes.html", {"log": log, "order_id": temp, "total": total}
-        )
+            cart_obj = cart.objects.filter(user_id=user_obj.id).prefetch_related(
+                "product_id"
+            )
+            subtotal = cart.objects.filter(user_id=user_obj.id).aggregate(
+                subtotal=Sum("cart_total")
+            )
+            subtotal = (
+                subtotal["subtotal"]
+                if subtotal["subtotal"] is not None
+                else subtotal["subtotal"]
+            )
+            shipping = 0 if subtotal > 1000 else 40
+            total = subtotal + shipping
+            # add coupon here
+            temp = "fruitkha" + str(random.randint(111111, 999999))
+            while order.objects.filter(order_id=temp) is None:
+                temp = "fruitkha" + str(random.randint(111111, 999999))
+            address_text = f"{user_obj.current_address.name},{user_obj.current_address.call_number},{user_obj.current_address.house_name},{user_obj.current_address.lanmark},{user_obj.current_address.post},{user_obj.current_address.city},{user_obj.current_address.state},{user_obj.current_address.pincode}"
+            coupon_code = request.session.get("coupon_code")
+            if coupon_code:
+                coupon = True
+                coupon_id = Coupon.objects.get(code=coupon_code.strip())
+                coupon_discount = subtotal * (coupon_id.discount / 100)
+                new_subtotal = subtotal
+                new_subtotal -= coupon_discount
+                total = new_subtotal + shipping
+                
+            ord = order(
+                user=user_obj,
+                total_price=total,
+                payment_method="Wallet",
+                order_id=temp,
+                address=address_text,
+                coupon_id=coupon_id,
+            )
+            ord.save()
+            wallet = Wallet.objects.get(user_id=user_obj)
+            wallet.amount -= total
+            wallet.save()
+            Wallet_list.objects.create(
+                wallet=wallet, is_credit=False, amount=total, msg="Purcherce"
+            )
+            for i in cart_obj:
+                ord_it = order_items(
+                    order_item=ord,
+                    product=i.product_id,
+                    price_now=i.product_id.price,
+                    quantity_now=i.book_quantity,
+                )
+                prod = myprodect.objects.get(id=i.product_id.id)
+                prod.quantity -= i.book_quantity
+                prod.save()
+                ord_it.save()
+            cart_obj.delete()
+            log = True
+            return render(
+                request, "order_succes.html", {"log": log, "order_id": temp, "total": total}
+            )
+        except:
+            return redirect('checkout')
     return render("shop.html")
 
 

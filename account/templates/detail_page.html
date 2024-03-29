@@ -120,8 +120,6 @@ $(document).ready(function () {
       // Updating the HTML content to input fields
      var order_id =document.getElementById('order_id')
       var csrfmiddlewaretoken = '{{ csrf_token }}'
-      // Retrieving the updated values
-      // console.log(name,number,email)
 
 
 var data = {
@@ -139,7 +137,6 @@ success: function(response) {
   const orderId = response.order_id
   const totalAmount = response.total_price
   const csrf_token = csrfmiddlewaretoken
-  console.log('1', response);
   var options = {
       "key": "rzp_test_PCJ9PYp4rFSfTh",
       "amount": response.total_price * 100,
@@ -149,16 +146,12 @@ success: function(response) {
       "image": "assets/img/favicon.png",
       "order_id": response.temp,
       "handler": function(responseb) {
-          console.log('2', responseb.total_price);
-          // alert(response.total_price);
-          console.log('5',options);
            data = {
               "payment_id": responseb.razorpay_payment_id,
               "order_id": response.order_id,
               "total": response.total_price,
               "csrfmiddlewaretoken": '{{ csrf_token }}'
           };
-          console.log(data, 'here that change');
           $.ajax({
               type: "POST",
               url: "/retry_succes",
@@ -190,7 +183,6 @@ success: function(response) {
           "total":totalAmount,
           "csrfmiddlewaretoken":csrf_token
       }
-      console.log("data:", data);
       fetch("/failed_order", {
           method: "POST",
           headers: {
@@ -202,12 +194,7 @@ success: function(response) {
       })
       .then(response=>response.json)
       .then(data=>{
-          // Swal.fire({
-          //     icon: 'error',
-          //     title: 'Payment Failed',
-          //     text: 'Oops! Something went wrong with your payment. Please try again.',
-          //     confirmButtonText: 'OK',
-          // })
+        
           alert("Payment Failed")
           window.location.reload()
           
