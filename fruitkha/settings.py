@@ -26,7 +26,9 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = ["16.170.215.41", "0.0.0.0"]
+# ALLOWED_HOSTS = ["16.170.215.41", "0.0.0.0",'*']
+ALLOWED_HOSTS = ['*']
+
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
@@ -96,14 +98,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "fruitkha.wsgi.application"
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "fruitkha",
+#         "HOST": "localhost",
+#         "PORT": "5432",
+#         "USER": "jasir",
+#         "PASSWORD": config("PASSWORD"),
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "fruitkha",
-        "HOST": "localhost",
-        "PORT": "5432",
-        "USER": "jasir",
-        "PASSWORD": config("PASSWORD"),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'fruitkha_postgrs',
+        'USER': 'jasir',
+        'PASSWORD': 'I3anLj3V01G9nBgcnLRfb8Ytp9LXWjDK',
+        'HOST': 'dpg-cqpf99jv2p9s73cb60f0-a.singapore-postgres.render.com',
+        'PORT': '5432',
     }
 }
 
@@ -160,8 +173,9 @@ EMAIL_USE_TLS = True
 
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+# STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")

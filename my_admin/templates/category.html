@@ -1,50 +1,40 @@
 {% extends "admin_base.html" %}
 {% load static %}
-{% block title %} 
-category
+{% block title %}
+    Category
 {% endblock %}
-{% block style %} 
-<link rel="stylesheet" href="{% static "assets/css/add.css" %}">
+{% block style %}
+    <link rel="stylesheet" href="{% static 'assets/css/add.css' %}">
 {% endblock %}
-{% block page_name %} 
-Category
+{% block page_name %}
+    Category
 {% endblock %}
-{% block content %} 
-<div class='row' >
-  <div class="col-md-5 grid-margin add-stretch-card">
-    <form  action="category" method="post"  enctype="multipart/form-data">
-      {% if messages %}
-      <ul class="messages">
-        {% for messages in messages %}
-        <h3 style="color: red;margin-left: 50px;">{{messages}}</h3>
-        {% endfor %}
-      </ul>
-      {% endif %}
-      {% csrf_token %}
-      <div class="add_card" style='width:500px ;'>
-        <div class="card-body" >
-          <input class="inputbox" style='width:500px;' type="text" align="center" name="category_name" id="category_name" placeholder="Category Name">
-        </div>
-      </div>
-     
-      <div class="add_card" style='width:600px ; '>
-        <div class="card-body">
-          <input class="inputbox" style='width:600px ;' type="text" align="center" name="category_description" id="category_description" placeholder="Description">
-        </div>
-      </div>
-      
-      <div class="add_card" style='width:200px ; '>
-        <div class="card-body">
-          <input class="inputbox" style='width:250px ;' type="file" align="center" name="category_image" id="category_image" placeholder="category_image">
-        </div>
-      </div>
-      
-      <button class="submit"type="submit"  align="center">Submit</button>
-    </form>
-  </div>
+{% block content %}
+<div class="row">
+    <div class="col-md-8 grid-margin add-stretch-card">
+        <form action="{% url 'category' %}" method="post" enctype="multipart/form-data">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="message">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="category_name">Category Name</label>
+                <input class="inputbox" type="text" name="category_name" id="category_name" placeholder="Category Name" required>
+            </div>
+            <div class="form-group">
+                <label for="category_description">Description</label>
+                <input class="inputbox" type="text" name="category_description" id="category_description" placeholder="Description" required>
+            </div>
+            <div class="form-group">
+                <label for="category_image">Category Image</label>
+                <input class="inputbox" type="file" name="category_image" id="category_image">
+            </div>
+            <button class="submit" type="submit">Submit</button>
+        </form>
+    </div>
 </div>
-
 {% endblock %}
-
-          
-          

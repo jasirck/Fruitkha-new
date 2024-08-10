@@ -1,49 +1,49 @@
 {% extends "admin_base.html" %}
 {% load static %}
-{% block title %} 
-management
+{% block title %}
+    Management
 {% endblock %}
-{% block style %} 
-<link rel="stylesheet" href="{% static "assets/css/manage_new.css" %}">
+{% block style %}
+    <link rel="stylesheet" href="{% static 'assets/css/manage_new.css' %}">
 {% endblock %}
-{% block page_name %} 
-Management
+{% block page_name %}
+    Management
 {% endblock %}
-{% block content %} 
-<div class='row' >
-  <div class="col-md-5 grid-margin add-stretch-card">
-    <table id="customers" border="1">
-      <thead>
-          <th>DP</th>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Number</th>
-          <th>Status</th>
-          <th colspan="2" id="mid">Action</th>
-      </thead>
-      {% for x in user %}
-      <tr>
-          <td><img style="width:50px; height:50px; border-radius: 50px;" src="{{x.user_dp}}" alt=""></td>
-          <td>{{x.username}}</td>
-          <td>{{x.email}}</td>
-          <td>{{x.customer_number}}</td>
-          <td {% if x.action == 'Login' %} style="color: rgb(2, 221, 2); font-weight: bold;"{% else %} style="color: red;font-weight: bold;"{% endif %}>{% if x.action == 'Login' %}Online {% else %}Offline{% endif %}</td>
-
-          <td> 
-            {% if x.is_active  %}
-            <a href="action{{ x.id }}"><button id="del">block</button></a>
-            {% else %}
-            <a href="action{{ x.id }}"><button id="up">allow</button></a>
-            {% endif %}
-          </td>
-      </tr>
-      {% endfor %}
-  </table>
-  </div>
+{% block content %}
+<div class='row'>
+    <div class="col-md-12 grid-margin add-stretch-card">
+        <table id="customers">
+            <thead>
+                <tr>
+                    <th>DP</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Number</th>
+                    <th>Status</th>
+                    <th colspan="2" id="mid">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in user %}
+                <tr>
+                    <td><img class="square-50" src="{{ x.user_dp }}" alt="User Image"></td>
+                    <td>{{ x.username }}</td>
+                    <td>{{ x.email }}</td>
+                    <td>{{ x.customer_number }}</td>
+                    <td {% if x.action == 'Login' %} class="text-success font-weight-bold"{% else %} class="text-danger font-weight-bold"{% endif %}>
+                        {% if x.action == 'Login' %}Online{% else %}Offline{% endif %}
+                    </td>
+                    <td>
+                        {% if x.is_active %}
+                        <a href="action{{ x.id }}"><button class="btn btn-danger">Block</button></a>
+                        {% else %}
+                        <a href="action{{ x.id }}"><button class="btn btn-success">Allow</button></a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
-
 {% endblock %}
-
-
-
-

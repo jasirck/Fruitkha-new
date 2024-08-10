@@ -56,7 +56,7 @@ def admin_login(request):
 
 
 @admin_required
-def dashbord(request):
+def dashboard(request):
     count = Customer.objects.count()
     order_count = order.objects.filter(
         Q(status="Deliverd") | Q(status="Return Requested")
@@ -198,7 +198,7 @@ def management(request):
 
 
 @admin_required
-def add_prodect(request):
+def add_product(request):
     option = AdminCategory.objects.all()
     variant_option = myvariant.objects.all()
     count = Customer.objects.count()
@@ -231,10 +231,10 @@ def add_prodect(request):
             )
             add.save()
             messages.success(request, "added prodect")
-            return redirect("add_prodect")
+            return redirect("add_product")
         except:
             messages.success(request, "prodect takin awey")
-            return redirect("add_prodect")
+            return redirect("add_product")
     return render(
         request,
         "add_prodect.html",
@@ -249,7 +249,7 @@ def add_prodect(request):
 
 
 @admin_required
-def edit_prodect(request):
+def edit_product(request):
     count = Customer.objects.count()
     count_pro = myprodect.objects.count()
     prodect = myprodect.objects.filter(status="list").order_by("prodect_name")
@@ -379,7 +379,7 @@ def delete_variant(request, id):
 
 
 @admin_required
-def edit_prodect_page(request, id):
+def edit_product_page(request, id):
     count = Customer.objects.count()
     count_pro = myprodect.objects.count()
     option = AdminCategory.objects.all()
@@ -488,7 +488,7 @@ def orders(request):
 
 
 @admin_required
-def orders_deteils(request, id):
+def orders_details(request, id):
     ord = order.objects.get(id=id)
     products = order_items.objects.filter(order_item=id)
     count = Customer.objects.count()
@@ -517,7 +517,7 @@ def order_back_pending(request, id):
 
 
 @admin_required
-def orders_deliverd(request, id):
+def orders_delivered(request, id):
     block = order.objects.get(id=id)
     block.status = "Deliverd"
     block.msg = ""
